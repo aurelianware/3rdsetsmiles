@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3rd Set Smiles | Full-Arch Dental Implants & Family Dentistry | Tempe, AZ</title>
+<meta name="description" content="Veteran-owned dental practice in Tempe, AZ specializing in full-arch dental implants (All-on-X) and comprehensive family dentistry. Dr. Phillips: former ClearChoice-lineage surgical trainer. Call (480) 933-0434.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B1D3A;
+  --navy-light: #132847;
+  --gold: #C9A84C;
+  --gold-light: #E0C97F;
+  --cream: #FAF7F2;
+  --white: #FFFFFF;
+  --warm-gray: #6B6560;
+  --light-gray: #E8E4DF;
+  --accent: #1B6B5A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Source Sans 3', 'Segoe UI', sans-serif; overflow-x: hidden; color: #3A3632; }
+::selection { background: rgba(201,168,76,0.27); color: var(--navy); }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; }
+
+/* ── Typography ── */
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+h1 { font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 700; line-height: 1.15; }
+h3 { font-size: clamp(1.3rem,2.5vw,1.7rem); font-weight: 600; line-height: 1.25; }
+p, li, label, span, div { line-height: 1.75; }
+
+/* ── Layout ── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 96px 24px; }
+.flex-wrap { display: flex; flex-wrap: wrap; }
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-block; background: var(--gold); color: var(--navy);
+  font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 1rem;
+  padding: 16px 36px; border-radius: 6px; border: none; cursor: pointer;
+  letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.25s ease;
+}
+.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-outline {
+  display: inline-block; background: transparent; border: 2px solid var(--gold);
+  color: var(--gold-light); font-family: 'Source Sans 3', sans-serif; font-weight: 700;
+  font-size: 1rem; padding: 16px 36px; border-radius: 6px; cursor: pointer;
+  letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.25s ease;
+}
+.btn-outline:hover { background: rgba(201,168,76,0.1); }
+.btn-outline-dark { border-color: var(--navy); color: var(--navy); }
+.btn-outline-dark:hover { background: rgba(11,29,58,0.05); }
+
+/* ── Animations ── */
+.fade-in {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Nav ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  background: rgba(11,29,58,0.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent; transition: all 0.35s ease;
+}
+.nav.scrolled { background: rgba(11,29,58,0.97); border-bottom: 1px solid rgba(201,168,76,0.15); }
+.nav-inner {
+  max-width: 1140px; margin: 0 auto; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 24px; height: 76px; transition: height 0.35s;
+}
+.nav.scrolled .nav-inner { height: 64px; }
+.nav-logo { cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: white; letter-spacing: 0.02em; }
+.nav-logo-text sup { font-size: 0.6em; }
+.nav-divider { width: 1px; height: 24px; background: rgba(201,168,76,0.4); }
+.nav-badge { font-size: 0.7rem; color: var(--gold-light); letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.75);
+  cursor: pointer; border-bottom: 2px solid transparent; padding-bottom: 4px; transition: color 0.2s;
+}
+.nav-link:hover, .nav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-phone {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--gold); color: var(--navy); font-weight: 700; font-size: 0.8rem;
+  padding: 10px 22px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.nav-mobile-toggle { display: none; background: none; border: none; color: white; cursor: pointer; padding: 4px; }
+.nav-mobile-menu {
+  display: none; flex-direction: column; background: var(--navy); padding: 16px 24px 24px;
+}
+.nav-mobile-menu a {
+  font-family: 'Source Sans 3', sans-serif; font-size: 1rem; font-weight: 600;
+  color: rgba(255,255,255,0.8); padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.nav-mobile-menu a:hover { color: var(--gold); }
+
+@media(max-width:860px) {
+  .nav-links { display: none !important; }
+  .nav-mobile-toggle { display: block !important; }
+  .nav-mobile-menu.open { display: flex !important; }
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  background: linear-gradient(165deg, var(--navy) 0%, var(--navy-light) 50%, #1a3355 100%);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 70% 20%, rgba(201,168,76,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(27,107,90,0.08) 0%, transparent 50%);
+}
+.hero-line {
+  position: absolute; top: 0; right: 15%; width: 1px; height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.2), transparent);
+  transform: rotate(15deg); transform-origin: top center;
+}
+.hero-content { position: relative; z-index: 2; padding: 140px 24px 96px; max-width: 1140px; margin: 0 auto; width: 100%; }
+.hero-inner { max-width: 720px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.27);
+  border-radius: 40px; padding: 8px 20px; margin-bottom: 28px;
+}
+.pill-text { font-size: 0.8rem; color: var(--gold-light); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.hero h1 { color: white; margin-bottom: 12px; }
+.hero h1 span { color: var(--gold); }
+.hero-sub { color: rgba(255,255,255,0.65); font-size: 1.2rem; max-width: 580px; margin: 24px 0 40px; line-height: 1.7; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 16px; }
+
+.stats {
+  display: flex; flex-wrap: wrap; gap: 40px; margin-top: 64px;
+  padding-top: 32px; border-top: 1px solid rgba(201,168,76,0.15);
+}
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+.stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* ── Section label ── */
+.section-label {
+  font-size: 0.75rem; color: var(--gold); font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px;
+}
+
+/* ── AOX Callout ── */
+.aox-callout {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-radius: 16px; padding: 48px 40px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 40px; box-shadow: 0 24px 48px rgba(11,29,58,0.18);
+}
+.aox-callout h2 { color: white; margin-bottom: 16px; }
+.aox-callout h2 span { color: var(--gold); }
+.aox-callout p { color: rgba(255,255,255,0.65); margin-bottom: 24px; }
+.aox-thumb {
+  flex: 0 0 260px; height: 200px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(27,107,90,0.2), rgba(201,168,76,0.13));
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(201,168,76,0.2); color: rgba(255,255,255,0.35);
+  font-size: 0.85rem; text-align: center; padding: 20px;
+}
+
+/* ── Services Grid ── */
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;
+}
+.service-card {
+  background: white; border-radius: 10px; padding: 24px 20px;
+  border: 1px solid var(--light-gray); transition: all 0.25s ease; cursor: default;
+}
+.service-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(11,29,58,0.06); }
+.service-card span { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
+
+/* ── Testimonials ── */
+.testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.testimonial-card {
+  background: var(--cream); border-radius: 14px; padding: 32px 28px;
+  border: 1px solid var(--light-gray); display: flex; flex-direction: column; height: 100%;
+}
+.stars { display: flex; gap: 2px; margin-bottom: 16px; }
+.stars svg { width: 18px; height: 18px; fill: var(--gold); }
+.testimonial-card blockquote { font-style: italic; flex: 1; margin-bottom: 16px; }
+.testimonial-card cite { font-weight: 700; color: var(--navy); font-size: 0.9rem; font-style: normal; }
+
+/* ── About ── */
+.about-wrap { display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+.about-photo {
+  width: 320px; min-height: 420px; border-radius: 16px; flex-shrink: 0;
+  background: linear-gradient(160deg, var(--navy), var(--navy-light));
+  display: flex; align-items: flex-end; justify-content: center; position: relative; overflow: hidden;
+}
+.about-photo-overlay { position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to top, rgba(201,168,76,0.13), transparent); }
+.about-photo-info { padding: 32px 24px; text-align: center; position: relative; z-index: 2; }
+.about-photo-info h3 { color: white; margin-bottom: 4px; }
+.about-photo-info p { color: var(--gold-light); font-size: 0.85rem; }
+.about-content { flex: 1 1 500px; }
+.about-tagline { color: var(--gold); font-style: italic; font-size: 1.1rem; margin-bottom: 28px; }
+
+.callout-box {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-radius: 12px; padding: 28px 32px; margin: 28px 0; border-left: 4px solid var(--gold);
+}
+.callout-box p { color: white; font-size: 1.15rem; font-weight: 600; font-style: italic; margin: 0; }
+
+.credential-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.credential-bullet { color: var(--gold); font-size: 1.2rem; line-height: 1.5; flex-shrink: 0; }
+.credential-text { font-size: 0.95rem; }
+
+.pull-quote {
+  margin-top: 40px; padding: 36px 32px;
+  background: linear-gradient(to right, rgba(201,168,76,0.05), rgba(201,168,76,0.02));
+  border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0;
+}
+.pull-quote p { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem,2.5vw,1.6rem); font-weight: 600; font-style: italic; color: var(--navy); line-height: 1.45; margin: 0; }
+.pull-quote cite { display: block; color: var(--warm-gray); margin-top: 12px; font-size: 0.9rem; font-style: normal; }
+
+.section-icon { display: inline-flex; align-items: center; gap: 10px; }
+.section-icon svg { color: var(--gold); stroke: var(--gold); }
+
+/* ── AOX Page ── */
+.aox-hero {
+  background: linear-gradient(170deg, var(--navy) 0%, #0F2440 60%, rgba(27,107,90,0.13) 100%);
+  padding: 140px 24px 80px; position: relative; overflow: hidden;
+}
+.aox-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 80% 30%, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+.aox-hero h1 { color: white; max-width: 700px; margin-bottom: 20px; }
+.aox-hero h1 span { color: var(--gold); }
+.aox-hero p { color: rgba(255,255,255,0.6); max-width: 620px; font-size: 1.1rem; margin-bottom: 36px; }
+
+/* ── Why Dr Phillips Cards ── */
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.why-card {
+  background: var(--cream); border-radius: 14px; padding: 32px 28px;
+  border: 1px solid var(--light-gray); height: 100%; transition: border-color 0.25s;
+}
+.why-card:hover { border-color: var(--gold); }
+.why-card-icon { color: var(--gold); margin-bottom: 16px; }
+.why-card h3 { color: var(--navy); font-size: 1.15rem; margin-bottom: 12px; }
+.why-card p { font-size: 0.95rem; margin: 0; }
+
+/* ── Process Steps ── */
+.process-section { background: linear-gradient(180deg, var(--navy), var(--navy-light)); }
+.process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+.process-card {
+  background: rgba(255,255,255,0.04); border-radius: 14px; padding: 32px 28px;
+  border: 1px solid rgba(201,168,76,0.1); position: relative;
+}
+.process-num-bg {
+  font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700;
+  color: rgba(201,168,76,0.13); position: absolute; top: 16px; right: 20px;
+}
+.process-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(201,168,76,0.13); border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: var(--gold); font-size: 0.85rem; margin-bottom: 20px;
+}
+.process-card h3 { color: white; font-size: 1.1rem; margin-bottom: 12px; }
+.process-card p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin: 0; }
+
+/* ── Financing ── */
+.financing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.financing-card {
+  background: white; border-radius: 10px; padding: 20px 16px;
+  border: 1px solid var(--light-gray); text-align: center;
+}
+.financing-card span { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+
+/* ── FAQ ── */
+.faq-item { border-bottom: 1px solid var(--light-gray); padding: 20px 0; }
+.faq-btn {
+  background: none; border: none; cursor: pointer; width: 100%;
+  display: flex; justify-content: space-between; align-items: center; padding: 0; text-align: left;
+}
+.faq-btn span { font-weight: 600; color: var(--navy); font-size: 1.05rem; }
+.faq-chevron { color: var(--gold); transition: transform 0.3s; flex-shrink: 0; margin-left: 12px; }
+.faq-chevron.open { transform: rotate(180deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-answer.open { max-height: 300px; }
+.faq-answer p { color: var(--warm-gray); margin-top: 12px; }
+
+/* ── CTA Banner ── */
+.cta-banner { background: linear-gradient(135deg, var(--navy), var(--navy-light)); text-align: center; }
+.cta-banner h2 { color: white; margin-bottom: 16px; }
+.cta-banner p { color: rgba(255,255,255,0.6); max-width: 560px; margin: 0 auto 32px; font-size: 1.1rem; }
+.cta-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+/* ── Veterans ── */
+.veterans-section { position: relative; overflow: hidden; }
+.veterans-bg { position: absolute; top: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(to left, rgba(11,29,58,0.03), transparent); pointer-events: none; }
+.va-box {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border-radius: 14px; padding: 32px 36px; margin-bottom: 32px;
+}
+.va-box h3 { color: var(--gold); margin-bottom: 16px; }
+.va-box p { color: rgba(255,255,255,0.7); margin: 0; }
+
+/* ── Gallery ── */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.gallery-card { background: white; border-radius: 14px; overflow: hidden; border: 1px solid var(--light-gray); }
+.gallery-pair { display: flex; height: 200px; }
+.gallery-before { flex: 1; background: rgba(11,29,58,0.04); display: flex; align-items: center; justify-content: center; color: var(--warm-gray); font-size: 0.85rem; }
+.gallery-after { flex: 1; background: rgba(201,168,76,0.04); display: flex; align-items: center; justify-content: center; color: var(--warm-gray); font-size: 0.85rem; }
+.gallery-divider { width: 1px; background: var(--light-gray); }
+.gallery-caption { padding: 16px 20px; }
+.gallery-caption strong { font-weight: 600; color: var(--navy); font-size: 0.9rem; display: block; margin-bottom: 4px; }
+.gallery-caption span { color: var(--warm-gray); font-size: 0.85rem; }
+
+/* ── Contact / Footer ── */
+.contact-section { background: linear-gradient(170deg, var(--navy), #060F1E); }
+.contact-wrap { display: flex; flex-wrap: wrap; gap: 64px; }
+.contact-info { flex: 1 1 400px; }
+.contact-info h2 { color: white; margin-bottom: 16px; }
+.contact-info > p { color: rgba(255,255,255,0.55); margin-bottom: 32px; }
+.contact-detail { margin-bottom: 20px; }
+.contact-detail-label { font-size: 0.75rem; color: var(--gold); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.contact-detail-value { color: white; font-size: 1.05rem; }
+
+.contact-form-wrap { flex: 1 1 400px; }
+.contact-form {
+  background: rgba(255,255,255,0.04); border-radius: 16px; padding: 36px 32px;
+  border: 1px solid rgba(201,168,76,0.12);
+}
+.contact-form h3 { color: white; margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { font-size: 0.8rem; color: rgba(255,255,255,0.5); display: block; margin-bottom: 6px; }
+.form-group input, .form-group select {
+  width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 14px 16px; color: white;
+  font-family: 'Source Sans 3', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.2s;
+}
+.form-group input::placeholder { color: rgba(255,255,255,0.25); }
+.form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+.form-group select { color: rgba(255,255,255,0.7); }
+.form-group select option { background: var(--navy); color: white; }
+
+.footer {
+  margin-top: 80px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;
+}
+.footer span { color: rgba(255,255,255,0.3); font-size: 0.85rem; }
+
+/* ── Responsive ── */
+@media(max-width:768px) {
+  .about-photo { width: 100%; min-height: 300px; }
+  .aox-thumb { flex: 1 1 100%; }
+  .stats { gap: 24px; }
+  .hero-content { padding: 120px 24px 64px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <span class="nav-logo-text">3<sup>RD</sup> SET SMILES</span>
+      <span class="nav-divider"></span>
+      <span class="nav-badge">Veteran-Owned</span>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">Dr. Phillips</a>
+      <a href="#allonx" class="nav-link">All-on-X</a>
+      <a href="#veterans" class="nav-link">Veterans</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="tel:4809330434" class="nav-phone">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        (480) 933-0434
+      </a>
+    </div>
+    <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+      <svg id="menu-icon" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="close-icon" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="mobile-menu">
+    <a href="#home" onclick="closeMobile()">Home</a>
+    <a href="#about" onclick="closeMobile()">Dr. Phillips</a>
+    <a href="#allonx" onclick="closeMobile()">All-on-X</a>
+    <a href="#veterans" onclick="closeMobile()">Veterans</a>
+    <a href="#gallery" onclick="closeMobile()">Gallery</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="fade-in">
+        <div class="pill">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--gold-light)" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          <span class="pill-text">Veteran-Owned Practice · Tempe, AZ</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <h1>Advanced Implant Surgery. <span>Comprehensive Family Dentistry.</span></h1>
+      </div>
+      <div class="fade-in">
+        <p class="hero-sub">Full-arch dental implants and complete dental care from Dr. Matthew Phillips — Army veteran, implant surgeon, and the doctor who trained the doctors.</p>
+      </div>
+      <div class="fade-in hero-btns">
+        <a href="#allonx" class="btn-primary">All-on-X Consultations</a>
+        <a href="tel:4809330434" class="btn-outline">Call (480) 933-0434</a>
+      </div>
+      <div class="fade-in stats">
+        <div><div class="stat-num">20+</div><div class="stat-label">Years Clinical Experience</div></div>
+        <div><div class="stat-num">10</div><div class="stat-label">Years Military Service</div></div>
+        <div><div class="stat-num">3</div><div class="stat-label">Years Training Surgeons</div></div>
+        <div><div class="stat-num">4.9/5</div><div class="stat-label">Patient Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ AOX CALLOUT ═══════════════ -->
+<section class="section" style="background:var(--cream);padding-bottom:48px">
+  <div class="container">
+    <div class="fade-in aox-callout">
+      <div style="flex:1 1 400px">
+        <div class="section-label">Flagship Procedure</div>
+        <h2>Full-Arch Dental Implants <span>(All-on-X)</span></h2>
+        <p>New teeth in one day, from the surgeon who trained the surgeons. Dr. Phillips served as Surgical Training Advisor at Renew Anchored Dentures, founded by ClearChoice co-founder Dr. Don Miloni.</p>
+        <a href="#allonx" class="btn-primary">Learn More →</a>
+      </div>
+      <div class="aox-thumb">Before &amp; After<br>Photo Placeholder</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="section" style="background:var(--cream);padding-top:48px">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;margin-bottom:56px">
+      <div class="section-label">Comprehensive Care</div>
+      <h2 style="color:var(--navy)">Our Services</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in"><span>General Dentistry</span></div>
+      <div class="service-card fade-in"><span>Dental Implants</span></div>
+      <div class="service-card fade-in"><span>All-on-X Full Arch</span></div>
+      <div class="service-card fade-in"><span>Crowns & Bridges</span></div>
+      <div class="service-card fade-in"><span>Root Canals</span></div>
+      <div class="service-card fade-in"><span>Extractions</span></div>
+      <div class="service-card fade-in"><span>Teeth Whitening</span></div>
+      <div class="service-card fade-in"><span>Veneers</span></div>
+      <div class="service-card fade-in"><span>Periodontal Care</span></div>
+      <div class="service-card fade-in"><span>Dentures & Partials</span></div>
+      <div class="service-card fade-in"><span>Emergency Dental</span></div>
+      <div class="service-card fade-in"><span>Oral Surgery</span></div>
+      <div class="service-card fade-in"><span>Pediatric Dentistry</span></div>
+      <div class="service-card fade-in"><span>Sedation Dentistry</span></div>
+      <div class="service-card fade-in"><span>Digital X-Rays</span></div>
+      <div class="service-card fade-in"><span>Preventive Care</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+<section class="section" style="background:white">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;margin-bottom:48px">
+      <div class="section-label">Patient Stories</div>
+      <h2 style="color:var(--navy)">What Our Patients Say</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"Dr. Phillips is incredibly thorough and kind. He explained everything and I never felt rushed. Best dental experience I've ever had."</blockquote>
+        <cite>— Sarah M.</cite>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"As a fellow veteran, I appreciate what Dr. Phillips has built here. He understood my situation and got me the care I needed without the VA runaround."</blockquote>
+        <cite>— James R.</cite>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"The entire team made me feel comfortable from the moment I walked in. Professional, caring, and the results speak for themselves."</blockquote>
+        <cite>— Michelle K.</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT DR. PHILLIPS ═══════════════ -->
+<section class="section" id="about" style="background:white">
+  <div class="container">
+    <div class="about-wrap">
+      <!-- Photo placeholder -->
+      <div class="about-photo fade-in">
+        <div class="about-photo-overlay"></div>
+        <div class="about-photo-info">
+          <h3>Dr. Matthew Phillips</h3>
+          <p>DDS · U.S. Army Major (Ret.)</p>
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <div class="about-content">
+        <div class="fade-in">
+          <div class="section-label">Meet Your Doctor</div>
+          <h2 style="color:var(--navy);margin-bottom:8px">Dr. Matthew Phillips</h2>
+          <p class="about-tagline">Surgeon. Veteran. Educator. Your smile is in the hands that trained the hands.</p>
+        </div>
+
+        <div class="fade-in">
+          <p style="margin-bottom:20px">Dr. Matthew Phillips is a board-eligible oral surgeon and implant specialist with over two decades of clinical experience spanning military service, academic research, and advanced surgical training. He is the founder of 3rd Set Smiles in Tempe, Arizona, where he delivers comprehensive dental care with a specialization in full-arch implant reconstruction (All-on-X).</p>
+        </div>
+
+        <div class="fade-in">
+          <p style="margin-bottom:20px">Before founding 3rd Set Smiles, Dr. Phillips served as Surgical Training Advisor at Renew Anchored Dentures — founded by ClearChoice co-founder Dr. Don Miloni, who personally recruited Dr. Phillips in 2018. For three years, Dr. Phillips established surgical protocols and trained clinicians in advanced full-arch implant procedures.</p>
+        </div>
+
+        <!-- KEY CALLOUT -->
+        <div class="fade-in callout-box">
+          <p>He didn't just learn how to do this work at the highest level — he taught others how to do it.</p>
+        </div>
+
+        <!-- Military -->
+        <div class="fade-in">
+          <h3 class="section-icon" style="color:var(--navy);margin-top:36px;margin-bottom:12px">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Military Service
+          </h3>
+          <p style="margin-bottom:20px">Dr. Phillips served 10 years as a dentist in the United States Army, achieving the rank of Major before receiving an honorable discharge. His military career included deployments to South Korea, Iraq, Hawaii, and Maryland, where he provided dental care under the most demanding conditions. During his service, he received three years of advanced surgical training and developed his passion for implant dentistry and complex oral reconstruction.</p>
+        </div>
+
+        <!-- Credentials -->
+        <div class="fade-in">
+          <h3 class="section-icon" style="color:var(--navy);margin-top:36px;margin-bottom:16px">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+            Education &amp; Credentials
+          </h3>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">DDS — New York University College of Dentistry, 2004</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">B.S. Computer Science — Arizona State University</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">10 Years U.S. Army Dental Corps — Advanced Surgical Training</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">Surgical Training Advisor — Renew Anchored Dentures</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">Brig. Gen. Joseph L. Bernier Award — Army Trauma Research</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">Published Researcher — Journal of Oral &amp; Maxillofacial Surgery</span></div>
+          <div class="credential-item"><span class="credential-bullet">✦</span><span class="credential-text">Licensed in Arizona and Colorado</span></div>
+        </div>
+
+        <!-- Pull Quote -->
+        <div class="fade-in pull-quote">
+          <p>"The VA told a lot of my patients they couldn't help them. I'm telling them I can."</p>
+          <cite>— Dr. Matthew Phillips, Founder</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ALL-ON-X LANDING PAGE ═══════════════ -->
+<section id="allonx">
+
+  <!-- AOX Hero -->
+  <div class="aox-hero">
+    <div class="aox-hero-bg"></div>
+    <div class="container" style="position:relative;z-index:2">
+      <div class="fade-in pill" style="margin-bottom:24px">
+        <span class="pill-text">Full-Arch Implant Center</span>
+      </div>
+      <div class="fade-in">
+        <h1>New Teeth in One Day. <span>From the Surgeon Who Trained the Surgeons.</span></h1>
+      </div>
+      <div class="fade-in">
+        <p>Full-arch dental implants (All-on-X) by Dr. Matthew Phillips — former Surgical Training Advisor at Renew Anchored Dentures, founded by ClearChoice co-founder Dr. Don Miloni. The expertise of a corporate implant center. The personal care of a private practice. The fair price you deserve.</p>
+      </div>
+      <div class="fade-in" style="display:flex;flex-wrap:wrap;gap:16px">
+        <a href="#contact" class="btn-primary">Schedule Your Free Consultation</a>
+        <a href="tel:4809330434" class="btn-outline">Call (480) 933-0434</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- What Is All-on-X -->
+  <div class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="fade-in" style="max-width:780px;margin:0 auto">
+        <div class="section-label">Understanding the Procedure</div>
+        <h2 style="color:var(--navy);margin-bottom:24px">What Is All-on-X?</h2>
+        <p style="margin-bottom:20px">All-on-X (also known as All-on-4) is a full-arch dental implant procedure that replaces an entire set of upper or lower teeth with a fixed, permanent prosthesis anchored by four to six dental implants. Unlike traditional dentures that sit on top of your gums and can slip, click, or cause sore spots, All-on-X implants are surgically placed into your jawbone and function like natural teeth.</p>
+        <p style="margin-bottom:20px">For patients who have lost most or all of their teeth — or whose remaining teeth are failing — All-on-X offers a life-changing solution: a complete, beautiful set of teeth that you never remove, that let you eat anything you want, and that look and feel like the teeth you were born with.</p>
+        <p style="font-weight:600;color:var(--navy)">The procedure is typically completed in a single day. You walk in with failing or missing teeth. You walk out with a full set of new ones.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Dr. Phillips -->
+  <div class="section" style="background:white">
+    <div class="container">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <div class="section-label">The Difference</div>
+        <h2 style="color:var(--navy)">Why Dr. Phillips</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card fade-in">
+          <div class="why-card-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg></div>
+          <h3>Trained at the Top</h3>
+          <p>Dr. Phillips didn't just learn full-arch implant surgery — he taught it. As Surgical Training Advisor at Renew (founded by ClearChoice co-founder Dr. Don Miloni), he established protocols and trained other surgeons. You're choosing the instructor, not the student.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h3>Surgical Speed &amp; Precision</h3>
+          <p>With thousands of implants placed across military and civilian careers, Dr. Phillips operates with efficiency that only comes from deep experience. Shorter procedures mean less sedation time and faster healing.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <h3>Honest, Fair Pricing</h3>
+          <p>Corporate implant centers carry enormous overhead passed on to you. As a private practice, our pricing reflects the cost of excellent materials and expert care — not a corporate profit target. Transparent quotes, no hidden fees.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <h3>IV Sedation Available</h3>
+          <p>We offer IV sedation for an anxiety-free experience. You'll be comfortable and relaxed throughout the entire procedure.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Veteran-Owned, Veteran-Focused</h3>
+          <p>Dr. Phillips served 10 years in the U.S. Army. While the VA doesn't cover full-arch implants, we work with veterans on financing solutions to make this life-changing treatment accessible.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Process -->
+  <div class="section process-section">
+    <div class="container">
+      <div class="fade-in" style="text-align:center;margin-bottom:56px">
+        <div class="section-label">Your Journey</div>
+        <h2 style="color:white">The Process</h2>
+      </div>
+      <div class="process-grid">
+        <div class="process-card fade-in">
+          <div class="process-num-bg">01</div>
+          <div class="process-num">01</div>
+          <h3>Free Consultation</h3>
+          <p>Comprehensive exam with 3D CBCT scan. Dr. Phillips evaluates your case and gives you a clear treatment plan with transparent pricing. No pressure, no sales team.</p>
+        </div>
+        <div class="process-card fade-in">
+          <div class="process-num-bg">02</div>
+          <div class="process-num">02</div>
+          <h3>Digital Planning</h3>
+          <p>Using your 3D scan and Medit i700 digital impressions, a computer-guided surgical plan is created for millimeter-accurate implant placement.</p>
+        </div>
+        <div class="process-card fade-in">
+          <div class="process-num-bg">03</div>
+          <div class="process-num">03</div>
+          <h3>Surgery Day</h3>
+          <p>Under IV sedation, Dr. Phillips places your implants and attaches temporary fixed teeth — all in a single visit. Walk out the same day with a full set of teeth.</p>
+        </div>
+        <div class="process-card fade-in">
+          <div class="process-num-bg">04</div>
+          <div class="process-num">04</div>
+          <h3>Final Restoration</h3>
+          <p>After 3–6 months of healing, your permanent custom-designed prosthesis is placed — your final teeth, crafted to look natural and last.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Financing -->
+  <div class="section" style="background:var(--cream)">
+    <div class="container" style="max-width:780px">
+      <div class="fade-in">
+        <h2 style="color:var(--navy);margin-bottom:24px">Financing Options</h2>
+        <p style="margin-bottom:24px">We believe cost shouldn't prevent you from getting the care you need. 3rd Set Smiles offers flexible financing:</p>
+        <div class="financing-grid">
+          <div class="financing-card"><span>Cherry Financing</span></div>
+          <div class="financing-card"><span>CareCredit</span></div>
+          <div class="financing-card"><span>In-House Payment Plans</span></div>
+          <div class="financing-card"><span>Insurance Coordination</span></div>
+        </div>
+        <p style="color:var(--warm-gray);font-size:0.95rem">Many patients find full-arch implants more affordable than expected, especially compared to a lifetime of denture relines, adhesives, and replacements.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section" style="background:white">
+    <div class="container" style="max-width:780px">
+      <div class="fade-in">
+        <h2 style="color:var(--navy);margin-bottom:32px">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span>Am I a candidate for All-on-X?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Most patients with missing or failing teeth are candidates. Even patients told they don't have enough bone may be candidates thanks to modern techniques like zygomatic implants and bone grafting. The only way to know for sure is a consultation with Dr. Phillips.</p></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span>How much does All-on-X cost?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Pricing varies depending on case complexity, number of implants, and prosthesis type. We provide transparent pricing at your consultation with no hidden fees. We are typically significantly less expensive than corporate implant centers while delivering the same or better clinical outcomes.</p></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span>Does the VA cover All-on-X?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Unfortunately, the VA does not currently cover full-arch implant procedures, even when medically necessary. However, we work with veterans to find financing solutions that make this treatment accessible regardless of VA coverage.</p></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span>How long do All-on-X implants last?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>With proper care, dental implants can last a lifetime. The prosthesis typically lasts 15–20+ years before needing replacement. Regular check-ups and good oral hygiene are key to long-term success.</p></div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span>Is the procedure painful?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Most patients report significantly less discomfort than expected. The procedure is performed under IV sedation, so you're comfortable throughout. Post-operative discomfort is typically managed with over-the-counter pain medication within a few days.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="section cta-banner">
+    <div class="container">
+      <div class="fade-in">
+        <h2>Ready to Change Your Life?</h2>
+        <p>Schedule your free All-on-X consultation with Dr. Phillips today. No obligation, no pressure — just honest answers from the surgeon who trained the surgeons.</p>
+        <div class="cta-btns">
+          <a href="#contact" class="btn-primary">Schedule My Free Consultation</a>
+          <a href="tel:4809330434" class="btn-outline">Or Call (480) 933-0434</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ VETERANS ═══════════════ -->
+<section class="section veterans-section" id="veterans" style="background:white">
+  <div class="veterans-bg"></div>
+  <div class="container" style="position:relative;z-index:2">
+    <div style="max-width:780px">
+      <div class="fade-in pill" style="background:rgba(11,29,58,0.05);border-color:rgba(11,29,58,0.08);margin-bottom:24px">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--navy)" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        <span class="pill-text" style="color:var(--navy)">For Our Veterans</span>
+      </div>
+
+      <div class="fade-in">
+        <h2 style="color:var(--navy);margin-bottom:24px">Veteran-Owned. Veteran-Focused.<br><span style="color:var(--gold)">When the VA Says No, We Say Yes.</span></h2>
+      </div>
+
+      <div class="fade-in">
+        <p style="margin-bottom:20px">Dr. Matthew Phillips served 10 years in the United States Army as a dental officer, including combat deployments to Iraq and South Korea. He knows what it's like to serve, and he knows what it's like to navigate the VA system — the long wait times, the limited options, and the frustrating bureaucracy that often stands between a veteran and the care they've earned.</p>
+      </div>
+
+      <div class="fade-in">
+        <p style="margin-bottom:20px">That's why he founded 3rd Set Smiles as a VA Community Care Provider. When the VA refers veterans to our practice, we treat them with the respect, urgency, and clinical excellence they deserve. And when the VA can't or won't provide the care a veteran needs — we find a way to make it happen anyway.</p>
+      </div>
+
+      <div class="fade-in">
+        <p style="margin-bottom:20px">The reality is this: the Phoenix VA's implant board can take six months or longer just to determine if a veteran is a candidate for a single implant. Full-arch reconstruction? The VA almost never approves it. Veterans with failing teeth, chronic pain, and an inability to eat properly are being told to wait — or told no.</p>
+      </div>
+
+      <div class="fade-in">
+        <p style="margin-bottom:32px;font-weight:600;color:var(--navy)">We believe veterans deserve better. If you've been told the VA can't help you, or you've been waiting months for an answer that may never come, call us. Dr. Phillips will evaluate your case personally, give you honest answers, and work with you to get the care you need now.</p>
+      </div>
+
+      <div class="fade-in va-box">
+        <h3>VA Dental Benefits We Accept</h3>
+        <p>Delta Dental Federal (VA Community Care referrals), general dental exams, cleanings, restorative work, crowns, extractions, periodontal treatment, dentures, and emergency care. For procedures the VA does not cover, including full-arch implants, we offer flexible financing options.</p>
+      </div>
+
+      <div class="fade-in" style="display:flex;flex-wrap:wrap;gap:16px">
+        <a href="#contact" class="btn-primary">Schedule a Veteran Consultation</a>
+        <a href="tel:4809330434" class="btn-outline btn-outline-dark">Call (480) 933-0434 — Mention you're a veteran</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ GALLERY ═══════════════ -->
+<section class="section" id="gallery" style="background:var(--cream)">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;margin-bottom:48px">
+      <div class="section-label">Real Results</div>
+      <h2 style="color:var(--navy)">Before &amp; After Gallery</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-card fade-in">
+        <div class="gallery-pair">
+          <div class="gallery-before">Before</div>
+          <div class="gallery-divider"></div>
+          <div class="gallery-after">After</div>
+        </div>
+        <div class="gallery-caption">
+          <strong>Full Arch Reconstruction (All-on-X) — Case 1</strong>
+          <span>Patient photos pending — HIPAA release required</span>
+        </div>
+      </div>
+      <div class="gallery-card fade-in">
+        <div class="gallery-pair">
+          <div class="gallery-before">Before</div>
+          <div class="gallery-divider"></div>
+          <div class="gallery-after">After</div>
+        </div>
+        <div class="gallery-caption">
+          <strong>Full Arch Reconstruction (All-on-X) — Case 2</strong>
+          <span>Patient photos pending — HIPAA release required</span>
+        </div>
+      </div>
+      <div class="gallery-card fade-in">
+        <div class="gallery-pair">
+          <div class="gallery-before">Before</div>
+          <div class="gallery-divider"></div>
+          <div class="gallery-after">After</div>
+        </div>
+        <div class="gallery-caption">
+          <strong>Full Arch Reconstruction (All-on-X) — Case 3</strong>
+          <span>Patient photos pending — HIPAA release required</span>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in" style="text-align:center;margin-top:32px">
+      <p style="color:var(--warm-gray);font-style:italic">Gallery will be populated as patient cases are completed and photo consent obtained.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT & FOOTER ═══════════════ -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <div class="fade-in">
+          <h2>Schedule Your Consultation</h2>
+          <p>Ready to take the next step? Contact 3rd Set Smiles today. Whether you're interested in All-on-X implants, general dentistry, or veteran dental care — we're here for you.</p>
+        </div>
+        <div class="fade-in">
+          <div class="contact-detail"><div class="contact-detail-label">Phone</div><div class="contact-detail-value">(480) 933-0434</div></div>
+          <div class="contact-detail"><div class="contact-detail-label">Email</div><div class="contact-detail-value">matt@3rdsetsmiles.com</div></div>
+          <div class="contact-detail"><div class="contact-detail-label">Address</div><div class="contact-detail-value">Tempe, Arizona</div></div>
+          <div class="contact-detail"><div class="contact-detail-label">Hours</div><div class="contact-detail-value">Mon–Fri: 8am–5pm</div></div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <div class="fade-in contact-form">
+          <h3>Request an Appointment</h3>
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="Phone Number">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="Email Address">
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label>How can we help?</label>
+            <select>
+              <option>All-on-X Consultation</option>
+              <option>General Dentistry</option>
+              <option>Veteran Dental Care (VA)</option>
+              <option>Emergency</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button class="btn-primary" style="width:100%;text-align:center">Request Appointment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>© 2026 3rd Set Smiles. All rights reserved.</span>
+      <span>3rd Set Smiles · Tempe, AZ · (480) 933-0434</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+// ── Nav scroll effect ──
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── Active nav link ──
+window.addEventListener('scroll', function() {
+  const sections = ['contact','gallery','veterans','allonx','about','home'];
+  const links = document.querySelectorAll('.nav-link');
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 120) {
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      break;
+    }
+  }
+}, { passive: true });
+
+// ── Mobile menu ──
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const isOpen = menu.classList.toggle('open');
+  document.getElementById('menu-icon').style.display = isOpen ? 'none' : 'block';
+  document.getElementById('close-icon').style.display = isOpen ? 'block' : 'none';
+}
+function closeMobile() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('menu-icon').style.display = 'block';
+  document.getElementById('close-icon').style.display = 'none';
+}
+
+// ── FAQ accordion ──
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const chevron = btn.querySelector('.faq-chevron');
+  const isOpen = answer.classList.toggle('open');
+  chevron.classList.toggle('open', isOpen);
+}
+
+// ── Fade-in on scroll ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
