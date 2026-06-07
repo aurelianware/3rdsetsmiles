@@ -47,14 +47,25 @@ npx http-server _site -p 8000
 
 ## Cloudflare Pages settings
 
-When connecting this repo in the Cloudflare Pages dashboard:
+The build output directory is set in [`wrangler.toml`](wrangler.toml)
+(`pages_build_output_dir = "_site"`) so Cloudflare reads it from the repo. The
+**build command** must be set once in the dashboard — Cloudflare Pages does
+not allow it to be specified in `wrangler.toml`.
+
+In the Cloudflare Pages dashboard for this project, open
+**Settings → Builds & deployments → Build configurations** and set:
 
 | Setting | Value |
 |---------|-------|
+| Framework preset | None |
 | Build command | `npx @11ty/eleventy` |
-| Build output directory | `_site` |
+| Build output directory | `_site` *(also enforced by `wrangler.toml`)* |
 | Root directory | (leave blank — repo root) |
-| Node version | 18 or higher |
+| Node version | 20 (env var `NODE_VERSION=20`) |
+
+If a previous deploy used build output `app`, that value MUST be changed to
+`_site` (or cleared, so `wrangler.toml` wins). An empty build command will
+cause builds to fail with `Error: Output directory "_site" not found.`
 
 `src/_headers` and `src/_redirects` are passthrough-copied into the output so
 Cloudflare picks them up automatically. `src/robots.txt` is published at
