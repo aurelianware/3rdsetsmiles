@@ -1,0 +1,110 @@
+---
+layout: layouts/base.njk
+title: "Dental Services in Tempe, AZ"
+description: "Complete dental services at 3rd Set Smiles in Tempe, AZ — dental implants, All-on-4 / All-on-X full-arch reconstruction, family dentistry, cosmetic dentistry, emergency care, and more. Led by Dr. Matthew Phillips, DDS."
+permalink: /services/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Services", url: "/services/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Services</div>
+    <h1>Complete Dental Care, <span>One Trusted Team</span></h1>
+    <p class="lede">3rd Set Smiles is a full-service general and implant-focused dental practice in Tempe, Arizona. Whether you need a cleaning, a crown, a new set of teeth, or anything in between, you'll see the same doctor and the same team every visit.</p>
+    <div class="btn-row">
+      <a href="/contact/" class="btn-primary">Request an Appointment</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:36px">
+      <h2 style="color:var(--navy)">Implant Dentistry</h2>
+      <p class="muted">Single implants, full-arch reconstruction, and implant-supported dentures.</p>
+    </div>
+    <div class="services-list-grid">
+      {% for s in collections.services %}
+        {% if s.data.serviceMeta.category == "Implant Dentistry" %}
+          <a class="service-card" href="{{ s.url }}">
+            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:36px">
+      <h2 style="color:var(--navy)">General &amp; Family Dentistry</h2>
+      <p class="muted">Preventive care, fillings, root canals, crowns, extractions, and more.</p>
+    </div>
+    <div class="services-list-grid">
+      {% for s in collections.services %}
+        {% if s.data.serviceMeta.category == "General &amp; Family" or s.data.serviceMeta.category == "General & Family" %}
+          <a class="service-card" href="{{ s.url }}">
+            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:36px">
+      <h2 style="color:var(--navy)">Cosmetic Dentistry</h2>
+      <p class="muted">Veneers, whitening, and clear aligner orthodontics.</p>
+    </div>
+    <div class="services-list-grid">
+      {% for s in collections.services %}
+        {% if s.data.serviceMeta.category == "Cosmetic" %}
+          <a class="service-card" href="{{ s.url }}">
+            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:36px">
+      <h2 style="color:var(--navy)">Specialized Care</h2>
+      <p class="muted">Sedation options, emergency visits, and TMJ / night-guard therapy.</p>
+    </div>
+    <div class="services-list-grid">
+      {% for s in collections.services %}
+        {% if s.data.serviceMeta.category == "Specialized" %}
+          <a class="service-card" href="{{ s.url }}">
+            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section cta-banner">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Not sure which service you need?</h2>
+      <p>Tell us what's going on and we'll help you figure out the right next step. Most consultations are quick and there's never any pressure.</p>
+      <div class="btn-row">
+        <a href="/contact/" class="btn-primary">Request an Appointment</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+      </div>
+    </div>
+  </div>
+</section>

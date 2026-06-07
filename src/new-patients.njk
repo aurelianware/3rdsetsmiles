@@ -1,0 +1,59 @@
+---
+layout: layouts/base.njk
+title: "New Patients"
+description: "New patient information for 3rd Set Smiles in Tempe, AZ. What to expect at your first visit, paperwork, insurance, and how to book. Call (480) 334-2752."
+permalink: /new-patients/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "New Patients", url: "/new-patients/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>New Patients</div>
+    <h1>Welcome to <span>3rd Set Smiles</span></h1>
+    <p class="lede">Here's what to expect at your first appointment — and how to make it as easy as possible.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-narrow prose">
+    <h2>What to expect at your first visit</h2>
+    <p>Your first visit is mostly about us getting to know you and your mouth. We block out extra time for new patients so nothing feels rushed.</p>
+    <ul class="checklist">
+      <li>A real conversation about why you're here and what you'd like out of dental care going forward.</li>
+      <li>A comprehensive exam — teeth, gums, bite, and soft-tissue / oral cancer screening.</li>
+      <li>Digital X-rays as appropriate (we'll skip them if you've had recent ones we can pull).</li>
+      <li>A cleaning, if your gums and time allow at the first visit.</li>
+      <li>A clear summary of anything we found and a written treatment plan if work is recommended — no pressure to commit on the spot.</li>
+    </ul>
+
+    <h2>Before your appointment</h2>
+    <ul class="checklist">
+      <li>Bring (or upload ahead of time) your insurance card and a photo ID.</li>
+      <li>List any current medications and major medical history.</li>
+      <li>Bring a copy of any recent dental X-rays if you've been seen elsewhere in the last 1–2 years.</li>
+      <li>If you have anxiety or have had difficult dental experiences before, tell us when you book — we'll plan accordingly.</li>
+    </ul>
+
+    <h2>Insurance &amp; payment</h2>
+    <p>We work with most major PPO dental plans. We don't yet directly bill HMO/DMO plans. For procedures your insurance doesn't fully cover, we offer Cherry, CareCredit, and in-house payment options. See our <a href="/insurance-financing/">insurance &amp; financing page</a> for details.</p>
+
+    <h2>Patient forms</h2>
+    <p>To save time on the day of your visit, we'll email you a secure new-patient intake form when you book. Please fill it out before you arrive.</p>
+    <!-- TODO: Add link to actual hosted intake form when the practice management system is finalized. -->
+
+    <h2>Office address &amp; hours</h2>
+    <p>
+      {{ site.address.street }}<br>
+      {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}<br>
+      {{ site.hours.display }}<br>
+      <span class="muted">{{ site.hours.weekend }}</span>
+    </p>
+
+    <div style="margin-top:32px" class="btn-row">
+      <a href="/contact/" class="btn-primary">Request an Appointment</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark">Call {{ site.phone.display }}</a>
+    </div>
+  </div>
+</section>

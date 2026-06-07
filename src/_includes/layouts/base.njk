@@ -1,0 +1,140 @@
+{# ============================================================================
+   base.njk — Single source of truth for <head>, nav, footer, JSON-LD.
+   Every page extends this layout. Phone, address, hours come from
+   /src/_data/site.json. NEVER hardcode NAP details in a page template.
+   ============================================================================ #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="{{ site.themeColor }}">
+
+  {# Per-page title / description / canonical #}
+  <title>{{ title }} | {{ site.name }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ page.url | absUrl(site.domain) }}">
+
+  {% if noindex %}
+  <meta name="robots" content="noindex, follow">
+  {% endif %}
+
+  {# Open Graph #}
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ title }} | {{ site.name }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ page.url | absUrl(site.domain) }}">
+  <meta property="og:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
+  <meta property="og:locale" content="en_US">
+
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title }} | {{ site.name }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
+
+  {# Fonts #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;600;700&display=swap">
+
+  {# Site CSS #}
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  {# Centralized Dentist JSON-LD — identical on every page #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": {{ site.name | dump }},
+    "url": {{ site.domain | dump }},
+    "telephone": {{ site.phone.tel | dump }},
+    "email": {{ site.email | dump }},
+    "priceRange": "$$",
+    "image": {{ (site.ogImage | absUrl(site.domain)) | dump }},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.address.street | dump }},
+      "addressLocality": {{ site.address.locality | dump }},
+      "addressRegion": {{ site.address.region | dump }},
+      "postalCode": {{ site.address.postalCode | dump }},
+      "addressCountry": {{ site.address.country | dump }}
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": {{ site.geo.lat }},
+      "longitude": {{ site.geo.lng }}
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    }],
+    "sameAs": [
+      {{ site.social.google | dump }},
+      {{ site.social.yelp | dump }},
+      {{ site.social.facebook | dump }}
+    ]
+  }
+  </script>
+
+  {# Per-page FAQPage JSON-LD #}
+  {% if faq %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for item in faq %}
+      {
+        "@type": "Question",
+        "name": {{ item.q | dump }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ item.a | dump }}
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {# BreadcrumbList JSON-LD #}
+  {% if breadcrumb %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {% for crumb in breadcrumb %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": {{ crumb.label | dump }},
+        "item": {{ (crumb.url | absUrl(site.domain)) | dump }}
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {# Plausible analytics — privacy-friendly #}
+  <script defer data-domain="{{ site.analytics.plausibleDomain }}" src="{{ site.analytics.plausibleScript }}"></script>
+</head>
+<body class="page-{{ page.fileSlug or 'home' }}">
+
+  {% include "partials/nav.njk" %}
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/footer.njk" %}
+
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>

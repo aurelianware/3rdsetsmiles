@@ -1,0 +1,191 @@
+---
+layout: layouts/base.njk
+title: "Implant-Focused Dentistry & Family Dental Care in Tempe, AZ"
+description: "3rd Set Smiles is a Tempe, AZ dental practice led by Dr. Matthew Phillips, offering dental implants, full-arch implant reconstruction (All-on-4 / All-on-X), and complete family and cosmetic dentistry. Call (480) 334-2752."
+permalink: /
+eleventyNavigation:
+  key: Home
+  order: 1
+ogType: website
+faq:
+  - q: "What kinds of dentistry do you offer?"
+    a: "We provide complete general and family dentistry — cleanings, fillings, crowns, root canals, extractions, dentures, and gum care — alongside dental implants and full-arch implant reconstruction (All-on-4 / All-on-X)."
+  - q: "Where is 3rd Set Smiles located?"
+    a: "2600 E Southern Ave, Suite B1, Tempe, AZ 85282. Just off the I-10 and US-60, easy to reach from anywhere in the East Valley."
+  - q: "What are your office hours?"
+    a: "Monday through Friday, 8:00am to 5:00pm. We are closed on Saturday and Sunday."
+  - q: "Do you take dental insurance?"
+    a: "Yes — we work with most major PPO plans and will help you understand your benefits. We also offer financing through Cherry and CareCredit, plus in-house payment plans."
+  - q: "Do you see new patients?"
+    a: "Yes. New patients are warmly welcomed. Call (480) 334-2752 or use the contact form to schedule a new-patient exam."
+---
+
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fade-in">
+        <div class="pill">
+          <span class="pill-text">Tempe, AZ &middot; Mon–Fri 8am–5pm</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <h1>Implant-Focused Dentistry. <span>Comprehensive Family Care.</span></h1>
+      </div>
+      <div class="fade-in">
+        <p class="hero-sub">From routine cleanings to full-arch implant reconstruction, 3rd Set Smiles is the Tempe dental home for patients who want honest answers, excellent clinical care, and a team that actually listens.</p>
+      </div>
+      <div class="fade-in btn-row">
+        <a href="/contact/" class="btn-primary">Schedule a Consultation</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+      </div>
+      <div class="fade-in stats">
+        <div><div class="stat-num">20+</div><div class="stat-label">Years Clinical Experience</div></div>
+        <div><div class="stat-num">All-on-X</div><div class="stat-label">Full-Arch Implant Care</div></div>
+        <div><div class="stat-num">Family</div><div class="stat-label">Dentistry &amp; Cosmetics</div></div>
+        <div><div class="stat-num">Tempe</div><div class="stat-label">East Valley Convenient</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AOX feature callout -->
+<section class="section section-cream" style="padding-bottom:40px">
+  <div class="container">
+    <div class="fade-in aox-callout">
+      <div class="aox-callout-text">
+        <div class="section-label" style="color:var(--gold-light)">Flagship Procedure</div>
+        <h2>Full-Arch Dental Implants <span>(All-on-4 / All-on-X)</span></h2>
+        <p>A fixed, life-changing set of new teeth — in many cases delivered in a single surgical day. Dr. Phillips trained other clinicians in full-arch implant protocols as Surgical Training Advisor at Renew Anchored Dentures, founded by ClearChoice co-founder Dr. Don Miloni.</p>
+        <a href="/services/all-on-4/" class="btn-primary">Learn About All-on-4 →</a>
+      </div>
+      <div class="aox-callout-thumb">Before &amp; After<br>Photos Coming Soon</div>
+    </div>
+  </div>
+</section>
+
+<!-- Services overview -->
+<section class="section section-cream" style="padding-top:40px">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:48px">
+      <div class="section-label">Comprehensive Care</div>
+      <h2 style="color:var(--navy)">Our Services</h2>
+      <p class="muted" style="max-width:620px;margin:14px auto 0">A complete dental home for adults and families across the East Valley.</p>
+    </div>
+    <div class="services-grid">
+      {% for s in collections.services %}
+        <a href="{{ s.url }}" class="service-card">
+          <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+          <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="center" style="margin-top:32px">
+      <a href="/services/" class="btn-outline btn-outline-dark">See All Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- About preview -->
+<section class="section" style="background:white">
+  <div class="container">
+    <div class="about-wrap">
+      <div class="about-photo fade-in">
+        <div class="about-photo-info">
+          <h3>Dr. Matthew Phillips</h3>
+          <p>DDS &middot; Founder, 3rd Set Smiles</p>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="fade-in">
+          <div class="section-label">Meet Your Dentist</div>
+          <h2 style="color:var(--navy);margin-bottom:8px">Dr. Matthew Phillips</h2>
+          <p class="about-tagline">Implant-focused dentist with two decades of clinical experience.</p>
+        </div>
+        <div class="fade-in">
+          <p style="margin-bottom:18px">Dr. Phillips is an implant-focused general dentist with over 20 years of clinical experience spanning military service, advanced surgical training, and full-arch implant care. He founded 3rd Set Smiles in Tempe to deliver comprehensive dentistry in an unhurried, patient-first setting.</p>
+          <p style="margin-bottom:18px">Before opening the practice, Dr. Phillips served as Surgical Training Advisor at Renew Anchored Dentures &mdash; founded by ClearChoice co-founder Dr. Don Miloni &mdash; where he helped establish protocols and trained clinicians in full-arch implant procedures.</p>
+        </div>
+        <div class="fade-in callout-box">
+          <p>The same hands that trained other clinicians in full-arch implant protocols now care for patients here in Tempe.</p>
+        </div>
+        <div class="fade-in" style="margin-top:24px">
+          <a href="/about/" class="btn-outline btn-outline-dark">Read Dr. Phillips' Full Bio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why us -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:42px">
+      <div class="section-label">The Difference</div>
+      <h2 style="color:var(--navy)">Why Patients Choose 3rd Set Smiles</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-in">
+        <h3>Experience that trained other clinicians</h3>
+        <p>Dr. Phillips didn't just learn full-arch implant surgery &mdash; he taught other dentists how to do it as Surgical Training Advisor at Renew Anchored Dentures. You are choosing an instructor's hands.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Honest, transparent pricing</h3>
+        <p>Private practice means private-practice prices. No corporate sales quotas, no last-minute add-ons, no pressure to commit on the spot. We'll quote your case clearly and answer every question.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>One dental home for the whole family</h3>
+        <p>Cleanings, fillings, crowns, cosmetic work, dentures, implants — handled by the same team that already knows your history. Fewer referrals, fewer offices, less back-and-forth.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Sedation when you want it</h3>
+        <p>For longer or surgical visits we offer comfortable sedation options so you can relax through the procedure. We'll talk through what's right for you ahead of time.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Convenient Tempe location</h3>
+        <p>2600 E Southern Ave, Suite B1 &mdash; easy parking, easy access from Tempe, Mesa, Chandler, Gilbert, Ahwatukee, and South Phoenix.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>A team that takes time with you</h3>
+        <p>Every visit starts with a real conversation. We explain options in plain language and only recommend treatment you actually need.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials placeholder -->
+<section class="section" style="background:white">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:36px">
+      <div class="section-label">Patient Stories</div>
+      <h2 style="color:var(--navy)">What Our Patients Say</h2>
+    </div>
+    <!-- TODO: real reviews — pull verified reviews from Google, Yelp, and/or Facebook
+         and add them here as testimonial-card elements. Do NOT add aggregateRating
+         to JSON-LD until real review counts are available. -->
+    <div class="notice fade-in" style="max-width:720px;margin:0 auto;text-align:center">
+      <strong>Real patient reviews coming soon.</strong>
+      <p style="margin-top:8px">In the meantime, you can read what people are saying about us on
+        <a href="{{ site.social.google }}" rel="noopener">Google</a>,
+        <a href="{{ site.social.yelp }}" rel="noopener">Yelp</a>,
+        and <a href="{{ site.social.facebook }}" rel="noopener">Facebook</a>.
+      </p>
+    </div>
+    <div class="center" style="margin-top:24px">
+      <a href="/testimonials/" class="btn-outline btn-outline-dark">See Testimonials Page</a>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="section cta-banner">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Ready to Make an Appointment?</h2>
+      <p>Whether you're looking for a new dental home, considering implants, or need help with something urgent — we're here for you.</p>
+      <div class="btn-row">
+        <a href="/contact/" class="btn-primary">Request an Appointment</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+      </div>
+    </div>
+  </div>
+</section>
