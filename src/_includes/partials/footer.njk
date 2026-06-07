@@ -1,0 +1,51 @@
+{# footer.njk — Shared footer. NAP data comes from /src/_data/site.json #}
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <h4 class="footer-brand">3<sup>RD</sup> SET SMILES</h4>
+      <p class="footer-tagline">{{ site.tagline }}</p>
+      <p class="footer-veteran">Veteran-owned.</p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <p>
+        <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a><br>
+        <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+      </p>
+      <address>
+        {{ site.address.street }}<br>
+        {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}
+      </address>
+      <p class="footer-hours">{{ site.hours.display }}<br>{{ site.hours.weekend }}</p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Practice</h5>
+      <ul>
+        {% for item in nav.primary %}
+          <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul>
+        {% for item in nav.footer %}
+          <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+      <div class="footer-social">
+        <a href="{{ site.social.google }}" rel="noopener" aria-label="Google profile">Google</a>
+        <a href="{{ site.social.yelp }}" rel="noopener" aria-label="Yelp profile">Yelp</a>
+        <a href="{{ site.social.facebook }}" rel="noopener" aria-label="Facebook profile">Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>&copy; {{ '' | year }} {{ site.name }}. All rights reserved.</span>
+    <span>{{ site.name }} &middot; Tempe, AZ &middot; {{ site.phone.display }}</span>
+  </div>
+</footer>

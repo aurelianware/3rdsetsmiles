@@ -1,0 +1,47 @@
+---
+layout: layouts/base.njk
+title: "Special Offers"
+description: "Current new-patient specials and promotional offers at 3rd Set Smiles in Tempe, AZ. Call (480) 334-2752 to schedule."
+permalink: /special-offers/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Special Offers", url: "/special-offers/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Special Offers</div>
+    <h1>Special <span>Offers</span></h1>
+    <p class="lede">A small thank-you for choosing 3rd Set Smiles as your dental home.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-narrow prose">
+
+    <!-- TODO: Confirm with the practice which offers are currently active.
+         Replace the placeholder offers below with real ones, or remove this
+         page from the sitemap entirely until the practice decides on them. -->
+    <div class="notice">
+      <strong>Offers are updated periodically.</strong>
+      <p style="margin-top:8px">Call us at <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a> to confirm what's currently available and to ask any questions.</p>
+    </div>
+
+    <h2>New patient exam &amp; X-rays</h2>
+    <p>A welcome offer for new patients without insurance — comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning at a friendly introductory rate. Excludes deep cleanings or treatment-related X-rays.</p>
+
+    <h2>Free implant consultation</h2>
+    <p>If you're considering single-tooth implants or <a href="/services/all-on-4/">full-arch reconstruction</a>, your initial consultation with Dr. Phillips is complimentary. We'll review your case, do a 3D scan when appropriate, and give you a written treatment plan with transparent pricing.</p>
+
+    <h2>Whitening with your cleaning</h2>
+    <p>Add custom take-home whitening trays to your routine cleaning at a reduced rate. Trays last for years of touch-ups.</p>
+
+    <hr class="divider">
+    <p class="muted">Offers cannot be combined with insurance benefits unless noted. New patients only where indicated. Subject to change without notice.</p>
+
+    <div class="btn-row" style="margin-top:24px">
+      <a href="/contact/" class="btn-primary">Schedule an Appointment</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark">Call {{ site.phone.display }}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+{
+  "name": "3rdsetsmiles",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site for 3rd Set Smiles (Tempe, AZ). Eleventy + Nunjucks → Cloudflare Pages.",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve --port=8080",
+    "watch": "eleventy --watch",
+    "debug": "DEBUG=Eleventy* eleventy",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

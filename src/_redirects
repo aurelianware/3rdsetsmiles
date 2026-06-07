@@ -1,0 +1,3 @@
+/patient-resources   /new-patients   301
+/hero-demo           /404.html       404
+/hero-demo/*         /404.html       404

@@ -1,133 +1,161 @@
-# 3rd Set Smiles — Azure Static Web Apps Deployment
+# 3rd Set Smiles — Cloudflare Pages site
 
-## Project Structure
+Static multi-page site for **3rd Set Smiles**, a dental practice in Tempe, AZ.
+Built with [Eleventy (11ty)](https://www.11ty.dev/) + Nunjucks; deployed on
+**Cloudflare Pages**.
 
-```
-├── .github/
-│   └── workflows/
-│       └── azure-static-web-apps.yml   # CI/CD pipeline
-├── app/
-│   ├── index.html                      # Main site (renamed from 3rdSetSmiles_Website.html)
-│   ├── staticwebapp.config.json        # Routing, headers, security, caching
-│   ├── robots.txt                      # SEO crawler rules
-│   └── sitemap.xml                     # SEO sitemap
-└── README.md
-```
+---
 
-## Quick Start: Deploy in ~10 Minutes
+## Architecture
 
-### Option A: Azure Portal + GitHub (Recommended)
+| Thing | Where |
+|-------|-------|
+| Source | `src/` (Nunjucks templates + data) |
+| Output | `_site/` (static HTML + assets, ignored by git) |
+| Build  | `npx @11ty/eleventy` |
+| Single source of truth for NAP (Name/Address/Phone) | `src/_data/site.json` |
+| Shared `<head>`, nav, footer, `Dentist` JSON-LD | `src/_includes/layouts/base.njk` |
+| Service-detail layout | `src/_includes/layouts/service.njk` |
+| Cloudflare config (passthrough copy) | `src/_headers`, `src/_redirects`, `src/robots.txt` |
+| Sitemap | Generated at `_site/sitemap.xml` from `src/sitemap.njk` |
+| 404 page | `src/404.njk` → `_site/404.html` |
 
-1. **Push this repo to GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial 3rd Set Smiles site"
-   git remote add origin https://github.com/aurelianware/3rdsetsmiles.git
-   git push -u origin main
-   ```
+Every page extends `base.njk`, which injects the centralized `Dentist`
+schema.org JSON-LD on every URL. **Never hardcode the phone number, address,
+or hours in a page template** — edit `src/_data/site.json` and it propagates
+automatically.
 
-2. **Create the Static Web App in Azure Portal**
-   - Go to portal.azure.com → Create Resource → Static Web App
-   - **Resource Group:** `rg-3rdsetsmiles`
-   - **Name:** `3rdsetsmiles`
-   - **Plan:** Free
-   - **Region:** West US 2 (closest to Tempe, AZ)
-   - **Source:** GitHub → authorize → select your repo
-   - **Branch:** `main`
-   - **Build Preset:** Custom
-   - **App location:** `/app`
-   - **API location:** (leave blank)
-   - **Output location:** (leave blank)
-   - Click **Review + Create**
-
-   Azure auto-creates the GitHub Actions secret and triggers the first deploy.
-
-3. **Set up custom domain**
-   - In the Static Web App resource → Custom domains → Add
-   - Add `www.3rdsetsmiles.com` (CNAME record)
-   - Add `3rdsetsmiles.com` (root domain via alias/ALIAS record)
-   - Free SSL certificates are provisioned automatically
-
-### Option B: Azure CLI
+## Local development
 
 ```bash
-# Login
-az login
+# install
+npm install
 
-# Create resource group
-az group create --name rg-3rdsetsmiles --location westus2
+# build once
+npm run build
 
-# Create the Static Web App
-az staticwebapp create \
-  --name 3rdsetsmiles \
-  --resource-group rg-3rdsetsmiles \
-  --source https://github.com/aurelianware/3rdsetsmiles \
-  --branch main \
-  --app-location "/app" \
-  --login-with-github
-
-# Add custom domain
-az staticwebapp hostname set \
-  --name 3rdsetsmiles \
-  --resource-group rg-3rdsetsmiles \
-  --hostname www.3rdsetsmiles.com
+# build + watch + serve at http://localhost:8080
+npm start
 ```
 
-### Option C: SWA CLI (Local Dev + Deploy)
+Output goes to `_site/`. Serve `_site/` with any static HTTP server to test the
+production build:
 
 ```bash
-# Install
-npm install -g @azure/static-web-apps-cli
-
-# Local dev server (test before deploying)
-swa start ./app
-
-# Deploy directly (get token from Azure Portal → Static Web App → Manage deployment token)
-swa deploy ./app --deployment-token <YOUR_TOKEN>
+npx http-server _site -p 8000
 ```
 
-## What the Config Does
+## Cloudflare Pages settings
 
-### staticwebapp.config.json
+When connecting this repo in the Cloudflare Pages dashboard:
 
-| Feature | Details |
-|---------|---------|
-| **Navigation Fallback** | SPA-style routing — all paths resolve to index.html |
-| **Security Headers** | X-Frame-Options DENY, CSP, XSS protection, nosniff |
-| **Caching** | HTML: no-cache (always fresh). Images/assets: 30-day immutable cache |
-| **CSP Policy** | Locks down to self + Google Fonts + inline styles/scripts |
-| **404 Handling** | Rewrites to index.html (single-page site) |
+| Setting | Value |
+|---------|-------|
+| Build command | `npx @11ty/eleventy` |
+| Build output directory | `_site` |
+| Root directory | (leave blank — repo root) |
+| Node version | 18 or higher |
 
-### GitHub Actions Workflow
+`src/_headers` and `src/_redirects` are passthrough-copied into the output so
+Cloudflare picks them up automatically. `src/robots.txt` is published at
+`/robots.txt`. The sitemap is published at `/sitemap.xml`.
 
-- **Auto-deploys** on push to `main`
-- **PR preview environments** — every PR gets a staging URL for review
-- **Auto-cleanup** — staging environments are removed when PRs close
+## Manual steps Cloudflare does NOT handle for you
 
-## DNS Configuration (at your registrar)
+These are out-of-band tasks the human operator must perform — this repo and
+this build do not (and cannot) do them:
 
-| Record Type | Host | Value |
-|-------------|------|-------|
-| CNAME | www | `<your-app>.azurestaticapps.net` |
-| ALIAS/ANAME | @ | `<your-app>.azurestaticapps.net` |
-| TXT | @ | Verification value from Azure Portal |
+1. **Cloudflare Pages → Settings:** confirm that any "Single Page Application"
+   not-found handling is disabled. With our `_redirects` and a real
+   `404.html`, Cloudflare should return a true 404 for unknown paths. Verify
+   after deploy by visiting a fake URL such as
+   `https://www.3rdsetsmiles.com/does-not-exist` and confirming a 404 status.
+2. **Cloudflare zone Redirect Rule (apex → www, 301):**
+   `http.host eq "3rdsetsmiles.com"` →
+   `concat("https://www.3rdsetsmiles.com", http.request.uri.path)`,
+   preserving query string.
+3. **Google Business Profile:** confirm phone is **(480) 334-2752**, remove any
+   "VA Community Care Provider" or veteran-specific language, confirm hours
+   Mon–Fri 8am–5pm.
+4. **Directories (Yelp, Facebook, Apple Maps, Healthgrades, Bing Places, etc.):**
+   correct the phone number wherever the previous tracking-number variant
+   (the incorrect `480` number ending in `0434`) still appears. NAP consistency
+   matters for local SEO.
+5. **Google Search Console:** resubmit `https://www.3rdsetsmiles.com/sitemap.xml`
+   after the new site goes live, and monitor the Pages coverage report for
+   404 spikes for a week or two.
 
-## Cost
+## URL structure (mirrors the prior live site for SEO equity)
 
-**$0/month** on the Free tier, which includes:
-- 100 GB bandwidth/month
-- 2 custom domains
-- Free SSL
-- Global CDN edge nodes
+```
+/
+/about
+/contact
+/services
+/services/dental-implants
+/services/all-on-4
+/services/implant-supported-dentures
+/services/dentures
+/services/family-dentistry
+/services/cosmetic-dentistry
+/services/veneers
+/services/teeth-whitening
+/services/clear-aligners
+/services/crowns-bridges
+/services/root-canal-therapy
+/services/tooth-extractions
+/services/dental-fillings
+/services/gum-disease-treatment
+/services/preventive-care
+/services/sedation-dentistry
+/services/emergency-dentistry
+/services/tmj-night-guards
+/new-patients
+/insurance-financing
+/special-offers
+/testimonials
+/before-after-gallery       (noindex until populated with real photos)
+/privacy
+/terms
+/accessibility
+```
 
-The Standard tier ($9/month) adds: SLA, more bandwidth, Azure Functions API backend, and auth providers — worth considering if you add appointment booking later.
+`/patient-resources` is 301-redirected to `/new-patients`. `/hero-demo` and
+`/hero-demo/*` (prior dev junk paths) are explicitly 404'd via `_redirects`.
 
-## Future Enhancements
+## Editing content
 
-When Matthew is ready to add server-side features:
+* **Update phone / address / hours / email / social links:** `src/_data/site.json`
+* **Add or reorder nav links:** `src/_data/nav.js`
+* **Add a new service page:** create `src/services/your-service.njk` modeled
+  on an existing service page; include `serviceMeta: { label, category, order, shortBlurb }`
+  so it appears in the services collection.
+* **Add a FAQ block to a page:** add a `faq:` array in the front matter (see
+  `src/services/dental-implants.njk` for the format). `FAQPage` JSON-LD is
+  emitted automatically.
+* **Mark a page noindex:** add `noindex: true` to the front matter; the page
+  will be omitted from `sitemap.xml` and a `<meta name="robots" content="noindex, follow">`
+  tag will be added.
 
-1. **Contact/appointment form** → Add an `/api` folder with Azure Functions (Node.js or C#)
-2. **Patient intake forms** → Azure Functions + Cosmos DB (HIPAA-eligible)
-3. **Analytics** → Add Plausible or Fathom (privacy-respecting, no cookie banners needed)
-4. **CDN tuning** → Upgrade to Standard tier for custom CDN rules
+## CONFIRM markers in the bio
+
+The `About` page contains `<!-- CONFIRM: ... -->` HTML comments next to each
+specific credential preserved from the prior site. Each one should be
+documented (or removed) before launch per Arizona dental board advertising
+rules. See `src/about.njk`.
+
+## TODO markers
+
+Visible in the source as `<!-- TODO: ... -->` comments. Currently:
+
+* Real patient reviews on `/` and `/testimonials/`
+* Before/after photos on `/before-after-gallery/`
+* Wire the contact form to a real backend (Cloudflare Pages Function,
+  Formspree, etc.)
+* Confirm currently-active special offers on `/special-offers/`
+* List of accepted PPO insurance carriers on `/insurance-financing/`
+* Hosted new-patient intake form link on `/new-patients/`
+
+---
+
+Veteran-owned. Tempe, AZ. **(480) 334-2752.**

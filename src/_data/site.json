@@ -1,0 +1,43 @@
+{
+  "name": "3rd Set Smiles",
+  "shortName": "3rd Set Smiles",
+  "tagline": "Implant-Focused Dentistry & Family Dental Care in Tempe, AZ",
+  "domain": "https://www.3rdsetsmiles.com",
+  "phone": {
+    "display": "(480) 334-2752",
+    "tel": "+14803342752",
+    "telShort": "4803342752"
+  },
+  "email": "info@3rdsetsmiles.com",
+  "address": {
+    "street": "2600 E Southern Ave, Suite B1",
+    "streetShort": "2600 E Southern Ave",
+    "suite": "Suite B1",
+    "locality": "Tempe",
+    "region": "AZ",
+    "regionName": "Arizona",
+    "postalCode": "85282",
+    "country": "US",
+    "full": "2600 E Southern Ave, Suite B1, Tempe, AZ 85282"
+  },
+  "geo": {
+    "lat": 33.3934836,
+    "lng": -111.8814575
+  },
+  "hours": {
+    "display": "Mon–Fri 8:00am – 5:00pm",
+    "weekdays": "08:00–17:00",
+    "weekend": "Closed Saturday & Sunday"
+  },
+  "social": {
+    "google": "https://www.google.com/maps/place/3rd+Set+Smiles",
+    "yelp": "https://www.yelp.com/biz/3rd-set-smiles-tempe-3",
+    "facebook": "https://www.facebook.com/profile.php?id=100083388665150"
+  },
+  "ogImage": "/assets/og-image.jpg",
+  "themeColor": "#0B1D3A",
+  "analytics": {
+    "plausibleDomain": "3rdsetsmiles.com",
+    "plausibleScript": "https://plausible.io/js/pa-6n0tbD16-s-k5QYLpmoRR.js"
+  }
+}

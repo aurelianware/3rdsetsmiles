@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+title: "Patient Testimonials"
+description: "Patient reviews and testimonials for 3rd Set Smiles in Tempe, AZ. Read what real patients are saying about Dr. Matthew Phillips on Google, Yelp, and Facebook."
+permalink: /testimonials/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Testimonials", url: "/testimonials/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Testimonials</div>
+    <h1>Patient <span>Testimonials</span></h1>
+    <p class="lede">Honest words from the people we're proud to call patients.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- TODO: real reviews — pull verified reviews from Google, Yelp, and Facebook
+         and render them as <div class="testimonial-card"> blocks.
+         DO NOT add aggregateRating to JSON-LD until verified review counts and
+         average rating are provided by the practice. -->
+
+    <div class="notice fade-in" style="max-width:760px;margin:0 auto 32px;text-align:center">
+      <strong>We're collecting verified reviews to feature here.</strong>
+      <p style="margin-top:10px">In the meantime, you can read what real patients are saying about us directly on:</p>
+      <p style="margin-top:14px">
+        <a class="btn-outline btn-outline-dark" href="{{ site.social.google }}" rel="noopener">Read Google reviews</a>
+        &nbsp;
+        <a class="btn-outline btn-outline-dark" href="{{ site.social.yelp }}" rel="noopener">Read Yelp reviews</a>
+        &nbsp;
+        <a class="btn-outline btn-outline-dark" href="{{ site.social.facebook }}" rel="noopener">Visit our Facebook page</a>
+      </p>
+    </div>
+
+    <div class="prose container-narrow">
+      <h2>Already a patient?</h2>
+      <p>If you've had a positive experience, we'd be deeply grateful if you'd share it on Google or Yelp. Word of mouth is the lifeblood of an independent practice, and a couple of sentences from you helps the next person searching for an honest dentist find us.</p>
+    </div>
+  </div>
+</section>

@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://www.clouddentaloffice.com/sitemap.xml
-
-# Block common bot paths
-User-agent: *
-Disallow: /api/

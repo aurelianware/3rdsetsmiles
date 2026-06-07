@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+title: "Contact & Appointments"
+description: "Contact 3rd Set Smiles in Tempe, AZ. Call (480) 334-2752, email info@3rdsetsmiles.com, or use the appointment request form. Located at 2600 E Southern Ave, Suite B1, Tempe, AZ 85282."
+permalink: /contact/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Contact", url: "/contact/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Contact</div>
+    <h1>Contact <span>3rd Set Smiles</span></h1>
+    <p class="lede">Call, email, or send a quick appointment request. We respond within one business day.</p>
+  </div>
+</section>
+
+<section class="section contact-section">
+  <div class="container">
+    <div class="contact-wrap">
+
+      <div class="contact-info">
+        <div class="fade-in">
+          <h2>Get in Touch</h2>
+          <p>We're a private, single-doctor practice. The team that answers the phone is the team that will see you when you arrive.</p>
+        </div>
+        <div class="fade-in">
+          <div class="contact-detail">
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Email</div>
+            <div class="contact-detail-value"><a href="mailto:{{ site.email }}">{{ site.email }}</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Address</div>
+            <div class="contact-detail-value">
+              {{ site.address.street }}<br>
+              {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Hours</div>
+            <div class="contact-detail-value">
+              {{ site.hours.display }}<br>
+              <span class="muted" style="color:rgba(255,255,255,0.55)">{{ site.hours.weekend }}</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Social</div>
+            <div class="contact-detail-value">
+              <a href="{{ site.social.google }}" rel="noopener">Google</a> &middot;
+              <a href="{{ site.social.yelp }}" rel="noopener">Yelp</a> &middot;
+              <a href="{{ site.social.facebook }}" rel="noopener">Facebook</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="margin-top:24px">
+          <a class="btn-outline" href="https://www.google.com/maps/dir/?api=1&destination=2600+E+Southern+Ave+Suite+B1+Tempe+AZ+85282" rel="noopener">Get Directions</a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap fade-in">
+        {% include "partials/contact-form.njk" %}
+      </div>
+
+    </div>
+  </div>
+</section>
