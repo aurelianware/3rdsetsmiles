@@ -3,12 +3,14 @@ module.exports = {
     { label: "Home", url: "/" },
     { label: "About", url: "/about/" },
     { label: "Services", url: "/services/" },
+    { label: "Veterans", url: "/veterans/" },
     { label: "New Patients", url: "/new-patients/" },
     { label: "Insurance & Financing", url: "/insurance-financing/" },
     { label: "Special Offers", url: "/special-offers/" },
     { label: "Contact", url: "/contact/" }
   ],
   footer: [
+    { label: "Veterans", url: "/veterans/" },
     { label: "Testimonials", url: "/testimonials/" },
     { label: "Before & After Gallery", url: "/before-after-gallery/" },
     { label: "Privacy", url: "/privacy/" },

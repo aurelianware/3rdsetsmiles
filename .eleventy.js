@@ -1,3 +1,5 @@
+const serviceCategories = require("./src/_data/serviceCategories.js");
+
 module.exports = function (eleventyConfig) {
   // Passthrough copy: files that should land in the output root verbatim.
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
@@ -16,6 +18,14 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addFilter("year", function () {
     return new Date().getFullYear();
+  });
+
+  // Resolve a stable service-category key (e.g. "general-family") to its
+  // display label (e.g. "General & Family Dentistry"). Falls back to the raw
+  // value so an unknown key is visible rather than silently blank.
+  eleventyConfig.addFilter("categoryLabel", function (key) {
+    const match = serviceCategories.find((c) => c.key === key);
+    return match ? match.label : key;
   });
 
   // JSON helper for inline JSON-LD (Eleventy ships a built-in `dump` filter but

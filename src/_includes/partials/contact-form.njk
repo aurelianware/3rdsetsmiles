@@ -1,8 +1,9 @@
 {# contact-form.njk — Reusable appointment request form #}
 {% set fid = formId or 'contact' %}
-<form class="contact-form" id="{{ fid }}" method="POST" action="/contact/?submitted=1" novalidate>
+<form class="contact-form" id="{{ fid }}" method="POST" action="/contact" novalidate>
   <h3>Request an Appointment</h3>
   <p class="form-intro">Tell us a little about what you're looking for and we'll get back to you within one business day.</p>
+  <p class="form-intro"><strong>Please don't include medical information.</strong> This form is just to start the conversation — we'll gather any health details securely once you're a patient.</p>
 
   <div class="form-group">
     <label for="{{ fid }}-name">Your Name <span aria-hidden="true">*</span></label>
@@ -32,7 +33,7 @@
   </div>
   <div class="form-group">
     <label for="{{ fid }}-message">Message <span class="optional">(optional)</span></label>
-    <textarea id="{{ fid }}-message" name="message" rows="4" placeholder="Briefly describe what you need."></textarea>
+    <textarea id="{{ fid }}-message" name="message" rows="4" placeholder="e.g. best times to reach you, or which service you're interested in."></textarea>
   </div>
 
   {# Honeypot for spam bots — real users won't fill this #}
@@ -42,8 +43,9 @@
 
   <button class="btn-primary form-submit" type="submit">Request Appointment</button>
   <p class="form-note">
-    <!-- TODO: Wire this form to a real backend (Cloudflare Pages Function, Formspree, etc.).
-         Right now this is a static markup placeholder and submissions are not delivered. -->
+    {# Submits to the Cloudflare Pages Function at functions/contact.js.
+       Set RESEND_API_KEY / CONTACT_TO / CONTACT_FROM in the Pages dashboard
+       to enable email delivery; until then submissions are logged, not lost. #}
     Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>.
   </p>
 </form>

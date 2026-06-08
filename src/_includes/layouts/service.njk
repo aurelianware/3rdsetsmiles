@@ -10,7 +10,7 @@ layout: layouts/base.njk
       <span class="sep">›</span>
       {{ title }}
     </div>
-    <div class="pill"><span class="pill-text">{{ serviceMeta.category }}</span></div>
+    <div class="pill"><span class="pill-text">{{ serviceMeta.category | categoryLabel }}</span></div>
     <h1>{{ heroHeadline | safe }}</h1>
     <p class="lede">{{ heroSub }}</p>
     <div class="btn-row">

@@ -20,81 +20,58 @@ breadcrumb:
   </div>
 </section>
 
+{# Hub sections are driven by src/_data/serviceCategories.js so a category
+   typo in a service file can't silently drop it — see the Uncategorized
+   section below, which surfaces any service whose key matches no group. #}
+{% for cat in serviceCategories %}
+<section class="section{% if loop.index0 % 2 == 1 %} section-cream{% endif %}">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:36px">
+      <h2 style="color:var(--navy)">{{ cat.label }}</h2>
+      <p class="muted">{{ cat.blurb }}</p>
+    </div>
+    <div class="services-list-grid">
+      {% for s in collections.services %}
+        {% if s.data.serviceMeta.category == cat.key %}
+          <a class="service-card" href="{{ s.url }}">
+            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+{# Safety net: any service whose category key doesn't match a group above is
+   rendered here instead of vanishing. This block should stay empty. #}
+{% set knownKeys = [] %}
+{% for cat in serviceCategories %}{% set knownKeys = (knownKeys.push(cat.key), knownKeys) %}{% endfor %}
+{% set uncategorized = [] %}
+{% for s in collections.services %}
+  {% if s.data.serviceMeta.category not in knownKeys %}
+    {% set uncategorized = (uncategorized.push(s), uncategorized) %}
+  {% endif %}
+{% endfor %}
+{% if uncategorized.length %}
 <section class="section">
   <div class="container">
     <div class="fade-in" style="margin-bottom:36px">
-      <h2 style="color:var(--navy)">Implant Dentistry</h2>
-      <p class="muted">Single implants, full-arch reconstruction, and implant-supported dentures.</p>
+      <h2 style="color:var(--navy)">Uncategorized</h2>
+      <p class="muted">These services have a category that doesn't match a known group &mdash; fix the <code>serviceMeta.category</code> key.</p>
     </div>
     <div class="services-list-grid">
-      {% for s in collections.services %}
-        {% if s.data.serviceMeta.category == "Implant Dentistry" %}
-          <a class="service-card" href="{{ s.url }}">
-            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
-            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
-          </a>
-        {% endif %}
+      {% for s in uncategorized %}
+        <a class="service-card" href="{{ s.url }}">
+          <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+          <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+        </a>
       {% endfor %}
     </div>
   </div>
 </section>
-
-<section class="section section-cream">
-  <div class="container">
-    <div class="fade-in" style="margin-bottom:36px">
-      <h2 style="color:var(--navy)">General &amp; Family Dentistry</h2>
-      <p class="muted">Preventive care, fillings, root canals, crowns, extractions, and more.</p>
-    </div>
-    <div class="services-list-grid">
-      {% for s in collections.services %}
-        {% if s.data.serviceMeta.category == "General &amp; Family" or s.data.serviceMeta.category == "General & Family" %}
-          <a class="service-card" href="{{ s.url }}">
-            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
-            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="fade-in" style="margin-bottom:36px">
-      <h2 style="color:var(--navy)">Cosmetic Dentistry</h2>
-      <p class="muted">Veneers, whitening, and clear aligner orthodontics.</p>
-    </div>
-    <div class="services-list-grid">
-      {% for s in collections.services %}
-        {% if s.data.serviceMeta.category == "Cosmetic" %}
-          <a class="service-card" href="{{ s.url }}">
-            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
-            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="section section-cream">
-  <div class="container">
-    <div class="fade-in" style="margin-bottom:36px">
-      <h2 style="color:var(--navy)">Specialized Care</h2>
-      <p class="muted">Sedation options, emergency visits, and TMJ / night-guard therapy.</p>
-    </div>
-    <div class="services-list-grid">
-      {% for s in collections.services %}
-        {% if s.data.serviceMeta.category == "Specialized" %}
-          <a class="service-card" href="{{ s.url }}">
-            <span class="service-name">{{ s.data.serviceMeta.label }}</span>
-            <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
+{% endif %}
 
 <section class="section cta-banner">
   <div class="container">
