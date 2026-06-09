@@ -6,6 +6,7 @@ module.exports = {
     { label: "New Patients", url: "/new-patients/" },
     { label: "Insurance & Financing", url: "/insurance-financing/" },
     { label: "Special Offers", url: "/special-offers/" },
+    { label: "Veterans", url: "/veterans/" },
     { label: "Contact", url: "/contact/" }
   ],
   footer: [

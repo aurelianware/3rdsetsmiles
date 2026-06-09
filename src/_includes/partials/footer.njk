@@ -17,7 +17,7 @@
         {{ site.address.street }}<br>
         {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}
       </address>
-      <p class="footer-hours">{{ site.hours.display }}<br>{{ site.hours.weekend }}</p>
+      <p class="footer-hours">{{ site.hours.display }}<br>{{ site.hours.weekend }}{% if site.hours.note %}<br>{{ site.hours.note }}{% endif %}</p>
     </div>
 
     <div class="footer-col">
