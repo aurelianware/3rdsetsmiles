@@ -29,6 +29,7 @@
       a.addEventListener('click', function () {
         menu.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
         if (menuIcon) menuIcon.style.display = 'block';
         if (closeIcon) closeIcon.style.display = 'none';
       });

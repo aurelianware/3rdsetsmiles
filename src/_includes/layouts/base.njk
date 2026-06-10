@@ -69,8 +69,8 @@
     "openingHoursSpecification": [{
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-      "opens": "08:00",
-      "closes": "17:00"
+      "opens": "10:00",
+      "closes": "18:00"
     }],
     "sameAs": [
       {{ site.social.google | dump }},
@@ -122,8 +122,9 @@
   </script>
   {% endif %}
 
-  {# Plausible analytics — privacy-friendly #}
-  <script defer data-domain="{{ site.analytics.plausibleDomain }}" src="{{ site.analytics.plausibleScript }}"></script>
+  {# Analytics: intentionally omitted. The previous Plausible script token was
+     not provisioned for this domain (404), so the include and its CSP entries
+     were removed. Re-add a verified analytics snippet here when one is set up. #}
 </head>
 <body class="page-{{ page.fileSlug or 'home' }}">
 

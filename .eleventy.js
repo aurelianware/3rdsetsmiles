@@ -3,9 +3,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
-  eleventyConfig.addPassthroughCopy({ "src/static": "/" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/images": "images" });
 
   // Filters
   eleventyConfig.addFilter("absUrl", function (path, base) {
@@ -22,6 +20,30 @@ module.exports = function (eleventyConfig) {
   // we want pretty 2-space output for diff-friendly HTML).
   eleventyConfig.addFilter("jsonStringify", function (obj) {
     return JSON.stringify(obj, null, 2);
+  });
+
+  // Service-hub grouping helpers. Categories are defined once in
+  // src/_data/serviceCategories.js and matched against each service's
+  // serviceMeta.category KEY (e.g. "general-family"), never a display string.
+  eleventyConfig.addFilter("servicesInCategory", function (services, key) {
+    return (services || []).filter(
+      (s) => s.data.serviceMeta && s.data.serviceMeta.category === key
+    );
+  });
+
+  // Any service whose category key matches none of the defined categories.
+  // Surfaced in an "Uncategorized" hub group so a typo never silently drops
+  // a service from the page.
+  eleventyConfig.addFilter("uncategorizedServices", function (services, categories) {
+    const keys = (categories || []).map((c) => c.key);
+    return (services || []).filter(
+      (s) => s.data.serviceMeta && !keys.includes(s.data.serviceMeta.category)
+    );
+  });
+
+  // Look up the category object (for label/blurb) by its key.
+  eleventyConfig.addFilter("findCategory", function (categories, key) {
+    return (categories || []).find((c) => c.key === key);
   });
 
   // Collection of every service page, ordered by `order` in the data file.

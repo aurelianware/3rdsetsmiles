@@ -1,8 +1,9 @@
 {# contact-form.njk — Reusable appointment request form #}
 {% set fid = formId or 'contact' %}
-<form class="contact-form" id="{{ fid }}" method="POST" action="/contact/?submitted=1" novalidate>
+<form class="contact-form" id="{{ fid }}" method="POST" action="/contact-submit" novalidate>
   <h3>Request an Appointment</h3>
   <p class="form-intro">Tell us a little about what you're looking for and we'll get back to you within one business day.</p>
+  <p class="form-intro" style="font-size:0.9rem"><strong>Please don't include medical history or health details.</strong> This form is for scheduling only and isn't a secure channel for medical information.</p>
 
   <div class="form-group">
     <label for="{{ fid }}-name">Your Name <span aria-hidden="true">*</span></label>
@@ -42,8 +43,10 @@
 
   <button class="btn-primary form-submit" type="submit">Request Appointment</button>
   <p class="form-note">
-    <!-- TODO: Wire this form to a real backend (Cloudflare Pages Function, Formspree, etc.).
-         Right now this is a static markup placeholder and submissions are not delivered. -->
-    Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>.
+    {# Submissions POST to the Cloudflare Pages Function at /functions/contact-submit.js.
+       Delivery requires RESEND_API_KEY, CONTACT_TO_EMAIL, and CONTACT_FROM_EMAIL to be
+       set in the Pages dashboard; until then the handler asks visitors to call/email. #}
+    Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>
+    or email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
   </p>
 </form>

@@ -10,7 +10,8 @@ layout: layouts/base.njk
       <span class="sep">›</span>
       {{ title }}
     </div>
-    <div class="pill"><span class="pill-text">{{ serviceMeta.category }}</span></div>
+    {% set cat = serviceCategories | findCategory(serviceMeta.category) %}
+    <div class="pill"><span class="pill-text">{{ cat.label if cat else serviceMeta.category }}</span></div>
     <h1>{{ heroHeadline | safe }}</h1>
     <p class="lede">{{ heroSub }}</p>
     <div class="btn-row">
