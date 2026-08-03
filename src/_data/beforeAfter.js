@@ -20,4 +20,20 @@ module.exports = [
     before: "/assets/before-after/case2-before.webp",
     after: "/assets/before-after/case2-after.webp",
   },
+  {
+    id: "case-3",
+    title: "Rebuilt a Worn, Damaged Smile",
+    // CONFIRM exact treatment (crowns, bridge, partial, implants?) with the office.
+    treatment: "Restored worn and damaged upper teeth into an even, natural-looking smile.",
+    before: "/assets/before-after/case3-before.webp",
+    after: "/assets/before-after/case3-after.webp",
+  },
+  {
+    id: "case-4",
+    title: "Full-Arch Implant Restoration",
+    // CONFIRM exact treatment (All-on-4 / All-on-X, upper and/or lower?) with the office.
+    treatment: "A complete new set of fixed teeth — from a collapsed bite to a full, confident smile.",
+    before: "/assets/before-after/case4-before.webp",
+    after: "/assets/before-after/case4-after.webp",
+  },
 ];
