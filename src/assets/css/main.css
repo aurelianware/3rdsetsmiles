@@ -373,7 +373,8 @@ main { padding-top: 72px; }
 
 .about-content { flex: 1 1 480px; }
 .about-tagline { color: var(--gold); font-style: italic; font-size: 1.1rem; margin-bottom: 24px; }
-.credential-list { margin-top: 14px; }
+.credential-list { margin-top: 14px; padding-left: 20px; }
+.credential-list li { margin-bottom: 10px; font-size: 0.98rem; }
 .credential-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .credential-bullet { color: var(--gold); font-size: 1.1rem; line-height: 1.5; flex-shrink: 0; }
 
