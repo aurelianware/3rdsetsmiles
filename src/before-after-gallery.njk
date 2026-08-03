@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 title: "Before & After Gallery"
-description: "Before-and-after photos from 3rd Set Smiles in Tempe, AZ. Real patient results from Dr. Matthew Phillips. Gallery is being populated as patient cases finalize and photo consent is obtained."
+description: "Before-and-after smile transformations from Dr. Matthew Phillips at 3rd Set Smiles in Tempe, AZ. Real patient results, shared with consent."
 permalink: /before-after-gallery/
 noindex: true
 breadcrumb:
@@ -12,58 +12,50 @@ breadcrumb:
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Before &amp; After Gallery</div>
-    <h1>Before &amp; After <span>Gallery</span></h1>
-    <p class="lede">Real patient transformations, published only with documented HIPAA consent.</p>
+    <h1>Real Smiles, <span>Real Transformations</span></h1>
+    <p class="lede">Every case below is Dr. Phillips&rsquo; own work &mdash; from a single restored tooth to a full smile makeover. Shared with patient consent.</p>
   </div>
 </section>
 
-<section class="section">
+<section class="section section-cream">
   <div class="container">
 
-    <!-- TODO: before/after photos — replace this placeholder gallery with real
-         patient before/after photos once HIPAA-compliant photo release forms
-         are signed. Remove the noindex meta in the front matter when ready. -->
+    <!-- CONFIRM: photos are published only with signed HIPAA photo-release
+         consent. Keep `noindex: true` in the front matter until consent for
+         public display is documented for every case shown here. -->
 
-    <div class="notice fade-in" style="max-width:760px;margin:0 auto 32px;text-align:center">
-      <strong>Our before-and-after gallery is being built.</strong>
-      <p style="margin-top:10px">We only publish patient photos with documented written consent. As cases finalize and consent forms come in, we'll add them here.</p>
-      <p style="margin-top:10px">If you'd like to talk about what implant or cosmetic results are realistic for your situation, please call us at <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>.</p>
+    <div class="ba-gallery">
+      {% for c in beforeAfter %}
+      <article class="ba-card fade-in">
+        <div class="ba-pair">
+          <figure class="ba-shot">
+            <img src="{{ c.before }}" alt="Before: {{ c.title }} — patient of Dr. Matthew Phillips" loading="lazy" width="800" height="800">
+            <figcaption class="ba-badge ba-badge-before">Before</figcaption>
+          </figure>
+          <div class="ba-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <figure class="ba-shot">
+            <img src="{{ c.after }}" alt="After: {{ c.title }} — patient of Dr. Matthew Phillips" loading="lazy" width="800" height="800">
+            <figcaption class="ba-badge ba-badge-after">After</figcaption>
+          </figure>
+        </div>
+        <div class="ba-caption">
+          <h2>{{ c.title }}</h2>
+          <p>{{ c.treatment }}</p>
+        </div>
+      </article>
+      {% endfor %}
     </div>
 
-    <div class="gallery-grid">
-      <div class="gallery-card fade-in">
-        <div class="gallery-pair">
-          <div class="gallery-before">Before</div>
-          <div class="gallery-divider"></div>
-          <div class="gallery-after">After</div>
-        </div>
-        <div class="gallery-caption">
-          <strong>Full-Arch Reconstruction (All-on-X) — Case 1</strong>
-          <span>Patient photos pending HIPAA release.</span>
-        </div>
-      </div>
-      <div class="gallery-card fade-in">
-        <div class="gallery-pair">
-          <div class="gallery-before">Before</div>
-          <div class="gallery-divider"></div>
-          <div class="gallery-after">After</div>
-        </div>
-        <div class="gallery-caption">
-          <strong>Single-Tooth Implant — Case 2</strong>
-          <span>Patient photos pending HIPAA release.</span>
-        </div>
-      </div>
-      <div class="gallery-card fade-in">
-        <div class="gallery-pair">
-          <div class="gallery-before">Before</div>
-          <div class="gallery-divider"></div>
-          <div class="gallery-after">After</div>
-        </div>
-        <div class="gallery-caption">
-          <strong>Cosmetic Veneers — Case 3</strong>
-          <span>Patient photos pending HIPAA release.</span>
-        </div>
+    <div class="ba-cta fade-in">
+      <h2>Wondering what&rsquo;s possible for your smile?</h2>
+      <p>Results vary from person to person, but the first step is the same: an honest conversation about what&rsquo;s realistic for you.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a href="/contact/" class="btn-primary">Schedule a Consultation</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark">Call {{ site.phone.display }}</a>
       </div>
     </div>
+
   </div>
 </section>
