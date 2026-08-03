@@ -8,7 +8,8 @@
     "start": "eleventy --serve --port=8080",
     "watch": "eleventy --watch",
     "debug": "DEBUG=Eleventy* eleventy",
-    "clean": "rm -rf _site"
+    "clean": "rm -rf _site",
+    "gen:assets": "node scripts/gen-assets.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"
