@@ -36,5 +36,9 @@
     "facebook": "https://www.facebook.com/profile.php?id=100083388665150"
   },
   "ogImage": "/assets/og-image.jpg",
-  "themeColor": "#0B1D3A"
+  "themeColor": "#0B1D3A",
+  "scheduling": {
+    "bookingUrl": "",
+    "provider": ""
+  }
 }

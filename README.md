@@ -148,6 +148,29 @@ this build do not (and cannot) do them:
   will be omitted from `sitemap.xml` and a `<meta name="robots" content="noindex, follow">`
   tag will be added.
 
+## Online scheduling (`/schedule/`)
+
+The **Schedule** page and every "Schedule / Request an Appointment" button on
+the site point to `/schedule/`. That page has two modes, driven by
+`scheduling.bookingUrl` in `src/_data/site.json`:
+
+* **Empty (default):** shows the appointment-request form (name, phone, email,
+  new/existing patient, preferred date, preferred time, reason). Submissions go
+  to the Cloudflare Pages Function at `functions/contact-submit.js` and are
+  emailed via Resend (see the contact-form env vars below).
+* **Set to a booking URL** (Calendly, LocalMed, NexHealth, Dentrix Online
+  Booking, etc.): the page embeds that scheduler in an iframe for instant
+  self-booking. Because the default Content-Security-Policy in `src/_headers`
+  blocks third-party frames, you must add the provider's host to a `frame-src`
+  directive there when you enable an embed, e.g.:
+
+  ```
+  Content-Security-Policy: ... frame-src https://calendly.com; ...
+  ```
+
+To turn on instant booking, paste the provider's share/embed URL into
+`scheduling.bookingUrl`, add the `frame-src` host, and rebuild.
+
 ## CONFIRM markers in the bio
 
 The `About` page contains `<!-- CONFIRM: ... -->` HTML comments next to each

@@ -17,6 +17,27 @@
     <label for="{{ fid }}-email">Email Address</label>
     <input id="{{ fid }}-email" name="email" type="email" autocomplete="email">
   </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="{{ fid }}-patient">Patient type</label>
+      <select id="{{ fid }}-patient" name="patient_type">
+        <option>New patient</option>
+        <option>Existing patient</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="{{ fid }}-date">Preferred date <span class="optional">(optional)</span></label>
+      <input id="{{ fid }}-date" name="preferred_date" type="date" autocomplete="off">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="{{ fid }}-time">Preferred time</label>
+    <select id="{{ fid }}-time" name="preferred_time">
+      <option>No preference</option>
+      <option>Morning (10am&ndash;1pm)</option>
+      <option>Afternoon (1pm&ndash;6pm)</option>
+    </select>
+  </div>
   <div class="form-group">
     <label for="{{ fid }}-reason">How can we help?</label>
     <select id="{{ fid }}-reason" name="reason">

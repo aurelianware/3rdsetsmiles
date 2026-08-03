@@ -269,6 +269,32 @@ main { padding-top: 72px; }
 }
 .contact-photo figcaption strong { color: var(--gold-light); }
 
+/* ── Scheduling ── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+.schedule-wrap { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(260px,1fr); gap: 40px; align-items: start; }
+.schedule-main { min-width: 0; }
+.schedule-side { display: flex; flex-direction: column; gap: 20px; }
+.schedule-card { background: var(--cream); border: 1px solid var(--light-gray); border-radius: var(--radius-lg); padding: 24px 22px; }
+.schedule-card h3 { color: var(--navy); margin-bottom: 8px; }
+.schedule-card p { color: var(--warm-gray); font-size: 0.95rem; }
+.schedule-embed { position: relative; width: 100%; height: 720px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--light-gray); background: white; }
+.link-arrow { display: inline-block; margin-top: 12px; color: var(--navy); font-weight: 700; font-size: 0.95rem; }
+.link-arrow:hover { color: var(--gold); }
+@media (max-width: 860px) { .schedule-wrap { grid-template-columns: 1fr; } }
+
+/* Nav "Book" CTA */
+.nav-cta {
+  background: var(--gold); color: var(--navy); padding: 9px 20px; border-radius: 999px;
+  font-weight: 700; font-size: 0.9rem; margin-left: 10px; white-space: nowrap;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--gold-light); color: var(--navy); }
+.nav-mobile-book {
+  background: var(--gold); color: var(--navy) !important; text-align: center;
+  border-radius: 999px; font-weight: 700; margin-top: 8px;
+}
+
 /* ── Services grid ── */
 .services-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;

@@ -1,0 +1,71 @@
+---
+layout: layouts/base.njk
+title: "Schedule an Appointment"
+description: "Book your visit to 3rd Set Smiles in Tempe, AZ. Request an appointment online in under a minute, or call (480) 334-2752. New patients always welcome."
+permalink: /schedule/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Schedule", url: "/schedule/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Schedule</div>
+    <h1>Schedule Your <span>Visit</span></h1>
+    <p class="lede">Booking takes about a minute. Tell us when works for you and we&rsquo;ll confirm a time &mdash; usually within one business day. New patients are always welcome.</p>
+    <div class="btn-row">
+      <a href="tel:{{ site.phone.telShort }}" class="btn-primary">Call {{ site.phone.display }}</a>
+      {% if not site.scheduling.bookingUrl %}<a href="#request" class="btn-outline">Request Online</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="schedule-wrap">
+
+      <div class="schedule-main fade-in" id="request">
+        {% if site.scheduling.bookingUrl %}
+          {# Online self-scheduling is configured — embed the live booking widget.
+             NOTE: to allow the iframe, add this provider's host to `frame-src`
+             in src/_headers (the default CSP blocks third-party frames). #}
+          <h2>Book online instantly</h2>
+          <p class="muted" style="margin-bottom:20px">Pick any open time that works for you. You&rsquo;ll get an instant confirmation.</p>
+          <div class="schedule-embed">
+            <iframe src="{{ site.scheduling.bookingUrl }}" title="Book an appointment with 3rd Set Smiles" loading="lazy" style="width:100%;height:100%;border:0"></iframe>
+          </div>
+          <p class="form-note" style="margin-top:16px">Trouble with the scheduler? Call
+            <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a> or
+            <a href="{{ site.scheduling.bookingUrl }}" rel="noopener">open the booking page in a new tab</a>.</p>
+        {% else %}
+          {% include "partials/contact-form.njk" %}
+        {% endif %}
+      </div>
+
+      <aside class="schedule-side">
+        <div class="schedule-card fade-in">
+          <h3>Prefer to talk to a person?</h3>
+          <p>We&rsquo;re a small, single-doctor practice &mdash; the team that answers is the team that will see you.</p>
+          <a href="tel:{{ site.phone.telShort }}" class="btn-primary" style="width:100%;text-align:center">Call {{ site.phone.display }}</a>
+        </div>
+
+        <div class="schedule-card fade-in">
+          <h3>Office hours</h3>
+          <p>{{ site.hours.display }}<br>
+          <span class="muted">{{ site.hours.weekend }}</span>{% if site.hours.note %}<br>
+          <span class="muted">{{ site.hours.note }}</span>{% endif %}</p>
+          <h3 style="margin-top:18px">Where to find us</h3>
+          <p>{{ site.address.street }}<br>{{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}</p>
+          <a class="link-arrow" href="https://www.google.com/maps/dir/?api=1&destination=2600+E+Southern+Ave+Suite+B1+Tempe+AZ+85282" rel="noopener">Get directions →</a>
+        </div>
+
+        <div class="schedule-card fade-in">
+          <h3>New patient?</h3>
+          <p>Here&rsquo;s what to expect at your first visit, what to bring, and how insurance works.</p>
+          <a class="link-arrow" href="/new-patients/">Read new-patient info →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>

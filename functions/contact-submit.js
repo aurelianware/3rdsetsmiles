@@ -65,6 +65,9 @@ export async function onRequestPost(context) {
   const name = (form.get("name") || "").toString().trim();
   const phone = (form.get("phone") || "").toString().trim();
   const email = (form.get("email") || "").toString().trim();
+  const patientType = (form.get("patient_type") || "").toString().trim();
+  const preferredDate = (form.get("preferred_date") || "").toString().trim();
+  const preferredTime = (form.get("preferred_time") || "").toString().trim();
   const reason = (form.get("reason") || "").toString().trim();
   const message = (form.get("message") || "").toString().trim();
 
@@ -91,6 +94,9 @@ export async function onRequestPost(context) {
     `Name: ${name}`,
     `Phone: ${phone}`,
     email ? `Email: ${email}` : null,
+    patientType ? `Patient type: ${patientType}` : null,
+    preferredDate ? `Preferred date: ${preferredDate}` : null,
+    preferredTime ? `Preferred time: ${preferredTime}` : null,
     reason ? `Reason: ${reason}` : null,
     message ? `Message: ${message}` : null,
   ].filter(Boolean).join("\n");
