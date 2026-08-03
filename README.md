@@ -87,7 +87,7 @@ this build do not (and cannot) do them:
    preserving query string.
 3. **Google Business Profile:** confirm phone is **(480) 334-2752**, remove any
    "VA Community Care Provider" or veteran-specific language, confirm hours
-   Mon–Fri 8am–5pm.
+   Mon–Fri 10am–6pm (matching `src/_data/site.json`).
 4. **Directories (Yelp, Facebook, Apple Maps, Healthgrades, Bing Places, etc.):**
    correct the phone number wherever the previous tracking-number variant
    (the incorrect `480` number ending in `0434`) still appears. NAP consistency

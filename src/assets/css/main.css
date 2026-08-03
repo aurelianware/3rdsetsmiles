@@ -234,12 +234,14 @@ main { padding-top: 72px; }
 .aox-callout p { color: rgba(255,255,255,0.7); margin-bottom: 22px; }
 .aox-callout-text { flex: 1 1 380px; }
 .aox-callout-thumb {
-  flex: 0 0 260px; height: 200px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(27,107,90,0.2), rgba(201,168,76,0.13));
-  border: 1px solid rgba(201,168,76,0.2);
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.35); font-size: 0.85rem; text-align: center; padding: 20px;
+  flex: 0 0 260px; min-height: 200px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(27,107,90,0.22), rgba(201,168,76,0.16));
+  border: 1px solid rgba(201,168,76,0.28);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center; padding: 28px 22px;
 }
+.aox-thumb-big { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+.aox-thumb-sub { font-size: 0.9rem; color: rgba(255,255,255,0.78); line-height: 1.45; }
 
 /* ── Services grid ── */
 .services-grid {
@@ -366,8 +368,17 @@ main { padding-top: 72px; }
   background: linear-gradient(160deg, var(--navy), var(--navy-light));
   display: flex; align-items: flex-end; justify-content: center;
   position: relative; overflow: hidden; color: white;
+  margin: 0;
 }
-.about-photo-info { padding: 28px 24px; text-align: center; position: relative; z-index: 2; }
+.about-photo img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 20%; z-index: 1;
+}
+.about-photo::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to top, rgba(11,29,58,0.92) 0%, rgba(11,29,58,0.55) 22%, rgba(11,29,58,0) 46%);
+}
+.about-photo-info { padding: 28px 24px; text-align: center; position: relative; z-index: 3; }
 .about-photo-info h3 { color: white; margin-bottom: 4px; }
 .about-photo-info p { color: var(--gold-light); font-size: 0.85rem; }
 
@@ -545,7 +556,7 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
 .error-wrap p { max-width: 480px; margin: 0 auto 24px; color: var(--warm-gray); }
 
 @media (max-width: 768px) {
-  .about-photo { width: 100%; min-height: 280px; }
+  .about-photo { width: 100%; min-height: 440px; }
   .stats { gap: 24px; }
   .hero, .page-hero { padding: 64px 0 48px; }
   main { padding-top: 72px; }
