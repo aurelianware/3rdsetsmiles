@@ -48,24 +48,29 @@
   {# Site CSS #}
   <link rel="stylesheet" href="/assets/css/main.css">
 
+  {# JSON-LD below. Every `| dump` value is also piped through `| safe`:
+     Nunjucks HTML-escapes by default, which would turn the quotes produced
+     by `| dump` into &quot; and make the JSON unparsable (Google:
+     "Unparsable structured data"). `| dump` already JSON-encodes each string
+     safely, so `| safe` only prevents the redundant HTML escaping. #}
   {# Centralized Dentist JSON-LD — identical on every page #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Dentist",
-    "name": {{ site.name | dump }},
-    "url": {{ site.domain | dump }},
-    "telephone": {{ site.phone.tel | dump }},
-    "email": {{ site.email | dump }},
+    "name": {{ site.name | dump | safe }},
+    "url": {{ site.domain | dump | safe }},
+    "telephone": {{ site.phone.tel | dump | safe }},
+    "email": {{ site.email | dump | safe }},
     "priceRange": "$$",
-    "image": {{ (site.ogImage | absUrl(site.domain)) | dump }},
+    "image": {{ (site.ogImage | absUrl(site.domain)) | dump | safe }},
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": {{ site.address.street | dump }},
-      "addressLocality": {{ site.address.locality | dump }},
-      "addressRegion": {{ site.address.region | dump }},
-      "postalCode": {{ site.address.postalCode | dump }},
-      "addressCountry": {{ site.address.country | dump }}
+      "streetAddress": {{ site.address.street | dump | safe }},
+      "addressLocality": {{ site.address.locality | dump | safe }},
+      "addressRegion": {{ site.address.region | dump | safe }},
+      "postalCode": {{ site.address.postalCode | dump | safe }},
+      "addressCountry": {{ site.address.country | dump | safe }}
     },
     "geo": {
       "@type": "GeoCoordinates",
@@ -79,9 +84,9 @@
       "closes": "18:00"
     }],
     "sameAs": [
-      {{ site.social.google | dump }},
-      {{ site.social.yelp | dump }},
-      {{ site.social.facebook | dump }}
+      {{ site.social.google | dump | safe }},
+      {{ site.social.yelp | dump | safe }},
+      {{ site.social.facebook | dump | safe }}
     ]
   }
   </script>
@@ -96,10 +101,10 @@
       {% for item in faq %}
       {
         "@type": "Question",
-        "name": {{ item.q | dump }},
+        "name": {{ item.q | dump | safe }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": {{ item.a | dump }}
+          "text": {{ item.a | dump | safe }}
         }
       }{% if not loop.last %},{% endif %}
       {% endfor %}
@@ -119,8 +124,8 @@
       {
         "@type": "ListItem",
         "position": {{ loop.index }},
-        "name": {{ crumb.label | dump }},
-        "item": {{ (crumb.url | absUrl(site.domain)) | dump }}
+        "name": {{ crumb.label | dump | safe }},
+        "item": {{ (crumb.url | absUrl(site.domain)) | dump | safe }}
       }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]

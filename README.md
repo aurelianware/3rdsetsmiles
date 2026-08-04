@@ -71,6 +71,18 @@ cause builds to fail with `Error: Output directory "_site" not found.`
 Cloudflare picks them up automatically. `src/robots.txt` is published at
 `/robots.txt`. The sitemap is published at `/sitemap.xml`.
 
+## DNS cutover (pointing the real domain at this site)
+
+The domain `3rdsetsmiles.com` currently resolves to the **old Vercel** site.
+To bring this Cloudflare Pages build online at the real domain, follow
+[`DNS-CUTOVER.md`](DNS-CUTOVER.md) — it inventories the live GoDaddy zone
+(including the email records that must be preserved) and gives the exact
+step-by-step. After each stage, check progress with:
+
+```bash
+npm run verify:domain   # scripts/verify-domain.sh
+```
+
 ## Manual steps Cloudflare does NOT handle for you
 
 These are out-of-band tasks the human operator must perform — this repo and

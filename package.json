@@ -9,7 +9,8 @@
     "watch": "eleventy --watch",
     "debug": "DEBUG=Eleventy* eleventy",
     "clean": "rm -rf _site",
-    "gen:assets": "node scripts/gen-assets.js"
+    "gen:assets": "node scripts/gen-assets.js",
+    "verify:domain": "sh scripts/verify-domain.sh"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"
