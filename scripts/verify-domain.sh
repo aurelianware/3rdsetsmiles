@@ -44,12 +44,21 @@ else
 fi
 
 head "www.3rdsetsmiles.com"
+# Two valid ways www can point at the Pages site:
+#   (a) zone NOT on Cloudflare: a plain CNAME -> 3rdsetsmiles.pages.dev
+#   (b) zone ON Cloudflare (our case): the Pages custom domain is proxied, so
+#       the CNAME is hidden and www flattens to Cloudflare anycast A records.
+# Accept either; the real proof (serves 200 from Cloudflare) is checked below.
 WWW_CNAME="$(doh "$WWW" CNAME)"
+WWW_A="$(doh "$WWW" A)"
 printf '        CNAME -> %s\n' "${WWW_CNAME:-<none>}"
+printf '        A     -> %s\n' "$(printf '%s' "$WWW_A" | tr '\n' ' ')"
 if printf '%s' "$WWW_CNAME" | grep -qi "$PAGES"; then
   ok "www CNAME points at $PAGES"
+elif printf '%s' "$WWW_A" | grep -qE '^(104\.|172\.6[0-9]\.|172\.7[0-9]\.|188\.114\.)'; then
+  ok "www is a proxied Cloudflare Pages custom domain (flattened to anycast)"
 else
-  bad "www CNAME does NOT point at $PAGES (found: ${WWW_CNAME:-none})"
+  bad "www does not resolve to the Pages site (CNAME: ${WWW_CNAME:-none}, A: ${WWW_A:-none})"
 fi
 
 head "Apex A record ($APEX)"
