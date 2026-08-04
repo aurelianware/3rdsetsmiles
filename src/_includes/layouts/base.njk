@@ -10,8 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="{{ site.themeColor }}">
 
-  {# Per-page title / description / canonical #}
-  <title>{{ title }} | {{ site.name }}</title>
+  {# Per-page title / description / canonical.
+     `localizeTitle` (set once for the whole services/ folder via its directory
+     data file) appends the city/region to the <title> for local-search intent,
+     e.g. "Dental Implants in Tempe, AZ | 3rd Set Smiles" — without touching the
+     visible H1, breadcrumb, or FAQ heading, which keep the clean service name. #}
+  <title>{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ page.url | absUrl(site.domain) }}">
 
@@ -58,11 +62,23 @@
   {
     "@context": "https://schema.org",
     "@type": "Dentist",
+    "@id": {{ (site.domain + "/#dentist") | dump | safe }},
     "name": {{ site.name | dump | safe }},
     "url": {{ site.domain | dump | safe }},
     "telephone": {{ site.phone.tel | dump | safe }},
     "email": {{ site.email | dump | safe }},
     "priceRange": "$$",
+    "founder": {
+      "@type": "Person",
+      "name": {{ site.dentist.name | dump | safe }},
+      "jobTitle": {{ site.dentist.credential | dump | safe }}
+    },
+    "areaServed": [
+      {%- for area in site.areaServed %}
+      {{ area | dump | safe }}{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ],
+    "hasMap": {{ ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) | dump | safe }},
     "image": {{ (site.ogImage | absUrl(site.domain)) | dump | safe }},
     "address": {
       "@type": "PostalAddress",
