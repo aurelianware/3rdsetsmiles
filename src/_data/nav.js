@@ -3,6 +3,7 @@ module.exports = {
     { label: "Home", url: "/" },
     { label: "About", url: "/about/" },
     { label: "Services", url: "/services/" },
+    { label: "Blog", url: "/blog/" },
     { label: "New Patients", url: "/new-patients/" },
     { label: "Insurance & Financing", url: "/insurance-financing/" },
     { label: "Special Offers", url: "/special-offers/" },
@@ -10,6 +11,7 @@ module.exports = {
     { label: "Contact", url: "/contact/" }
   ],
   footer: [
+    { label: "Blog", url: "/blog/" },
     { label: "Book Online", url: "/book/" },
     { label: "Testimonials", url: "/testimonials/" },
     { label: "Before & After Gallery", url: "/before-after-gallery/" },
