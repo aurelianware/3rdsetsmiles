@@ -80,10 +80,12 @@ which integrates with **Cloud Dental Office**
 (<https://github.com/aurelianware/clouddentaloffice>) — the practice's
 open-source scheduling backend.
 
-Cloud Dental Office's `SchedulingService` exposes
-`POST {base}/api/appointments` and, on success, creates the appointment
-(the service sets `Status = Scheduled`; the web note flags it as an
-unconfirmed web request so the front desk confirms before finalizing).
+The function posts to Cloud Dental Office's dedicated **public booking
+endpoint** — `POST {base}/api/public/booking-requests` — added for this
+integration ([details](https://github.com/aurelianware/clouddentaloffice)).
+That endpoint is authenticated, resolves provider/location/patient server-side,
+and records the request as `Requested` (unconfirmed) for staff to confirm — so
+the website never holds any practice identifiers.
 
 Delivery precedence in the function:
 
@@ -101,24 +103,22 @@ self-hosted and has no public URL by default):
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the SchedulingService/ApiGateway, e.g. `https://api.yourpractice.com` (the `/api/appointments` path is appended automatically). |
-| `CLOUDDENTAL_PROVIDER_ID` | recommended | GUID of the default provider (Dr. Phillips). |
-| `CLOUDDENTAL_LOCATION_ID` | recommended | GUID of the Tempe location. |
-| `CLOUDDENTAL_PATIENT_ID` | optional | GUID of a shared "Web Booking" placeholder patient for unregistered intakes (defaults to the all-zero GUID). |
-| `CLOUDDENTAL_API_KEY` | optional | Sent as `Authorization: Bearer …` if your deployment is protected. |
+| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the ApiGateway, e.g. `https://api.yourpractice.com` (the booking path is appended automatically). |
+| `CLOUDDENTAL_API_KEY` | with `CLOUDDENTAL_API_BASE` | The `PublicBooking` API key; sent as `Authorization: Bearer …`. Required by the endpoint once it's enabled. |
+| `CLOUDDENTAL_BOOKING_PATH` | optional | Override the endpoint path (default `/api/public/booking-requests`). |
 | `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
 
-Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
-to Cloud Dental Office as UTC ISO-8601. Patient contact details ride in the
-appointment `notes` field, since a public visitor has no Cloud Dental Office
-patient record. The form is intentionally PHI-free (name, phone, email,
-preferred time, non-clinical reason, short message).
+Provider, location, and the placeholder "web intake" patient are configured on
+the **Cloud Dental Office** side (`PublicBooking:*`), not here.
 
-> **Note:** Cloud Dental Office's `SchedulingService` ships with no auth and
-> permissive CORS. Before pointing `CLOUDDENTAL_API_BASE` at a public
-> deployment, put it behind the ApiGateway and require `CLOUDDENTAL_API_KEY`
-> (or an equivalent gateway auth) so the create-appointment endpoint isn't
-> open to the internet.
+Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
+to Cloud Dental Office as UTC ISO-8601. The form is intentionally PHI-free
+(name, phone, email, preferred time, non-clinical reason, short message).
+
+> **Note:** Only expose Cloud Dental Office through its ApiGateway (with TLS
+> and the `PublicBooking` API key enabled) — keep the raw `SchedulingService`
+> off the public internet. No CORS changes are needed: this function calls the
+> API server-to-server.
 
 ## DNS cutover (pointing the real domain at this site)
 

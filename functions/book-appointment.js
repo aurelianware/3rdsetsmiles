@@ -3,28 +3,29 @@
 //
 // This is the integration point with Cloud Dental Office
 // (https://github.com/aurelianware/clouddentaloffice) — an open-source dental
-// practice-management platform whose SchedulingService exposes:
+// practice-management platform. It posts to that platform's dedicated,
+// authenticated public booking endpoint:
 //
-//     POST {base}/api/appointments   →  201 Created + the new Appointment
+//     POST {base}/api/public/booking-requests   →  201 Created
 //
-// with a JSON body shaped like CreateAppointmentRequest:
-//   { patientId, providerId, locationId, startTime, endTime,
-//     procedureCodes, notes, operatory }
+// with a PublicBookingRequest body:
+//   { name, phone, email, preferredStart, durationMinutes, reason, message }
 //
-// Because Cloud Dental Office is self-hosted (no public URL by default) and a
-// website visitor has no PatientId/ProviderId/LocationId, this function is
-// driven entirely by environment variables. Configure these in the Cloudflare
-// Pages dashboard once you have a reachable Cloud Dental Office deployment:
+// The server owns provider/location/patient resolution and marks the intake as
+// "Requested" (unconfirmed), so this function sends only the visitor's contact
+// details and preferred time — no practice identifiers live in the website.
 //
-//   CLOUDDENTAL_API_BASE     — base URL of the SchedulingService or ApiGateway,
-//                              e.g. https://api.yourpractice.com  (no trailing
-//                              /api/appointments — that path is appended here).
-//   CLOUDDENTAL_PROVIDER_ID  — GUID of the default provider (Dr. Phillips).
-//   CLOUDDENTAL_LOCATION_ID  — GUID of the Tempe location.
-//   CLOUDDENTAL_PATIENT_ID   — GUID used for unregistered web intakes
-//                              (a shared "Web Booking" placeholder patient).
-//                              Optional; defaults to the all-zero GUID.
-//   CLOUDDENTAL_API_KEY       — optional; sent as `Authorization: Bearer …` if set.
+// Configure these in the Cloudflare Pages dashboard once you have a reachable
+// Cloud Dental Office deployment (fronted by its ApiGateway):
+//
+//   CLOUDDENTAL_API_BASE      — base URL of the ApiGateway, e.g.
+//                               https://api.yourpractice.com (the booking path
+//                               below is appended to it).
+//   CLOUDDENTAL_API_KEY       — the PublicBooking API key; sent as
+//                               `Authorization: Bearer …`. Required by the
+//                               endpoint once it's enabled.
+//   CLOUDDENTAL_BOOKING_PATH  — optional; defaults to
+//                               /api/public/booking-requests.
 //   CLOUDDENTAL_APPT_MINUTES  — optional appointment length in minutes (default 60).
 //
 // Regardless of the above, if Resend is configured the practice also gets an
@@ -32,7 +33,7 @@
 //   RESEND_API_KEY / CONTACT_TO_EMAIL / CONTACT_FROM_EMAIL
 //
 // Delivery precedence:
-//   1. If CLOUDDENTAL_API_BASE is set, create the appointment in Cloud Dental
+//   1. If CLOUDDENTAL_API_BASE is set, create the booking in Cloud Dental
 //      Office (and additionally email a copy when Resend is configured).
 //   2. Else if Resend is configured, email the booking request.
 //   3. Else, be honest and ask the visitor to call.
@@ -43,7 +44,7 @@
 const ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ESCAPE[c]);
 
-const ZERO_GUID = "00000000-0000-0000-0000-000000000000";
+const DEFAULT_BOOKING_PATH = "/api/public/booking-requests";
 
 function page({ title, heading, body, status = 200 }) {
   const html = `<!DOCTYPE html>
@@ -68,27 +69,28 @@ ${body}
   });
 }
 
-// Build ISO 8601 start/end timestamps from the visitor's preferred date + time.
+// Build a UTC ISO-8601 start timestamp from the visitor's preferred date + time.
 // 3rd Set Smiles is in Tempe, AZ, which does not observe daylight saving time,
-// so the offset is a fixed -07:00 (MST) year-round.
-function buildTimes(dateStr, timeStr, minutes) {
+// so the offset is a fixed -07:00 (MST) year-round. The server derives the end
+// time from the appointment duration.
+function buildPreferredStart(dateStr, timeStr) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
   if (!/^\d{2}:\d{2}$/.test(timeStr)) return null;
   const start = new Date(`${dateStr}T${timeStr}:00-07:00`);
   if (Number.isNaN(start.getTime())) return null;
-  const end = new Date(start.getTime() + minutes * 60000);
-  return { startTime: start.toISOString(), endTime: end.toISOString() };
+  return start.toISOString();
 }
 
-async function createInCloudDental(env, appt) {
+async function createInCloudDental(env, booking) {
   const base = env.CLOUDDENTAL_API_BASE.replace(/\/+$/, "");
+  const path = env.CLOUDDENTAL_BOOKING_PATH || DEFAULT_BOOKING_PATH;
   const headers = { "Content-Type": "application/json" };
   if (env.CLOUDDENTAL_API_KEY) headers.Authorization = `Bearer ${env.CLOUDDENTAL_API_KEY}`;
 
-  const res = await fetch(`${base}/api/appointments`, {
+  const res = await fetch(`${base}${path.startsWith("/") ? "" : "/"}${path}`, {
     method: "POST",
     headers,
-    body: JSON.stringify(appt),
+    body: JSON.stringify(booking),
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
@@ -183,8 +185,8 @@ export async function onRequestPost(context) {
   let cloudDentalOk = false;
 
   if (hasCloudDental) {
-    const times = buildTimes(date, time, Number(env.CLOUDDENTAL_APPT_MINUTES) || 60);
-    if (!times) {
+    const preferredStart = buildPreferredStart(date, time);
+    if (!preferredStart) {
       return page({
         title: "Check the date and time",
         heading: "That date or time looks off",
@@ -193,19 +195,18 @@ export async function onRequestPost(context) {
       });
     }
 
-    const appt = {
-      patientId: (env.CLOUDDENTAL_PATIENT_ID || ZERO_GUID),
-      providerId: (env.CLOUDDENTAL_PROVIDER_ID || ZERO_GUID),
-      locationId: (env.CLOUDDENTAL_LOCATION_ID || ZERO_GUID),
-      startTime: times.startTime,
-      endTime: times.endTime,
-      procedureCodes: null,
-      notes,
-      operatory: null,
+    const booking = {
+      name,
+      phone,
+      email: email || null,
+      preferredStart,
+      durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
+      reason: reason || null,
+      message: message || null,
     };
 
     try {
-      await createInCloudDental(env, appt);
+      await createInCloudDental(env, booking);
       cloudDentalOk = true;
     } catch (e) {
       // Fall through: a configured Resend path below still records the request.
