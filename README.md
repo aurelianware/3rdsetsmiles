@@ -127,10 +127,32 @@ within office hours (10:00 AM–5:00 PM start) — so email-only mode can't acce
 weekend/past/out-of-hours requests either. The form is intentionally PHI-free
 (name, phone, email, preferred time, non-clinical reason, short message).
 
-> **Note:** Only expose Cloud Dental Office through its ApiGateway (with TLS
-> and the `PublicBooking` API key enabled) — keep the raw `SchedulingService`
-> off the public internet. No CORS changes are needed: this function calls the
-> API server-to-server.
+> **Note:** Only the Cloud Dental Office **IntakeService** should face the
+> internet (with TLS + the `PublicBooking` API key). It has no database or PHI —
+> it publishes booking events to a private message bus. Keep `SchedulingService`,
+> the API gateway, and all other services on the private network. No CORS changes
+> are needed: this function calls the IntakeService server-to-server.
+
+### Rollout order (safe to launch before Cloud Dental Office is ready)
+
+The site only calls Cloud Dental Office when **both** `CLOUDDENTAL_API_BASE` and
+`CLOUDDENTAL_API_KEY` are set. Until then `/book/` behaves exactly like the
+contact form. So you can ship the page first and wire the backend later:
+
+1. **Deploy with the `CLOUDDENTAL_*` variables unset.** `/book/` and the
+   "Book Online" links go live and route bookings through email.
+2. **Set `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL`** (the same
+   variables the contact form uses) so those interim bookings are actually
+   delivered rather than shown a "please call" page.
+3. **Build, deploy, and verify Cloud Dental Office** (IntakeService + Service Bus
+   + SchedulingService) at your own pace — nothing on the site depends on it yet.
+4. **Set `CLOUDDENTAL_API_BASE` + `CLOUDDENTAL_API_KEY`** (pointing at the
+   deployed IntakeService) and **redeploy the Pages project.** Bookings now flow
+   to the message bus, with email kept as the fallback/copy.
+
+Env-var changes take effect on the next Pages deploy, so steps 1 and 4 are
+config changes you can flip (or roll back) without touching code. A Cloud Dental
+Office outage after step 4 still can't break the page — see **Resilience** above.
 
 ## DNS cutover (pointing the real domain at this site)
 
