@@ -261,8 +261,8 @@ export async function onRequestPost(context) {
   if (hasEmail) {
     try {
       const status = hasCloudDental
-        ? (cloudDentalOk ? "Created in Cloud Dental Office." : "NOT created in Cloud Dental Office — please book manually.")
-        : "Cloud Dental Office not connected — please book manually.";
+        ? (cloudDentalOk ? "Accepted by Cloud Dental Office for staff review — not yet confirmed." : "NOT accepted by Cloud Dental Office — please follow up manually.")
+        : "Cloud Dental Office not connected — please follow up manually.";
       await emailBooking(env, {
         subject: `New online booking — ${name} (${prettyWhen})`,
         text: `New online booking from the 3rd Set Smiles website:\n\n${notes}\n\nScheduling system: ${status}\n`,

@@ -54,3 +54,23 @@ test("uses Resend fallback when Cloud Dental intake fails", async () => {
     assert.equal(resendCalled, true);
   } finally { globalThis.fetch = originalFetch; }
 });
+
+test("practice email says accepted for review rather than created or confirmed", async () => {
+  const originalFetch = globalThis.fetch;
+  let emailBody;
+  globalThis.fetch = async (url, init) => {
+    if (String(url).includes("api.resend.com")) {
+      emailBody = JSON.parse(init.body);
+      return new Response("{}", { status: 200 });
+    }
+    return new Response(JSON.stringify({ status: "requested" }), { status: 202, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    await onRequestPost({ request: request("Existing"), env: {
+      CLOUDDENTAL_API_BASE: "https://intake.test", CLOUDDENTAL_API_KEY: "secret",
+      RESEND_API_KEY: "resend", CONTACT_TO_EMAIL: "office@example.test", CONTACT_FROM_EMAIL: "web@example.test"
+    } });
+    assert.match(emailBody.text, /accepted by Cloud Dental Office for staff review/i);
+    assert.doesNotMatch(emailBody.text, /created in Cloud Dental Office/i);
+  } finally { globalThis.fetch = originalFetch; }
+});
