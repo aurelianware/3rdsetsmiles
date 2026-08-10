@@ -23,11 +23,6 @@ relatedServiceLinks:
   - { label: "All-on-4 / All-on-X service overview", url: "/services/all-on-4/" }
   - { label: "Implant-supported dentures", url: "/services/implant-supported-dentures/" }
   - { label: "Dentures and partials", url: "/services/dentures/" }
-clinicalReviewRequired:
-  - "Any claim about typical in-office implant counts by arch and when exceptions are common."
-  - "Any statement implying one option is clinically superior for all patients."
-  - "How this practice currently sequences treatment when infection, bone loss, or systemic health risks are present."
-  - "Which maintenance intervals and prosthesis replacement timelines should be presented as standard in this office."
 ---
 
 If you are choosing between fixed full-arch teeth and removable implant-supported dentures, the right answer depends on your goals, anatomy, health factors, and budget.

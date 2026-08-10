@@ -23,11 +23,6 @@ relatedServiceLinks:
   - { label: "All-on-4 / All-on-X service overview", url: "/services/all-on-4/" }
   - { label: "Implant-supported dentures", url: "/services/implant-supported-dentures/" }
   - { label: "Tooth extractions", url: "/services/tooth-extractions/" }
-clinicalReviewRequired:
-  - "Any claim about how often same-day temporary teeth are possible in this office."
-  - "Which health conditions should delay surgery versus proceed with precautions."
-  - "Whether this practice currently offers advanced alternatives (for example, grafting pathways) in-house or by referral."
-  - "Any case-specific timeline estimates beyond the general ranges listed below."
 ---
 
 All-on-4 (also called All-on-X when more than four implants are used) can be life-changing for the right patient. It can also be the wrong fit for a patient who needs a different sequence of care first.
