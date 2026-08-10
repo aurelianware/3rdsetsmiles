@@ -71,6 +71,55 @@ cause builds to fail with `Error: Output directory "_site" not found.`
 Cloudflare picks them up automatically. `src/robots.txt` is published at
 `/robots.txt`. The sitemap is published at `/sitemap.xml`.
 
+## Online booking & Cloud Dental Office integration
+
+The `/book/` page ([`src/book.njk`](src/book.njk)) lets patients request an
+appointment by picking a preferred date and time. It POSTs to the Cloudflare
+Pages Function [`functions/book-appointment.js`](functions/book-appointment.js),
+which integrates with **Cloud Dental Office**
+(<https://github.com/aurelianware/clouddentaloffice>) — the practice's
+open-source scheduling backend.
+
+Cloud Dental Office's `SchedulingService` exposes
+`POST {base}/api/appointments` and, on success, creates the appointment
+(the service sets `Status = Scheduled`; the web note flags it as an
+unconfirmed web request so the front desk confirms before finalizing).
+
+Delivery precedence in the function:
+
+1. **Cloud Dental Office** — used when `CLOUDDENTAL_API_BASE` is set. Booking
+   requests are created directly in the scheduler.
+2. **Email (Resend)** — used as the delivery path when Cloud Dental Office
+   isn't configured, and as an additional copy when it is. Reuses the same
+   `RESEND_*`/`CONTACT_*` variables as the contact form.
+3. **Honest fallback** — if neither is configured, the visitor is asked to
+   call, rather than the request being dropped.
+
+Configure these in **Cloudflare Pages → Settings → Environment variables**
+once Cloud Dental Office is reachable from the public internet (it is
+self-hosted and has no public URL by default):
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the SchedulingService/ApiGateway, e.g. `https://api.yourpractice.com` (the `/api/appointments` path is appended automatically). |
+| `CLOUDDENTAL_PROVIDER_ID` | recommended | GUID of the default provider (Dr. Phillips). |
+| `CLOUDDENTAL_LOCATION_ID` | recommended | GUID of the Tempe location. |
+| `CLOUDDENTAL_PATIENT_ID` | optional | GUID of a shared "Web Booking" placeholder patient for unregistered intakes (defaults to the all-zero GUID). |
+| `CLOUDDENTAL_API_KEY` | optional | Sent as `Authorization: Bearer …` if your deployment is protected. |
+| `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
+
+Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
+to Cloud Dental Office as UTC ISO-8601. Patient contact details ride in the
+appointment `notes` field, since a public visitor has no Cloud Dental Office
+patient record. The form is intentionally PHI-free (name, phone, email,
+preferred time, non-clinical reason, short message).
+
+> **Note:** Cloud Dental Office's `SchedulingService` ships with no auth and
+> permissive CORS. Before pointing `CLOUDDENTAL_API_BASE` at a public
+> deployment, put it behind the ApiGateway and require `CLOUDDENTAL_API_KEY`
+> (or an equivalent gateway auth) so the create-appointment endpoint isn't
+> open to the internet.
+
 ## DNS cutover (pointing the real domain at this site)
 
 The domain `3rdsetsmiles.com` currently resolves to the **old Vercel** site.

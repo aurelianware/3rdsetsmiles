@@ -10,6 +10,7 @@ module.exports = {
     { label: "Contact", url: "/contact/" }
   ],
   footer: [
+    { label: "Book Online", url: "/book/" },
     { label: "Testimonials", url: "/testimonials/" },
     { label: "Before & After Gallery", url: "/before-after-gallery/" },
     { label: "Privacy", url: "/privacy/" },
