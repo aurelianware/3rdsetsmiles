@@ -147,6 +147,24 @@ p, li, label, span, div { line-height: 1.7; }
   .nav-mobile-menu.open { display: flex !important; }
 }
 
+/* Sticky mobile tap-to-call bar. Hidden on desktop; the body reserves space so
+   it never covers the footer. */
+.mobile-call-bar { display: none; }
+@media (max-width: 1000px) {
+  .mobile-call-bar {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+    background: var(--gold); color: var(--navy);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.01em;
+    padding: 14px 16px; text-decoration: none;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.18);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  .mobile-call-bar:active { background: var(--gold-light); }
+  body { padding-bottom: 60px; }
+}
+
 /* Push content below fixed nav */
 main { padding-top: 72px; }
 
