@@ -103,7 +103,23 @@
       {{ site.social.google | dump | safe }},
       {{ site.social.yelp | dump | safe }},
       {{ site.social.facebook | dump | safe }}
-    ]
+    ],
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "name": "Book a dental appointment",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": {{ (site.domain + "/book/") | dump | safe }},
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      },
+      "result": {
+        "@type": "Reservation",
+        "name": "Dental appointment"
+      }
+    }
   }
   </script>
 

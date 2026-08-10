@@ -71,6 +71,89 @@ cause builds to fail with `Error: Output directory "_site" not found.`
 Cloudflare picks them up automatically. `src/robots.txt` is published at
 `/robots.txt`. The sitemap is published at `/sitemap.xml`.
 
+## Online booking & Cloud Dental Office integration
+
+The `/book/` page ([`src/book.njk`](src/book.njk)) lets patients request an
+appointment by picking a preferred date and time. It POSTs to the Cloudflare
+Pages Function [`functions/book-appointment.js`](functions/book-appointment.js),
+which integrates with **Cloud Dental Office**
+(<https://github.com/aurelianware/clouddentaloffice>) — the practice's
+open-source scheduling backend.
+
+The function posts to Cloud Dental Office's dedicated **public IntakeService** —
+`POST {base}/api/public/booking-requests` — added for this integration
+([details](https://github.com/aurelianware/clouddentaloffice)). That service is
+the only internet-facing component: it authenticates the request, validates it,
+and publishes an event for a private consumer to turn into a `Requested`
+(unconfirmed) appointment. It has no database or PHI access, and the website
+never holds any practice identifiers. A successful submit returns `202 Accepted`.
+
+Delivery precedence in the function:
+
+1. **Cloud Dental Office** — used when `CLOUDDENTAL_API_BASE` is set. Booking
+   requests are created directly in the scheduler.
+2. **Email (Resend)** — used as the delivery path when Cloud Dental Office
+   isn't configured, and as an additional copy when it is. Reuses the same
+   `RESEND_*`/`CONTACT_*` variables as the contact form.
+3. **Honest fallback** — if neither is configured, the visitor is asked to
+   call, rather than the request being dropped.
+
+**Resilience:** a Cloud Dental Office outage never breaks the page. If the
+SchedulingService is down, the IntakeService still accepts the booking and it
+queues on the message bus. If the IntakeService/bus itself is unreachable, the
+request times out fast (`CLOUDDENTAL_TIMEOUT_MS`) and the email path takes over.
+**Configure `RESEND_*` so there is always a delivery path** — then no single
+backend outage can leave a visitor without a confirmation.
+
+Configure these in **Cloudflare Pages → Settings → Environment variables**
+once Cloud Dental Office is reachable from the public internet (it is
+self-hosted and has no public URL by default):
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the public IntakeService, e.g. `https://book.yourpractice.com` (the booking path is appended automatically). |
+| `CLOUDDENTAL_API_KEY` | with `CLOUDDENTAL_API_BASE` | The `PublicBooking` API key; sent as `Authorization: Bearer …`. Required by the endpoint once it's enabled. |
+| `CLOUDDENTAL_BOOKING_PATH` | optional | Override the endpoint path (default `/api/public/booking-requests`). |
+| `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
+| `CLOUDDENTAL_TIMEOUT_MS` | optional | Request timeout in ms (default `8000`). If the IntakeService is unreachable, the request aborts and the email fallback takes over. |
+
+Provider, location, and the placeholder "web intake" patient are configured on
+the **Cloud Dental Office** side (`PublicBooking:*`), not here.
+
+Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
+to Cloud Dental Office as UTC ISO-8601. The Function validates the requested
+slot server-side on **every** delivery path — it must be a future weekday
+within office hours (10:00 AM–5:00 PM start) — so email-only mode can't accept
+weekend/past/out-of-hours requests either. The form is intentionally PHI-free
+(name, phone, email, preferred time, non-clinical reason, short message).
+
+> **Note:** Only the Cloud Dental Office **IntakeService** should face the
+> internet (with TLS + the `PublicBooking` API key). It has no database or PHI —
+> it publishes booking events to a private message bus. Keep `SchedulingService`,
+> the API gateway, and all other services on the private network. No CORS changes
+> are needed: this function calls the IntakeService server-to-server.
+
+### Rollout order (safe to launch before Cloud Dental Office is ready)
+
+The site only calls Cloud Dental Office when **both** `CLOUDDENTAL_API_BASE` and
+`CLOUDDENTAL_API_KEY` are set. Until then `/book/` behaves exactly like the
+contact form. So you can ship the page first and wire the backend later:
+
+1. **Deploy with the `CLOUDDENTAL_*` variables unset.** `/book/` and the
+   "Book Online" links go live and route bookings through email.
+2. **Set `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL`** (the same
+   variables the contact form uses) so those interim bookings are actually
+   delivered rather than shown a "please call" page.
+3. **Build, deploy, and verify Cloud Dental Office** (IntakeService + Service Bus
+   + SchedulingService) at your own pace — nothing on the site depends on it yet.
+4. **Set `CLOUDDENTAL_API_BASE` + `CLOUDDENTAL_API_KEY`** (pointing at the
+   deployed IntakeService) and **redeploy the Pages project.** Bookings now flow
+   to the message bus, with email kept as the fallback/copy.
+
+Env-var changes take effect on the next Pages deploy, so steps 1 and 4 are
+config changes you can flip (or roll back) without touching code. A Cloud Dental
+Office outage after step 4 still can't break the page — see **Resilience** above.
+
 ## DNS cutover (pointing the real domain at this site)
 
 The domain `3rdsetsmiles.com` currently resolves to the **old Vercel** site.

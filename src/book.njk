@@ -1,0 +1,140 @@
+---
+layout: layouts/base.njk
+title: "Book an Appointment Online"
+description: "Book your dental appointment at 3rd Set Smiles in Tempe, AZ. Pick a preferred date and time online and we'll confirm within one business day. Or call (480) 334-2752."
+permalink: /book/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Book Online", url: "/book/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Book Online</div>
+    <h1>Book an <span>Appointment</span></h1>
+    <p class="lede">Pick a preferred date and time and we'll confirm within one business day. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)">{{ site.phone.display }}</a>.</p>
+  </div>
+</section>
+
+<section class="section contact-section">
+  <div class="container">
+    <div class="contact-wrap">
+
+      <div class="contact-info">
+        <div class="fade-in">
+          <h2>Online Booking</h2>
+          <p>Choose the day and time that work best for you. Because Dr. Phillips runs a single-doctor practice, every request is reviewed by our team — we'll reach out to confirm your exact appointment time.</p>
+        </div>
+        <div class="fade-in">
+          <div class="contact-detail">
+            <div class="contact-detail-label">Office Hours</div>
+            <div class="contact-detail-value">{{ site.hours.display }}<br>{{ site.hours.weekend }}</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Location</div>
+            <div class="contact-detail-value">{{ site.address.full }}</div>
+          </div>
+        </div>
+        <div class="fade-in" style="margin-top:24px">
+          <p style="color:rgba(255,255,255,0.6);font-size:0.92rem">Not ready to pick a time? You can <a href="/contact/" style="color:var(--gold-light)">send a general appointment request</a> instead.</p>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap fade-in">
+        <form class="contact-form" id="book" method="POST" action="/book-appointment" novalidate>
+          <h3>Request Your Appointment</h3>
+          <p class="form-intro">Tell us who you are and when you'd like to come in. We'll confirm the exact time by phone or email.</p>
+          <p class="form-intro" style="font-size:0.9rem"><strong>Please don't include medical history or health details.</strong> This form is for scheduling only and isn't a secure channel for medical information.</p>
+
+          <div class="form-group">
+            <label for="book-name">Your Name <span aria-hidden="true">*</span></label>
+            <input id="book-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="book-phone">Phone Number <span aria-hidden="true">*</span></label>
+            <input id="book-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="form-group">
+            <label for="book-email">Email Address</label>
+            <input id="book-email" name="email" type="email" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="book-date">Preferred Date <span aria-hidden="true">*</span></label>
+            <input id="book-date" name="date" type="date" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="book-time">Preferred Time <span aria-hidden="true">*</span></label>
+            <select id="book-time" name="time" required>
+              <option value="10:00">10:00 AM</option>
+              <option value="10:30">10:30 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="11:30">11:30 AM</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="12:30">12:30 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="13:30">1:30 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="14:30">2:30 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="15:30">3:30 PM</option>
+              <option value="16:00">4:00 PM</option>
+              <option value="16:30">4:30 PM</option>
+              <option value="17:00">5:00 PM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="book-reason">What's this visit for?</label>
+            <select id="book-reason" name="reason">
+              <option>New patient exam &amp; cleaning</option>
+              <option>Dental implants consultation</option>
+              <option>All-on-4 / Full-arch consultation</option>
+              <option>Cosmetic dentistry (veneers, whitening)</option>
+              <option>Clear aligners</option>
+              <option>Crowns, bridges, or fillings</option>
+              <option>Emergency / pain</option>
+              <option>Insurance question</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="book-message">Anything else? <span class="optional">(optional)</span></label>
+            <textarea id="book-message" name="message" rows="3" placeholder="A good time to reach you, a second choice of day, etc."></textarea>
+          </div>
+
+          {# Honeypot for spam bots — real users won't fill this #}
+          <div class="form-honeypot" aria-hidden="true">
+            <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <button class="btn-primary form-submit" type="submit">Request Appointment</button>
+          <p class="form-note">
+            {# Submissions POST to the Cloudflare Pages Function at /functions/book-appointment.js,
+               which creates the appointment in Cloud Dental Office when CLOUDDENTAL_API_BASE is
+               configured, and otherwise emails the request (or asks the visitor to call). #}
+            We're closed weekends. Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>
+            or email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Prevent picking a date in the past; default to today. Progressive
+  // enhancement only — the server also validates the submitted date.
+  (function () {
+    var d = document.getElementById("book-date");
+    if (!d) return;
+    var today = new Date();
+    var off = today.getTimezoneOffset() * 60000;
+    var iso = new Date(today.getTime() - off).toISOString().slice(0, 10);
+    d.min = iso;
+    if (!d.value) d.value = iso;
+  })();
+</script>
