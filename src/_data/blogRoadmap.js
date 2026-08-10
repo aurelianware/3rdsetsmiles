@@ -12,7 +12,7 @@ module.exports = [
     slug: "all-on-4-vs-implant-supported-dentures",
     category: "implant-education",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "What is the difference between fixed teeth and snap-on dentures?",
   },
   {
