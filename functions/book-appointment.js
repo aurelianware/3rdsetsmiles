@@ -6,14 +6,13 @@
 // practice-management platform. It posts to that platform's dedicated,
 // authenticated public booking endpoint:
 //
-//     POST {base}/api/public/booking-requests   →  201 Created
+//     POST {base}/api/public/booking-requests   →  202 Accepted
 //
 // with a PublicBookingRequest body:
-//   { name, phone, email, preferredStart, durationMinutes, reason, message }
+//   { name, phone, email, patientRelationship, preferredStart, durationMinutes, reason, message }
 //
-// The server owns provider/location/patient resolution and marks the intake as
-// "Requested" (unconfirmed), so this function sends only the visitor's contact
-// details and preferred time — no practice identifiers live in the website.
+// Cloud Dental Office staff own patient matching and appointment approval. This
+// function sends no patient, provider, location, or appointment identifiers.
 //
 // Configure these in the Cloudflare Pages dashboard once you have a reachable
 // Cloud Dental Office deployment (fronted by its ApiGateway):
@@ -36,13 +35,14 @@
 //   RESEND_API_KEY / CONTACT_TO_EMAIL / CONTACT_FROM_EMAIL
 //
 // Delivery precedence:
-//   1. If CLOUDDENTAL_API_BASE is set, create the booking in Cloud Dental
+//   1. If CLOUDDENTAL_API_BASE is set, create the booking request in Cloud Dental
 //      Office (and additionally email a copy when Resend is configured).
 //   2. Else if Resend is configured, email the booking request.
 //   3. Else, be honest and ask the visitor to call.
 //
-// Keep this form PHI-free — it collects only name, phone, email, a preferred
-// date/time, a non-clinical reason, and a short message.
+// Keep the intake data-minimized: it collects only the information necessary
+// for staff to review an appointment request and has no access to patient or
+// clinical systems.
 
 const ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ESCAPE[c]);
@@ -180,16 +180,17 @@ export async function onRequestPost(context) {
   const name = (form.get("name") || "").toString().trim();
   const phone = (form.get("phone") || "").toString().trim();
   const email = (form.get("email") || "").toString().trim();
+  const patientRelationship = (form.get("patientRelationship") || "").toString().trim();
   const reason = (form.get("reason") || "").toString().trim();
   const date = (form.get("date") || "").toString().trim();
   const time = (form.get("time") || "").toString().trim();
   const message = (form.get("message") || "").toString().trim();
 
-  if (!name || !phone || !date || !time) {
+  if (!name || !phone || !date || !time || !["New", "Existing"].includes(patientRelationship)) {
     return page({
       title: "Missing information",
       heading: "We need a little more",
-      body: `<p>Please include your name, a phone number, and a preferred date and time, then try again. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      body: `<p>Please include your name, phone number, whether you've visited us before, and a preferred date and time, then try again. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
       status: 400,
     });
   }
@@ -212,6 +213,7 @@ export async function onRequestPost(context) {
     `Name: ${name}`,
     `Phone: ${phone}`,
     email ? `Email: ${email}` : null,
+    `Patient relationship: ${patientRelationship}`,
     reason ? `Reason: ${reason}` : null,
     `Preferred: ${prettyWhen} (America/Phoenix)`,
     message ? `Message: ${message}` : null,
@@ -239,6 +241,7 @@ export async function onRequestPost(context) {
       name,
       phone,
       email: email || null,
+      patientRelationship,
       preferredStart: when.startIso,
       durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
       reason: reason || null,
@@ -258,16 +261,16 @@ export async function onRequestPost(context) {
   if (hasEmail) {
     try {
       const status = hasCloudDental
-        ? (cloudDentalOk ? "Created in Cloud Dental Office." : "NOT created in Cloud Dental Office — please book manually.")
-        : "Cloud Dental Office not connected — please book manually.";
+        ? (cloudDentalOk ? "Accepted by Cloud Dental Office for staff review — not yet confirmed." : "NOT accepted by Cloud Dental Office — please follow up manually.")
+        : "Cloud Dental Office not connected — please follow up manually.";
       await emailBooking(env, {
         subject: `New online booking — ${name} (${prettyWhen})`,
         text: `New online booking from the 3rd Set Smiles website:\n\n${notes}\n\nScheduling system: ${status}\n`,
         replyTo: email,
       });
-      // A delivered email is a durable record of the request, so when Cloud
-      // Dental Office isn't the delivery path, treat email success as success.
-      if (!hasCloudDental) cloudDentalOk = true;
+      // A delivered email is a durable fallback record of the request even when
+      // Cloud Dental Office was configured but temporarily unavailable.
+      cloudDentalOk = true;
     } catch (e) {
       // Email failed. If Cloud Dental also failed (or wasn't configured), report failure.
       if (!cloudDentalOk) {
@@ -284,8 +287,8 @@ export async function onRequestPost(context) {
   if (cloudDentalOk) {
     return page({
       title: "Booking requested",
-      heading: "You're on the list — we'll confirm shortly",
-      body: `<p>Thanks, ${esc(name)}. We've received your request for <strong>${esc(prettyWhen)}</strong> and will call or email to confirm the exact time within one business day. If it's urgent, call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      heading: "We've received your appointment request",
+      body: `<p>Thanks, ${esc(name)}. Our team will review the requested time of <strong>${esc(prettyWhen)}</strong> and contact you to confirm your appointment within one business day. If it's urgent, call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
     });
   }
 
