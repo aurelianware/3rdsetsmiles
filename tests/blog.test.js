@@ -24,6 +24,7 @@ test("blog routes are generated", () => {
   ensureBuild();
   assert.equal(existsSync(path.join(repoRoot, "_site", "blog", "index.html")), true);
   assert.equal(existsSync(path.join(repoRoot, "_site", "blog", "all-on-4-candidacy", "index.html")), true);
+  assert.equal(existsSync(path.join(repoRoot, "_site", "blog", "all-on-4-vs-implant-supported-dentures", "index.html")), true);
   assert.equal(existsSync(path.join(repoRoot, "_site", "blog", "authors", "dr-matthew-phillips", "index.html")), true);
 });
 
@@ -50,4 +51,5 @@ test("sitemap includes blog index and first article", () => {
   const xml = readSite("sitemap.xml");
   assert.match(xml, /<loc>https:\/\/www\.3rdsetsmiles\.com\/blog\/</);
   assert.match(xml, /<loc>https:\/\/www\.3rdsetsmiles\.com\/blog\/all-on-4-candidacy\/<\/loc>/);
+  assert.match(xml, /<loc>https:\/\/www\.3rdsetsmiles\.com\/blog\/all-on-4-vs-implant-supported-dentures\/<\/loc>/);
 });

@@ -21,6 +21,19 @@ module.exports = function (eleventyConfig) {
     return d.toISOString().slice(0, 10);
   });
 
+  eleventyConfig.addFilter("isoDateTime", function (value) {
+    const d = value ? new Date(value) : new Date();
+    return d.toLocaleString("sv-SE", {
+      timeZone: "America/Phoenix",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).replace(" ", "T") + "-07:00";
+  });
+
   eleventyConfig.addFilter("humanDate", function (value) {
     const d = value ? new Date(value) : new Date();
     return d.toLocaleDateString("en-US", {

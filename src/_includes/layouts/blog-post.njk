@@ -20,7 +20,7 @@ ogType: article
           <a href="{{ author.bioUrl }}">{{ author.name }}</a>
           {% if author.credential %}&middot; {{ author.credential }}{% endif %}
         </p>
-        <p>Published {{ page.date | humanDate }}{% if updatedValue %} &middot; Updated {{ updatedValue | humanDate }}{% endif %}</p>
+        <p>Published {{ page.date | humanDate }}{% if dateUpdated %} &middot; Updated {{ dateUpdated | humanDate }}{% endif %}</p>
         {% if reviewerName %}
         <p>Clinical reviewer: {{ reviewerName }}{% if reviewStatus %} &middot; {{ reviewStatus }}{% endif %}</p>
         {% endif %}
@@ -100,8 +100,8 @@ ogType: article
   "description": description,
   "mainEntityOfPage": page.url | absUrl(site.domain),
   "url": page.url | absUrl(site.domain),
-  "datePublished": (page.date | isoDate) + "T09:00:00-07:00",
-  "dateModified": (updatedValue | isoDate) + "T09:00:00-07:00",
+  "datePublished": page.date | isoDateTime,
+  "dateModified": (dateUpdated or page.date) | isoDateTime,
   "author": {
     "@type": "Person",
     "name": author.name,
