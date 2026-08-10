@@ -73,8 +73,9 @@ Cloudflare picks them up automatically. `src/robots.txt` is published at
 
 ## Online booking & Cloud Dental Office integration
 
-The `/book/` page ([`src/book.njk`](src/book.njk)) lets patients request an
-appointment by picking a preferred date and time. It POSTs to the Cloudflare
+The `/book/` page ([`src/book.njk`](src/book.njk)) lets visitors submit an
+appointment request by picking a preferred date and time and indicating whether
+they have visited the practice before. It POSTs to the Cloudflare
 Pages Function [`functions/book-appointment.js`](functions/book-appointment.js),
 which integrates with **Cloud Dental Office**
 (<https://github.com/aurelianware/clouddentaloffice>) — the practice's
@@ -84,14 +85,14 @@ The function posts to Cloud Dental Office's dedicated **public IntakeService** �
 `POST {base}/api/public/booking-requests` — added for this integration
 ([details](https://github.com/aurelianware/clouddentaloffice)). That service is
 the only internet-facing component: it authenticates the request, validates it,
-and publishes an event for a private consumer to turn into a `Requested`
-(unconfirmed) appointment. It has no database or PHI access, and the website
+and publishes an event for a private consumer to persist as a staff-reviewable
+`BookingRequest`. It has no database or read access to patient or clinical records, and the website
 never holds any practice identifiers. A successful submit returns `202 Accepted`.
 
 Delivery precedence in the function:
 
 1. **Cloud Dental Office** — used when `CLOUDDENTAL_API_BASE` is set. Booking
-   requests are created directly in the scheduler.
+   requests are delivered directly to the staff work queue.
 2. **Email (Resend)** — used as the delivery path when Cloud Dental Office
    isn't configured, and as an additional copy when it is. Reuses the same
    `RESEND_*`/`CONTACT_*` variables as the contact form.
@@ -117,18 +118,19 @@ self-hosted and has no public URL by default):
 | `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
 | `CLOUDDENTAL_TIMEOUT_MS` | optional | Request timeout in ms (default `8000`). If the IntakeService is unreachable, the request aborts and the email fallback takes over. |
 
-Provider, location, and the placeholder "web intake" patient are configured on
-the **Cloud Dental Office** side (`PublicBooking:*`), not here.
+Patient matching, provider/location selection, availability review, and approval
+all happen in **Cloud Dental Office**, never on the public website.
 
 Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
 to Cloud Dental Office as UTC ISO-8601. The Function validates the requested
 slot server-side on **every** delivery path — it must be a future weekday
 within office hours (10:00 AM–5:00 PM start) — so email-only mode can't accept
-weekend/past/out-of-hours requests either. The form is intentionally PHI-free
-(name, phone, email, preferred time, non-clinical reason, short message).
+weekend/past/out-of-hours requests either. The form is intentionally
+data-minimized to appointment-intake contact and preference information.
 
 > **Note:** Only the Cloud Dental Office **IntakeService** should face the
-> internet (with TLS + the `PublicBooking` API key). It has no database or PHI —
+> internet (with TLS + the `PublicBooking` API key). It has no database or read
+> access to patient/clinical systems —
 > it publishes booking events to a private message bus. Keep `SchedulingService`,
 > the API gateway, and all other services on the private network. No CORS changes
 > are needed: this function calls the IntakeService server-to-server.
