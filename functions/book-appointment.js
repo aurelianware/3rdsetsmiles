@@ -27,6 +27,9 @@
 //   CLOUDDENTAL_BOOKING_PATH  — optional; defaults to
 //                               /api/public/booking-requests.
 //   CLOUDDENTAL_APPT_MINUTES  — optional appointment length in minutes (default 60).
+//   CLOUDDENTAL_TIMEOUT_MS    — optional request timeout in ms (default 8000). If
+//                               IntakeService is unreachable, the request aborts
+//                               and the email fallback (if configured) takes over.
 //
 // Regardless of the above, if Resend is configured the practice also gets an
 // email copy of every booking so nothing is missed:
@@ -110,16 +113,26 @@ async function createInCloudDental(env, booking) {
   const headers = { "Content-Type": "application/json" };
   if (env.CLOUDDENTAL_API_KEY) headers.Authorization = `Bearer ${env.CLOUDDENTAL_API_KEY}`;
 
-  const res = await fetch(`${base}${path.startsWith("/") ? "" : "/"}${path}`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(booking),
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`Cloud Dental Office responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+  // Bound the wait so an unreachable/slow IntakeService fails fast to the email
+  // fallback rather than making the visitor sit through a long hang.
+  const controller = new AbortController();
+  const timeoutMs = Number(env.CLOUDDENTAL_TIMEOUT_MS) || 8000;
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(`${base}${path.startsWith("/") ? "" : "/"}${path}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(booking),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(`Cloud Dental Office responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+    }
+    return res.json().catch(() => ({}));
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json().catch(() => ({}));
 }
 
 async function emailBooking(env, { subject, text, replyTo }) {

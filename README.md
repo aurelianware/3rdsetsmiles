@@ -98,6 +98,13 @@ Delivery precedence in the function:
 3. **Honest fallback** — if neither is configured, the visitor is asked to
    call, rather than the request being dropped.
 
+**Resilience:** a Cloud Dental Office outage never breaks the page. If the
+SchedulingService is down, the IntakeService still accepts the booking and it
+queues on the message bus. If the IntakeService/bus itself is unreachable, the
+request times out fast (`CLOUDDENTAL_TIMEOUT_MS`) and the email path takes over.
+**Configure `RESEND_*` so there is always a delivery path** — then no single
+backend outage can leave a visitor without a confirmation.
+
 Configure these in **Cloudflare Pages → Settings → Environment variables**
 once Cloud Dental Office is reachable from the public internet (it is
 self-hosted and has no public URL by default):
@@ -108,6 +115,7 @@ self-hosted and has no public URL by default):
 | `CLOUDDENTAL_API_KEY` | with `CLOUDDENTAL_API_BASE` | The `PublicBooking` API key; sent as `Authorization: Bearer …`. Required by the endpoint once it's enabled. |
 | `CLOUDDENTAL_BOOKING_PATH` | optional | Override the endpoint path (default `/api/public/booking-requests`). |
 | `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
+| `CLOUDDENTAL_TIMEOUT_MS` | optional | Request timeout in ms (default `8000`). If the IntakeService is unreachable, the request aborts and the email fallback takes over. |
 
 Provider, location, and the placeholder "web intake" patient are configured on
 the **Cloud Dental Office** side (`PublicBooking:*`), not here.
