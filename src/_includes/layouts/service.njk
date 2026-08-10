@@ -15,8 +15,13 @@ layout: layouts/base.njk
     <h1>{{ heroHeadline | safe }}</h1>
     <p class="lede">{{ heroSub }}</p>
     <div class="btn-row">
+      {% if callFirst %}
+      <a href="tel:{{ site.phone.tel }}" class="btn-primary" data-action="call-hero">Call {{ site.phone.display }}</a>
+      <a href="/contact/" class="btn-outline">Request an Appointment</a>
+      {% else %}
       <a href="/contact/" class="btn-primary">Request an Appointment</a>
       <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+      {% endif %}
     </div>
   </div>
 </section>
@@ -48,6 +53,31 @@ layout: layouts/base.njk
   </div>
 </section>
 {% endif %}
+
+{# Per-service structured data. Ties each procedure to the practice's central
+   Dentist node (@id from base.njk) so search engines connect service → provider.
+   Every `| dump` value is also piped through `| safe` for the same reason as the
+   JSON-LD in base.njk: `| dump` already JSON-encodes, and `| safe` prevents
+   Nunjucks from HTML-escaping the quotes into unparsable structured data. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": {{ title | dump | safe }},
+  "url": {{ (page.url | absUrl(site.domain)) | dump | safe }},
+  "description": {{ description | dump | safe }},
+  "provider": {
+    "@type": "Dentist",
+    "@id": {{ (site.domain + "/#dentist") | dump | safe }},
+    "name": {{ site.name | dump | safe }}
+  },
+  "areaServed": [
+    {%- for area in site.areaServed %}
+    {{ area | dump | safe }}{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}
+</script>
 
 <section class="section cta-banner">
   <div class="container">

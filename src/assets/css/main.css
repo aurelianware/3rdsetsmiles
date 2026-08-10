@@ -18,7 +18,9 @@
   --radius: 10px;
   --radius-lg: 16px;
   --max: 1140px;
+  --banner-h: 40px;
 }
+@media (max-width: 600px) { :root { --banner-h: 38px; } }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -91,7 +93,7 @@ p, li, label, span, div { line-height: 1.7; }
 
 /* ── Nav ── */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  position: fixed; top: var(--banner-h); left: 0; right: 0; z-index: 999;
   background: rgba(11,29,58,0.92); backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: background .3s, border-color .3s;
@@ -147,8 +149,43 @@ p, li, label, span, div { line-height: 1.7; }
   .nav-mobile-menu.open { display: flex !important; }
 }
 
-/* Push content below fixed nav */
-main { padding-top: 72px; }
+/* Sticky mobile tap-to-call bar. Hidden on desktop; the body reserves space so
+   it never covers the footer. */
+.mobile-call-bar { display: none; }
+@media (max-width: 1000px) {
+  .mobile-call-bar {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+    background: var(--gold); color: var(--navy);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.01em;
+    padding: 14px 16px; text-decoration: none;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.18);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  .mobile-call-bar:active { background: var(--gold-light); }
+  body { padding-bottom: 60px; }
+}
+
+/* Push content below the fixed top banner + nav */
+main { padding-top: calc(72px + var(--banner-h)); }
+
+/* Persistent top contact banner — sticky on all devices, above the nav. */
+.top-call-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--banner-h);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--gold); color: var(--navy);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  font-size: 0.86rem; font-weight: 700; letter-spacing: 0.02em;
+  text-decoration: none; padding: 0 16px; white-space: nowrap;
+}
+.top-call-banner:hover, .top-call-banner:active { background: var(--gold-light); }
+.top-call-banner .tcb-label { font-weight: 600; }
+.top-call-banner svg { flex: none; }
+@media (max-width: 600px) {
+  .top-call-banner { font-size: 0.82rem; }
+  .top-call-banner .tcb-label { display: none; }
+}
 
 /* ── Page hero (sub-pages) ── */
 .page-hero {
@@ -585,7 +622,7 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
   .about-photo { width: 100%; min-height: 440px; }
   .stats { gap: 24px; }
   .hero, .page-hero { padding: 64px 0 48px; }
-  main { padding-top: 72px; }
+  main { padding-top: calc(72px + var(--banner-h)); }
 }
 
 /* ── Blog ── */
