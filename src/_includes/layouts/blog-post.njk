@@ -1,0 +1,117 @@
+---
+layout: layouts/base.njk
+ogType: article
+---
+{% set author = authors[authorId] %}
+{% set updatedValue = dateUpdated or page.date %}
+
+<article>
+  <section class="page-hero blog-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a><span class="sep">›</span><a href="/blog/">Blog</a><span class="sep">›</span>{{ title }}
+      </div>
+      <div class="pill"><span class="pill-text">Patient Education</span></div>
+      <h1>{{ title }}</h1>
+      <p class="lede">{{ description }}</p>
+      <div class="blog-meta">
+        <p>
+          By
+          <a href="{{ author.bioUrl }}">{{ author.name }}</a>
+          {% if author.credential %}&middot; {{ author.credential }}{% endif %}
+        </p>
+        <p>Published {{ page.date | humanDate }}{% if updatedValue %} &middot; Updated {{ updatedValue | humanDate }}{% endif %}</p>
+        {% if reviewerName %}
+        <p>Clinical reviewer: {{ reviewerName }}{% if reviewStatus %} &middot; {{ reviewStatus }}{% endif %}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-narrow prose">
+      {% if reviewStatus %}
+      <aside class="blog-note" aria-label="Clinical review status">
+        <strong>Clinical review status:</strong> {{ reviewStatus }}
+      </aside>
+      {% endif %}
+
+      <aside class="blog-note" aria-label="Educational disclaimer">
+        <strong>Educational only:</strong> This article is general information and not a diagnosis or medical advice. Treatment decisions require an in-person exam and imaging by a licensed dentist.
+      </aside>
+
+      {% if emergencyDisclaimer %}
+      <aside class="blog-note blog-note-warn" aria-label="Emergency disclaimer">
+        <strong>Emergency warning:</strong> If there is facial swelling affecting breathing, uncontrolled bleeding, high fever, trauma, or any life-threatening symptoms, call 911 or go to the nearest emergency room.
+      </aside>
+      {% endif %}
+
+      {{ content | safe }}
+
+      {% if clinicalReviewRequired and clinicalReviewRequired.length %}
+      <section class="blog-review-list" aria-label="Clinical review checklist">
+        <h2>Items Requiring Dr. Phillips' Confirmation</h2>
+        <ul>
+          {% for item in clinicalReviewRequired %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container">
+      <div class="blog-links-grid">
+        <div>
+          <h2 style="color:var(--navy);margin-bottom:14px">Related Services</h2>
+          <ul class="blog-link-list">
+            {% for link in relatedServiceLinks or [] %}
+            <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+            {% endfor %}
+            <li><a href="/book/">Request an appointment time</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 style="color:var(--navy);margin-bottom:14px">Related Articles</h2>
+          {% set related = collections.blog | relatedBlogPosts(page.url, tags, 3) %}
+          {% if related.length %}
+          <ul class="blog-link-list">
+            {% for post in related %}
+            <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="muted">More articles in this series are being prepared and will be added after clinical review.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "mainEntityOfPage": page.url | absUrl(site.domain),
+  "url": page.url | absUrl(site.domain),
+  "datePublished": (page.date | isoDate) + "T09:00:00-07:00",
+  "dateModified": (updatedValue | isoDate) + "T09:00:00-07:00",
+  "author": {
+    "@type": "Person",
+    "name": author.name,
+    "url": author.bioUrl | absUrl(site.domain)
+  },
+  "publisher": {
+    "@type": "Dentist",
+    "name": site.name,
+    "url": site.domain
+  },
+  "image": (ogImage or site.ogImage) | absUrl(site.domain)
+} | jsonStringify | safe }}
+</script>

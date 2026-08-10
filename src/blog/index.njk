@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+title: "Dental Blog"
+description: "Patient-first dental education from 3rd Set Smiles in Tempe, AZ. Implant, extraction, and urgent-care topics written for real patient decisions."
+permalink: /blog/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Blog", url: "/blog/" }
+---
+
+<section class="page-hero blog-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Blog</div>
+    <h1>Dental Blog: Real Questions, Clear Answers</h1>
+    <p class="lede">Educational guidance for patients in Tempe, Mesa, and nearby East Valley communities. Clinical content is reviewed by Dr. Phillips before publication.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="blog-grid">
+      {% for post in collections.blog %}
+      {% set category = blogCategories | findCategory(post.data.blogCategory) %}
+      <article class="blog-card">
+        <p class="blog-card-kicker">{{ category.label if category else post.data.blogCategory }}</p>
+        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+        <p>{{ post.data.description }}</p>
+        <p class="blog-card-meta">Published {{ post.date | humanDate }}{% if post.data.dateUpdated %} &middot; Updated {{ post.data.dateUpdated | humanDate }}{% endif %}</p>
+        <p><a href="{{ post.url }}">Read article →</a></p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:24px">
+      <div class="section-label">Editorial Roadmap</div>
+      <h2 style="color:var(--navy)">Planned Patient Questions</h2>
+      <p class="muted">Topics are prioritized by patient urgency and decision impact. Every clinical article requires Dr. Phillips' review before publication.</p>
+    </div>
+    <div class="roadmap-table-wrap">
+      <table class="roadmap-table">
+        <thead>
+          <tr>
+            <th scope="col">Topic</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Status</th>
+            <th scope="col">Patient question</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in blogRoadmap %}
+          <tr>
+            <td>
+              {% if item.stage == "Drafted" %}
+              <a href="/blog/{{ item.slug }}/">{{ item.title }}</a>
+              {% else %}
+              {{ item.title }}
+              {% endif %}
+            </td>
+            <td>{{ item.priority }}</td>
+            <td>{{ item.stage }}</td>
+            <td>{{ item.patientQuestion }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

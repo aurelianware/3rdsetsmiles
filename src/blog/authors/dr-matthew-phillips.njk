@@ -1,0 +1,71 @@
+---
+layout: layouts/base.njk
+title: "Author: Dr. Matthew Phillips, DDS"
+description: "Author profile for Dr. Matthew Phillips, DDS, founder of 3rd Set Smiles in Tempe, Arizona."
+permalink: /blog/authors/dr-matthew-phillips/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Blog", url: "/blog/" }
+  - { label: "Author", url: "/blog/authors/dr-matthew-phillips/" }
+---
+{% set author = authors['dr-matthew-phillips'] %}
+
+<section class="page-hero blog-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/blog/">Blog</a><span class="sep">›</span>Author</div>
+    <h1>{{ author.name }}, {{ author.credential }}</h1>
+    <p class="lede">{{ author.profileSummary }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="about-wrap">
+      <figure class="about-photo fade-in">
+        <img src="{{ author.image }}" alt="{{ author.name }}, {{ author.credential }}" width="1120" height="928">
+        <figcaption class="about-photo-info">
+          <h3>{{ author.name }}</h3>
+          <p>{{ author.credential }} &middot; {{ author.role }}</p>
+        </figcaption>
+      </figure>
+
+      <div class="about-content prose">
+        <h2>Trust Signals Visible on This Site</h2>
+        <ul>
+          {% for item in author.trustSignals %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+
+        <h2>Clinical Content Review Policy</h2>
+        <p>Clinical blog drafts are AI-assisted for structure and readability, then reviewed by Dr. Phillips before publication. Drafts include explicit review-status labels and required clinical confirmation items.</p>
+
+        <h2>Information Requiring Confirmation</h2>
+        <p>The following profile details must be verified against practice records before being treated as finalized public credentials:</p>
+        <ul>
+          {% for item in author.verificationItems %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+
+        <p><a class="btn-primary" href="/about/">View full practice biography</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": author.name,
+    "honorificSuffix": author.credential,
+    "jobTitle": author.role,
+    "description": author.profileSummary,
+    "url": page.url | absUrl(site.domain),
+    "image": author.image | absUrl(site.domain)
+  }
+} | jsonStringify | safe }}
+</script>

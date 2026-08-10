@@ -587,3 +587,114 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
   .hero, .page-hero { padding: 64px 0 48px; }
   main { padding-top: 72px; }
 }
+
+/* ── Blog ── */
+.blog-hero .lede { max-width: 760px; }
+
+.blog-meta {
+  margin-top: 20px;
+  color: rgba(255,255,255,0.78);
+  font-size: 0.95rem;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.blog-card {
+  background: white;
+  border: 1px solid var(--light-gray);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 12px 24px rgba(11,29,58,0.06);
+}
+
+.blog-card h2 {
+  font-size: 1.35rem;
+  margin: 6px 0 10px;
+}
+
+.blog-card h2 a { color: var(--navy); }
+.blog-card h2 a:hover { color: var(--accent); }
+
+.blog-card-kicker {
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.blog-card-meta {
+  color: var(--warm-gray);
+  font-size: 0.9rem;
+  margin: 10px 0 12px;
+}
+
+.blog-note {
+  background: rgba(11,29,58,0.04);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 0 0 18px;
+}
+
+.blog-note-warn {
+  border-left-color: #a83c1f;
+  background: #fff7f4;
+}
+
+.blog-review-list {
+  margin-top: 30px;
+  border-top: 1px solid var(--light-gray);
+  padding-top: 24px;
+}
+
+.blog-review-list ul {
+  margin: 14px 0 0 1.2em;
+}
+
+.blog-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.blog-link-list { margin: 0; padding-left: 1.2em; }
+.blog-link-list li { list-style: disc; margin-bottom: 8px; }
+.blog-link-list a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+.blog-link-list a:hover { color: var(--accent); }
+
+.roadmap-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--light-gray);
+  border-radius: 12px;
+  background: white;
+}
+
+.roadmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.roadmap-table th,
+.roadmap-table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--light-gray);
+  vertical-align: top;
+}
+
+.roadmap-table th {
+  color: var(--navy);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--cream);
+}
+
+.roadmap-table tr:last-child td { border-bottom: 0; }
+.roadmap-table a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
