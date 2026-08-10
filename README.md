@@ -80,12 +80,13 @@ which integrates with **Cloud Dental Office**
 (<https://github.com/aurelianware/clouddentaloffice>) — the practice's
 open-source scheduling backend.
 
-The function posts to Cloud Dental Office's dedicated **public booking
-endpoint** — `POST {base}/api/public/booking-requests` — added for this
-integration ([details](https://github.com/aurelianware/clouddentaloffice)).
-That endpoint is authenticated, resolves provider/location/patient server-side,
-and records the request as `Requested` (unconfirmed) for staff to confirm — so
-the website never holds any practice identifiers.
+The function posts to Cloud Dental Office's dedicated **public IntakeService** —
+`POST {base}/api/public/booking-requests` — added for this integration
+([details](https://github.com/aurelianware/clouddentaloffice)). That service is
+the only internet-facing component: it authenticates the request, validates it,
+and publishes an event for a private consumer to turn into a `Requested`
+(unconfirmed) appointment. It has no database or PHI access, and the website
+never holds any practice identifiers. A successful submit returns `202 Accepted`.
 
 Delivery precedence in the function:
 
@@ -103,7 +104,7 @@ self-hosted and has no public URL by default):
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the ApiGateway, e.g. `https://api.yourpractice.com` (the booking path is appended automatically). |
+| `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the public IntakeService, e.g. `https://book.yourpractice.com` (the booking path is appended automatically). |
 | `CLOUDDENTAL_API_KEY` | with `CLOUDDENTAL_API_BASE` | The `PublicBooking` API key; sent as `Authorization: Bearer …`. Required by the endpoint once it's enabled. |
 | `CLOUDDENTAL_BOOKING_PATH` | optional | Override the endpoint path (default `/api/public/booking-requests`). |
 | `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
