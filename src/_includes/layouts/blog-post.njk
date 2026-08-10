@@ -30,12 +30,6 @@ ogType: article
 
   <section class="section">
     <div class="container-narrow prose">
-      {% if reviewStatus %}
-      <aside class="blog-note" aria-label="Clinical review status">
-        <strong>Clinical review status:</strong> {{ reviewStatus }}
-      </aside>
-      {% endif %}
-
       <aside class="blog-note" aria-label="Educational disclaimer">
         <strong>Educational only:</strong> This article is general information and not a diagnosis or medical advice. Treatment decisions require an in-person exam and imaging by a licensed dentist.
       </aside>
@@ -47,17 +41,6 @@ ogType: article
       {% endif %}
 
       {{ content | safe }}
-
-      {% if clinicalReviewRequired and clinicalReviewRequired.length %}
-      <section class="blog-review-list" aria-label="Clinical review checklist">
-        <h2>Items Requiring Dr. Phillips' Confirmation</h2>
-        <ul>
-          {% for item in clinicalReviewRequired %}
-          <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
-      </section>
-      {% endif %}
     </div>
   </section>
 
