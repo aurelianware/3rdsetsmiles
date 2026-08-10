@@ -112,7 +112,10 @@ Provider, location, and the placeholder "web intake" patient are configured on
 the **Cloud Dental Office** side (`PublicBooking:*`), not here.
 
 Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
-to Cloud Dental Office as UTC ISO-8601. The form is intentionally PHI-free
+to Cloud Dental Office as UTC ISO-8601. The Function validates the requested
+slot server-side on **every** delivery path — it must be a future weekday
+within office hours (10:00 AM–5:00 PM start) — so email-only mode can't accept
+weekend/past/out-of-hours requests either. The form is intentionally PHI-free
 (name, phone, email, preferred time, non-clinical reason, short message).
 
 > **Note:** Only expose Cloud Dental Office through its ApiGateway (with TLS

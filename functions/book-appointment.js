@@ -69,16 +69,39 @@ ${body}
   });
 }
 
-// Build a UTC ISO-8601 start timestamp from the visitor's preferred date + time.
-// 3rd Set Smiles is in Tempe, AZ, which does not observe daylight saving time,
-// so the offset is a fixed -07:00 (MST) year-round. The server derives the end
-// time from the appointment duration.
-function buildPreferredStart(dateStr, timeStr) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
-  if (!/^\d{2}:\d{2}$/.test(timeStr)) return null;
+// Office hours, in Arizona local minutes-since-midnight. Latest start is 17:00
+// so a 60-minute default appointment still ends by the 18:00 close. Kept in
+// sync with the slot list in src/book.njk.
+const OPEN_MINUTES = 10 * 60; // 10:00
+const LAST_START_MINUTES = 17 * 60; // 17:00
+
+// Validate the visitor's preferred date + time server-side, independent of the
+// delivery path (Cloud Dental Office or email). 3rd Set Smiles is in Tempe, AZ,
+// which does not observe daylight saving time, so the offset is a fixed -07:00
+// (MST) year-round; the requested wall-clock date/time IS Arizona local.
+// Returns { startIso } on success, or { error } with a visitor-facing reason.
+function validateWhen(dateStr, timeStr) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || !/^\d{2}:\d{2}$/.test(timeStr)) {
+    return { error: "Please choose a valid date and time." };
+  }
   const start = new Date(`${dateStr}T${timeStr}:00-07:00`);
-  if (Number.isNaN(start.getTime())) return null;
-  return start.toISOString();
+  if (Number.isNaN(start.getTime())) {
+    return { error: "Please choose a valid date and time." };
+  }
+  if (start.getTime() <= Date.now()) {
+    return { error: "Please choose a date and time in the future." };
+  }
+  // Day-of-week for the Arizona calendar date (07:00Z is the same calendar day).
+  const dow = new Date(`${dateStr}T00:00:00-07:00`).getUTCDay();
+  if (dow === 0 || dow === 6) {
+    return { error: "We're open Monday through Friday — please choose a weekday." };
+  }
+  const [hh, mm] = timeStr.split(":").map(Number);
+  const minutes = hh * 60 + mm;
+  if (minutes < OPEN_MINUTES || minutes > LAST_START_MINUTES || (mm !== 0 && mm !== 30)) {
+    return { error: "Please choose a time during office hours (10:00 AM – 5:00 PM)." };
+  }
+  return { startIso: start.toISOString() };
 }
 
 async function createInCloudDental(env, booking) {
@@ -158,6 +181,18 @@ export async function onRequestPost(context) {
     });
   }
 
+  // Validate the requested date/time server-side for EVERY delivery path (not
+  // just Cloud Dental Office) — future, a weekday, and within office hours.
+  const when = validateWhen(date, time);
+  if (when.error) {
+    return page({
+      title: "Check the date and time",
+      heading: "That date or time looks off",
+      body: `<p>${esc(when.error)} You can also call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      status: 400,
+    });
+  }
+
   const prettyWhen = `${date} at ${time}`;
   const notes = [
     "WEB BOOKING REQUEST — please confirm with patient before finalizing.",
@@ -169,7 +204,9 @@ export async function onRequestPost(context) {
     message ? `Message: ${message}` : null,
   ].filter(Boolean).join("\n");
 
-  const hasCloudDental = Boolean(env.CLOUDDENTAL_API_BASE);
+  // The public booking endpoint requires an API key, so treat Cloud Dental as
+  // configured only when both are present — otherwise every call would 401.
+  const hasCloudDental = Boolean(env.CLOUDDENTAL_API_BASE && env.CLOUDDENTAL_API_KEY);
   const hasEmail = Boolean(env.RESEND_API_KEY && env.CONTACT_TO_EMAIL && env.CONTACT_FROM_EMAIL);
 
   // Neither delivery path configured — be honest rather than dropping the request.
@@ -185,21 +222,11 @@ export async function onRequestPost(context) {
   let cloudDentalOk = false;
 
   if (hasCloudDental) {
-    const preferredStart = buildPreferredStart(date, time);
-    if (!preferredStart) {
-      return page({
-        title: "Check the date and time",
-        heading: "That date or time looks off",
-        body: `<p>Please pick a valid date and time and try again, or call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
-        status: 400,
-      });
-    }
-
     const booking = {
       name,
       phone,
       email: email || null,
-      preferredStart,
+      preferredStart: when.startIso,
       durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
       reason: reason || null,
       message: message || null,
