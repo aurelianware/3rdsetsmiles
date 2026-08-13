@@ -8,7 +8,7 @@ eleventyExcludeFromCollections: true
   {%- if p.url and not p.data.noindex and not p.data.eleventyExcludeFromCollections and p.url != '/404.html' %}
   <url>
     <loc>{{ site.domain }}{{ p.url }}</loc>
-    <lastmod>{{ p.date.toISOString().slice(0,10) }}</lastmod>
+    <lastmod>{{ p.inputPath | gitLastmod(p.date) }}</lastmod>
     <changefreq>{% if p.url == '/' %}weekly{% else %}monthly{% endif %}</changefreq>
     <priority>{% if p.url == '/' %}1.0{% elif p.url.startsWith('/services/') %}0.8{% else %}0.6{% endif %}</priority>
   </url>

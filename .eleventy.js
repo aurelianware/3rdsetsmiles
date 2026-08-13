@@ -1,3 +1,5 @@
+const { execFileSync } = require("child_process");
+
 module.exports = function (eleventyConfig) {
   // Passthrough copy: files that should land in the output root verbatim.
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
@@ -19,6 +21,31 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("isoDate", function (value) {
     const d = value ? new Date(value) : new Date();
     return d.toISOString().slice(0, 10);
+  });
+
+  // Sitemap <lastmod>: honest, stable per-file date from the last git commit
+  // that touched the source file (YYYY-MM-DD). File mtime is unreliable — a
+  // fresh CI clone stamps every file with the checkout time, so mtime-based
+  // lastmods flip to "build day" on each deploy and train Google to ignore the
+  // signal. The git commit date only moves when the page's content actually
+  // changes, which is exactly what lastmod should report. Falls back to the
+  // page's Eleventy date if git is unavailable or the file is uncommitted.
+  const gitDateCache = new Map();
+  eleventyConfig.addFilter("gitLastmod", function (inputPath, fallback) {
+    const fb = (fallback ? new Date(fallback) : new Date()).toISOString().slice(0, 10);
+    if (!inputPath) return fb;
+    if (gitDateCache.has(inputPath)) return gitDateCache.get(inputPath);
+    let out = fb;
+    try {
+      const d = execFileSync("git", ["log", "-1", "--format=%cs", "--", inputPath], {
+        encoding: "utf8",
+      }).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) out = d;
+    } catch (e) {
+      // git unavailable (e.g. non-git build context) — keep the fallback.
+    }
+    gitDateCache.set(inputPath, out);
+    return out;
   });
 
   eleventyConfig.addFilter("isoDateTime", function (value) {
