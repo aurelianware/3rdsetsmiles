@@ -77,6 +77,14 @@ module.exports = function (eleventyConfig) {
     return JSON.stringify(obj, null, 2);
   });
 
+  // Sanitize a Google Analytics 4 Measurement ID to its strict format
+  // (e.g. "G-XXXXXXXX"). Returns "" for anything that doesn't match, so a
+  // misconfigured value can never break the GA <script> tag or inline config
+  // (and simply keeps GA4 off) — no escaping concerns downstream.
+  eleventyConfig.addFilter("ga4Id", function (value) {
+    return /^G-[A-Z0-9]+$/.test(value || "") ? value : "";
+  });
+
   // Service-hub grouping helpers. Categories are defined once in
   // src/_data/serviceCategories.js and matched against each service's
   // serviceMeta.category KEY (e.g. "general-family"), never a display string.
