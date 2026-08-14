@@ -35,14 +35,14 @@ faq:
       <div class="hero-inner">
         <div class="fade-in">
           <div class="pill">
-            <span class="pill-text">Tempe, AZ &middot; Independent, veteran-owned practice</span>
+            <span class="pill-text">{{ site.address.locality }}, {{ site.address.region }} &middot; Independent, veteran-owned practice</span>
           </div>
         </div>
         <div class="fade-in">
           <h1>A dentist you can stay with — <span>from your next cleaning to rebuilding your smile.</span></h1>
         </div>
         <div class="fade-in">
-          <p class="hero-sub">Dr. Matthew Phillips provides comprehensive dentistry in Tempe, from preventive care and crowns to implants, dentures and complex reconstruction. One dentist. One dental home.</p>
+          <p class="hero-sub">Dr. Matthew Phillips provides comprehensive dentistry in {{ site.address.locality }}, from preventive care and crowns to implants, dentures and complex reconstruction. One dentist. One dental home.</p>
         </div>
         <div class="fade-in btn-row">
           <a href="/contact/" class="btn-primary" data-action="request-appointment">Request an Appointment</a>
@@ -57,7 +57,7 @@ faq:
         </ul>
       </div>
       <figure class="hero-photo fade-in">
-        <img src="/assets/dr-phillips.jpg" alt="Dr. Matthew Phillips, DDS — comprehensive dentist and founder of 3rd Set Smiles in Tempe, Arizona" width="1120" height="928" fetchpriority="high">
+        <img src="/assets/dr-phillips.jpg" alt="Dr. Matthew Phillips, DDS — comprehensive dentist and founder of 3rd Set Smiles in {{ site.address.locality }}, {{ site.address.regionName }}" width="1120" height="928" fetchpriority="high">
         <figcaption>
           <strong>Dr. Matthew Phillips</strong>
           <span>DDS &middot; Founder, 3rd Set Smiles</span>
@@ -142,7 +142,7 @@ faq:
   <div class="container">
     <div class="about-wrap">
       <figure class="about-photo fade-in">
-        <img src="/assets/dr-phillips.jpg" alt="Dr. Matthew Phillips, DDS — founder of 3rd Set Smiles in Tempe, Arizona" loading="lazy" width="1120" height="928">
+        <img src="/assets/dr-phillips.jpg" alt="Dr. Matthew Phillips, DDS — founder of 3rd Set Smiles in {{ site.address.locality }}, {{ site.address.regionName }}" loading="lazy" width="1120" height="928">
         <figcaption class="about-photo-info">
           <h3>Dr. Matthew Phillips</h3>
           <p>DDS &middot; Founder, 3rd Set Smiles</p>
@@ -304,7 +304,7 @@ faq:
   <div class="container">
     <div class="fade-in">
       <h2>Ready to meet your new dentist?</h2>
-      <p>Whether you're looking for a new dental home, considering implants, or need help with something urgent — Dr. Phillips and the team are here for you in Tempe, Arizona.</p>
+      <p>Whether you're looking for a new dental home, considering implants, or need help with something urgent — Dr. Phillips and the team are here for you in {{ site.address.locality }}, {{ site.address.regionName }}.</p>
       <div class="btn-row">
         <a href="/contact/" class="btn-primary" data-action="request-appointment">Request an Appointment</a>
         <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>

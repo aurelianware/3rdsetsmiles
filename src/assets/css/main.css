@@ -305,12 +305,13 @@ main { padding-top: calc(72px + var(--banner-h)); }
   padding: 30px 26px; display: flex; flex-direction: column;
   transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.intent-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(11,29,58,0.10); }
+.intent-card:hover, .intent-card:focus-within { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(11,29,58,0.10); }
 .intent-icon { font-size: 1.8rem; line-height: 1; margin-bottom: 14px; color: var(--gold); }
 .intent-card h3 { color: var(--navy); font-size: 1.18rem; margin-bottom: 10px; }
 .intent-card p { font-size: 0.95rem; color: var(--warm-gray); flex: 1; margin-bottom: 18px; }
-.intent-link { font-weight: 700; color: var(--navy); font-size: 0.9rem; letter-spacing: 0.02em; }
+.intent-link { font-weight: 700; color: var(--navy); font-size: 0.9rem; letter-spacing: 0.02em; border-radius: 4px; }
 .intent-link:hover { color: var(--gold); }
+.intent-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; color: var(--gold); }
 
 /* Empty credential bullets render a diamond marker */
 .credential-bullet:empty::before { content: "\25C6"; }
