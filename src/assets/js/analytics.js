@@ -138,6 +138,18 @@
         }
       });
     }
+
+    // 3) Google Analytics 4 — only when gtag.js is loaded (ga4Id configured).
+    // Forwards the conversion as a GA4 event with the same non-PHI params.
+    if (typeof window.gtag === 'function') {
+      safe(function () {
+        window.gtag('event', event, {
+          action: payload.action,
+          form: payload.form,
+          attribution_id: payload.attribution_id
+        });
+      });
+    }
   }
 
   // Expose for manual/instrumented events elsewhere (e.g. form handlers).

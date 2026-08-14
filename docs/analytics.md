@@ -41,6 +41,38 @@ default**. To turn it on, set the endpoint in
 
 Leave `endpoint` empty (`""`) to keep only the `dataLayer` layer active.
 
+## Google Analytics 4 (recommended)
+
+The fastest way to get real dashboards is a free GA4 property. The site loads
+`gtag.js` and forwards every conversion event to GA4 automatically — you only
+provide a Measurement ID.
+
+1. Create a free GA4 property at <https://analytics.google.com> →
+   **Admin → Data streams → Web** → add your site.
+2. Copy the **Measurement ID** — it looks like `G-XXXXXXXX`.
+3. Set it in [`src/_data/site.json`](../src/_data/site.json):
+
+   ```json
+   "analytics": { "ga4Id": "G-XXXXXXXX" }
+   ```
+
+That's the only change needed. When `ga4Id` is set:
+
+- `base.njk` loads `gtag.js` (from `googletagmanager.com`) and runs
+  `gtag('config', …)`. When it's empty, **no GA script loads and no requests
+  are made** — GA4 is fully off.
+- `analytics.js` forwards each conversion via `gtag('event', <event>, …)` with
+  the non-PHI params `action`, `form`, and `attribution_id`, so your CTAs show
+  up as GA4 events (mark the important ones as **Key events / conversions** in
+  the GA4 UI, and register `attribution_id` as a custom dimension if you want it
+  on reports).
+- GA4 captures UTM source/medium/campaign from the URL automatically.
+
+The Content-Security-Policy in [`src/_headers`](../src/_headers) already
+allows the Google Analytics / Tag Manager hosts, so no CSP change is needed to
+turn GA4 on. GA4 and the first-party beacon are independent — you can run
+either, both, or neither.
+
 ## Tracked events
 
 Event names are centralized in `EVENTS` in `analytics.js` and mirrored in

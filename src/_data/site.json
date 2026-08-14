@@ -43,7 +43,8 @@
   "ogImage": "/assets/og-image.jpg",
   "themeColor": "#0B1D3A",
   "analytics": {
-    "comment": "Conversion events always push to window.dataLayer. Set endpoint to a same-origin path (e.g. /collect) to also beacon events to the first-party collector; leave empty to disable the beacon. See docs/analytics.md.",
-    "endpoint": ""
+    "comment": "Conversion events always push to window.dataLayer. Set endpoint to a same-origin path (e.g. /collect) to also beacon events to the first-party collector; leave empty to disable the beacon. Set ga4Id to a Google Analytics 4 Measurement ID (G-XXXXXXX) to load gtag.js and forward conversion events to GA4; leave empty to keep GA4 off. See docs/analytics.md.",
+    "endpoint": "",
+    "ga4Id": ""
   }
 }
