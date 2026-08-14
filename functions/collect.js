@@ -38,7 +38,8 @@ function sanitize(input) {
   return out;
 }
 
-export async function onRequestPost({ request /*, env */ }) {
+export async function onRequestPost({ request, env }) {
+  void env; // reserved for the analytics sink wired in the TODO block below
   let body;
   try {
     body = await request.json();
@@ -61,8 +62,9 @@ export async function onRequestPost({ request /*, env */ }) {
   return new Response(null, { status: 204 });
 }
 
-// Reject non-POST methods cleanly.
-export async function onRequest({ request }) {
-  if (request.method === 'POST') return onRequestPost({ request });
+// Reject non-POST methods cleanly. Forward the full context so onRequestPost
+// receives env/params (needed once the analytics sink is wired).
+export async function onRequest(context) {
+  if (context.request.method === 'POST') return onRequestPost(context);
   return new Response(null, { status: 405, headers: { Allow: 'POST' } });
 }

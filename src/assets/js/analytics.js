@@ -42,6 +42,9 @@
   };
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  // The only caller-supplied prop keys track() will forward. Everything else is
+  // dropped client-side (the collector allowlists again server-side).
+  var PROP_ALLOW = { action: true, form: true };
   var STORE_ATTR = '3ss_attribution';   // sessionStorage: UTM + landing + referrer
   var STORE_ID = '3ss_aid';             // localStorage: durable attributionId
 
@@ -78,8 +81,13 @@
 
       var params = new URLSearchParams(window.location.search);
       var data = { landing_page: window.location.pathname };
+      // Keep only the referrer's origin + path — query strings and fragments
+      // can carry sensitive values and this layer is explicitly no-PHI.
       var ref = document.referrer || '';
-      if (ref && ref.indexOf(window.location.origin) !== 0) data.referrer = ref;
+      if (ref && ref.indexOf(window.location.origin) !== 0) {
+        var cleanRef = safe(function () { var u = new URL(ref); return (u.origin + u.pathname).slice(0, 200); });
+        if (cleanRef) data.referrer = cleanRef;
+      }
       UTM_KEYS.forEach(function (k) {
         var v = params.get(k);
         if (v) data[k] = v.slice(0, 120); // bound length; never trust input
@@ -93,11 +101,26 @@
   // non-PHI, low-cardinality metadata (never form values or contact details).
   function track(event, props) {
     if (!event) return;
-    var payload = { event: event, ts: Date.now(), path: window.location.pathname };
+    // Merge caller props FIRST, restricted to simple bounded scalars, so the
+    // reserved/trusted fields set below always win. window.track is public, so
+    // a caller must never be able to override event, attribution, ts or path.
+    var payload = {};
+    if (props) {
+      for (var p in props) {
+        if (!Object.prototype.hasOwnProperty.call(props, p)) continue;
+        if (!PROP_ALLOW[p]) continue; // allowlist prop keys, not just types
+        var val = props[p], t = typeof val;
+        if (t === 'string') payload[p] = val.slice(0, 200);
+        else if (t === 'boolean' || (t === 'number' && isFinite(val))) payload[p] = val;
+      }
+    }
+    // Reserved fields — assigned LAST so props can never override them.
+    payload.event = event;
+    payload.ts = Date.now();
+    payload.path = window.location.pathname;
     var attr = attribution();
     for (var k in attr) if (Object.prototype.hasOwnProperty.call(attr, k)) payload[k] = attr[k];
     payload.attribution_id = attributionId();
-    if (props) for (var p in props) if (Object.prototype.hasOwnProperty.call(props, p)) payload[p] = props[p];
 
     // 1) dataLayer — consumed by GTM/GA4/etc. if/when added later.
     window.dataLayer = window.dataLayer || [];
@@ -128,7 +151,7 @@
     var action = el.getAttribute('data-action');
     if (!action) return;
     var event = ACTION_EVENTS[action];
-    if (!event && action.indexOf('call') === 0) event = EVENTS.PHONE_CTA_CLICKED;
+    if (!event && action.indexOf('call-') === 0) event = EVENTS.PHONE_CTA_CLICKED;
     if (event) track(event, { action: action });
   }, true);
 
