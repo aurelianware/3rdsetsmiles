@@ -161,15 +161,19 @@
 
   {# Google Analytics 4 (gtag.js) — loaded ONLY when site.analytics.ga4Id is
      set. Leave ga4Id empty to keep GA4 off entirely (no script, no requests).
-     Our first-party layer (analytics.js) forwards conversion events to GA4 via
-     gtag('event', …) when this is present. See /docs/analytics.md. #}
-  {% if site.analytics.ga4Id %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.ga4Id }}"></script>
+     The `ga4Id` filter validates the value against the strict G-XXXXXXXX format
+     and returns "" otherwise, so a misconfigured value can never break the
+     <script> tag or inline config — it simply keeps GA4 off. Our first-party
+     layer (analytics.js) forwards conversion events to GA4 via gtag('event', …)
+     when this is present. See /docs/analytics.md. #}
+  {% set ga4Id = site.analytics.ga4Id | ga4Id %}
+  {% if ga4Id %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4Id }}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', {{ site.analytics.ga4Id | dump | safe }});
+    gtag('config', {{ ga4Id | dump | safe }});
   </script>
   {% endif %}
 </head>

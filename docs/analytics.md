@@ -25,9 +25,12 @@ third-party trackers and without ever collecting protected health information
   (dropping anything else as a PHI safeguard) and acknowledges. It is a seam —
   wire it to a real sink when ready (see [Connecting a sink](#connecting-a-sink)).
 
-Because the Content-Security-Policy is `connect-src 'self'`, the beacon must go
-to a **same-origin** path (e.g. `/collect`). No external analytics host is
-contacted.
+The first-party beacon is same-origin **by design**: it must go to a path on
+this site (e.g. `/collect`), never a third-party host. Its collector processes
+the events. The Content-Security-Policy in `src/_headers` also permits the
+Google Analytics / Tag Manager hosts, but those are contacted **only when GA4
+is enabled** (see [Google Analytics 4](#google-analytics-4-recommended)); with
+GA4 off, no external analytics host is contacted.
 
 ## Enabling the beacon
 
