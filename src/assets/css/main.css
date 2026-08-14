@@ -584,6 +584,13 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .site-footer a:hover { color: var(--gold-light); }
 .footer-hours { margin-top: 10px; }
 .footer-social { display: flex; gap: 14px; margin-top: 18px; font-size: 0.85rem; }
+.footer-disclosure {
+  padding-top: 24px; font-size: 0.78rem; line-height: 1.5;
+  color: rgba(255,255,255,0.5);
+}
+.footer-disclosure p { margin: 0; }
+.footer-disclosure a { color: rgba(255,255,255,0.6); text-decoration: underline; }
+.footer-disclosure a:hover { color: var(--gold-light); }
 .footer-bottom {
   display: flex; flex-wrap: wrap; justify-content: space-between;
   gap: 12px; font-size: 0.82rem; color: rgba(255,255,255,0.4); padding-top: 24px;
