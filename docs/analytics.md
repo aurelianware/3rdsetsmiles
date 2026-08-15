@@ -147,10 +147,12 @@ patient record:
 
 1. The browser mints `attribution_id` on first visit and includes it with every
    event, including `appointment_request_submitted`.
-2. When the appointment request is created in CloudDentalOffice, persist the
-   `attribution_id` (and the captured UTM fields) alongside it — the request
-   handler in [`functions/book-appointment.js`](../functions/book-appointment.js)
-   is the natural place to forward these.
+2. The appointment-request forms carry the same `attribution_id` and UTM fields
+   in hidden inputs (populated by `analytics.js`), and
+   [`functions/book-appointment.js`](../functions/book-appointment.js) already
+   forwards them to CloudDentalOffice on the `AppointmentRequest` (as
+   `attribution`, plus derived `source` / `campaign`). CloudDentalOffice just
+   needs to persist them on the request record.
 3. As the request moves through the CloudDentalOffice lifecycle
    (Submitted → … → Confirmed → Arrived → Treatment), each stage can report back
    keyed by `attribution_id`, closing the loop from **acquisition source →

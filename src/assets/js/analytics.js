@@ -156,6 +156,34 @@
   window.track = track;
   window.ANALYTICS_EVENTS = EVENTS;
 
+  // Combined, non-PHI attribution for attaching to an appointment request so
+  // CloudDentalOffice can later match a patient to their acquisition source.
+  function getAttribution() {
+    var out = {};
+    var attr = attribution();
+    for (var k in attr) if (Object.prototype.hasOwnProperty.call(attr, k)) out[k] = attr[k];
+    out.attribution_id = attributionId();
+    return out;
+  }
+  window.getAttribution = getAttribution;
+
+  // Populate hidden `[data-attribution]` inputs (matched by name) on every form
+  // so the request handler receives the acquisition source. Only fills empty
+  // inputs the page explicitly opted into — never touches visible fields.
+  function fillAttributionFields() {
+    safe(function () {
+      var data = getAttribution();
+      var forms = document.querySelectorAll('form');
+      for (var i = 0; i < forms.length; i++) {
+        for (var key in data) {
+          if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
+          var input = forms[i].querySelector('input[name="' + key + '"][data-attribution]');
+          if (input && !input.value) input.value = data[key];
+        }
+      }
+    });
+  }
+
   // ── Auto-wire declarative CTAs via [data-action] ──
   document.addEventListener('click', function (e) {
     var el = e.target && e.target.closest ? e.target.closest('[data-action]') : null;
@@ -177,6 +205,8 @@
     if (isRequest) track(EVENTS.APPOINTMENT_REQUEST_SUBMITTED, { form: form.id || 'contact' });
   }, true);
 
-  // Establish attribution as early as possible in the session.
+  // Establish attribution as early as possible in the session, then stamp it
+  // onto any opted-in hidden form fields (defer guarantees the DOM is parsed).
   attribution();
+  fillAttributionFields();
 })();

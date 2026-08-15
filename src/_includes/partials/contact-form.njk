@@ -43,6 +43,17 @@
     <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
   </div>
 
+  {# Marketing attribution — populated client-side by analytics.js (UTM +
+     attribution_id). No PHI; ties the request to its acquisition source. #}
+  <input type="hidden" name="attribution_id" data-attribution>
+  <input type="hidden" name="utm_source" data-attribution>
+  <input type="hidden" name="utm_medium" data-attribution>
+  <input type="hidden" name="utm_campaign" data-attribution>
+  <input type="hidden" name="utm_content" data-attribution>
+  <input type="hidden" name="utm_term" data-attribution>
+  <input type="hidden" name="landing_page" data-attribution>
+  <input type="hidden" name="referrer" data-attribution>
+
   <button class="btn-primary form-submit" type="submit">Request Appointment</button>
   <p class="form-note">
     {# Submissions POST to the Cloudflare Pages Function at /functions/contact-submit.js.
