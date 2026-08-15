@@ -18,13 +18,14 @@ function request(extra = {}) {
 
 async function capturePosted(req) {
   let posted;
+  let res;
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (_url, init) => {
     posted = JSON.parse(init.body);
     return new Response(JSON.stringify({ status: "Received" }), { status: 202, headers: { "Content-Type": "application/json" } });
   };
   try {
-    var res = await onRequestPost({ request: req, env: { CLOUDHEALTH_ELIGIBILITY_API_BASE: "https://elig.test", CLOUDHEALTH_ELIGIBILITY_API_KEY: "secret" } });
+    res = await onRequestPost({ request: req, env: { CLOUDHEALTH_ELIGIBILITY_API_BASE: "https://elig.test", CLOUDHEALTH_ELIGIBILITY_API_KEY: "secret" } });
   } finally { globalThis.fetch = originalFetch; }
   return { posted, res };
 }

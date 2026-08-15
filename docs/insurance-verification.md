@@ -53,7 +53,7 @@ Posted to the eligibility seam and mirrored in the practice email:
   "carrier": "Delta Dental",
   "plan": "Delta Dental PPO | null",
   "name": "Full name",
-  "phone": "digits | null",
+  "phone": "phone as entered (trimmed, not normalized) | null",
   "email": "email | null",
   "requestingAppointment": "Yes | No | null",
   "source": "utm_source | referral | direct",
