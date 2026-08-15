@@ -113,7 +113,12 @@ function validateWhen(dateStr, timeStr) {
 async function createInCloudDental(env, booking) {
   const base = env.CLOUDDENTAL_API_BASE.replace(/\/+$/, "");
   const path = env.CLOUDDENTAL_BOOKING_PATH || DEFAULT_BOOKING_PATH;
-  const headers = { "Content-Type": "application/json" };
+  const headers = {
+    "Content-Type": "application/json",
+    // requestId is created once in the browser form and survives transport
+    // retries. Never mint an idempotency key inside a fetch retry attempt.
+    "Idempotency-Key": booking.requestId,
+  };
   if (env.CLOUDDENTAL_API_KEY) headers.Authorization = `Bearer ${env.CLOUDDENTAL_API_KEY}`;
 
   // Bound the wait so an unreachable/slow IntakeService fails fast to the email
@@ -191,6 +196,7 @@ export async function onRequestPost(context) {
   const date = str("date");
   const time = str("time");
   const message = str("message", 1000);
+  const submittedRequestId = str("requestId", 128);
 
   // Optional structured fields (Prompt 3). All are lenient — a missing or
   // invalid value simply isn't attached; it never blocks the request.
@@ -246,7 +252,12 @@ export async function onRequestPost(context) {
   // A clean AppointmentRequest model (Prompt 3) — the shape CloudDentalOffice
   // can adopt directly. Data-minimized: no clinical detail, no member IDs.
   const appointmentRequest = {
-    requestId: crypto.randomUUID(),
+    // Older/non-JS clients remain supported. Modern browsers submit the UUID
+    // generated when the form was loaded, so resubmitting the same POST reuses
+    // the identifier and the downstream Idempotency-Key.
+    requestId: /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submittedRequestId)
+      ? submittedRequestId
+      : crypto.randomUUID(),
     status: "Submitted",
     createdAt: new Date().toISOString(),
     patientRelationship,

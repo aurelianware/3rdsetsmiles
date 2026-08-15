@@ -38,6 +38,15 @@ npm run build
 npm start
 ```
 
+## Booking request idempotency
+
+The booking page creates one UUID when the form is loaded and posts it as
+`requestId`. The Pages Function forwards that same value in both the JSON body
+and the `Idempotency-Key` header. Replaying the same form POST is therefore an
+idempotent success in Cloud Dental Office, while a newly loaded form receives a
+new ID. The key is never regenerated inside a delivery attempt. If CDO is
+unavailable, the existing Resend delivery path remains the durable fallback.
+
 Output goes to `_site/`. Serve `_site/` with any static HTTP server to test the
 production build:
 

@@ -177,6 +177,10 @@ breadcrumb:
           <input type="hidden" name="utm_term" data-attribution>
           <input type="hidden" name="landing_page" data-attribution>
           <input type="hidden" name="referrer" data-attribution>
+          {# One ID per logical form submission. It is retained in the posted
+             body across browser/network retries and becomes CDO's
+             Idempotency-Key. The server supplies a UUID for legacy/no-JS use. #}
+          <input type="hidden" name="requestId" id="book-request-id">
 
           <button class="btn-primary form-submit" type="submit">Request Appointment</button>
           <p class="form-note">
@@ -205,6 +209,11 @@ breadcrumb:
     // Alternate date can't be in the past either (but stays optional/empty).
     var alt = document.getElementById("book-altDate");
     if (alt) alt.min = iso;
+
+    var requestId = document.getElementById("book-request-id");
+    if (requestId && !requestId.value && window.crypto && window.crypto.randomUUID) {
+      requestId.value = window.crypto.randomUUID();
+    }
 
     // Reveal the carrier field only when the visitor says they'll use insurance.
     // Also disable + clear it when hidden so its value is never submitted on
