@@ -207,13 +207,24 @@ breadcrumb:
     if (alt) alt.min = iso;
 
     // Reveal the carrier field only when the visitor says they'll use insurance.
+    // Also disable + clear it when hidden so its value is never submitted on
+    // opt-out (a hidden-but-enabled input still POSTs). Sync on init and on
+    // bfcache restore so a restored radio selection stays consistent.
     var carrier = document.getElementById("book-carrier-group");
-    if (carrier) {
+    var carrierInput = document.getElementById("book-insuranceCarrier");
+    if (carrier && carrierInput) {
+      var syncCarrier = function () {
+        var checked = document.querySelector('input[name="insuranceIntent"]:checked');
+        var useInsurance = !!checked && checked.value === "Yes";
+        carrier.hidden = !useInsurance;
+        carrierInput.disabled = !useInsurance;
+        if (!useInsurance) carrierInput.value = "";
+      };
       document.querySelectorAll('input[name="insuranceIntent"]').forEach(function (r) {
-        r.addEventListener("change", function () {
-          carrier.hidden = this.value !== "Yes";
-        });
+        r.addEventListener("change", syncCarrier);
       });
+      syncCarrier();
+      window.addEventListener("pageshow", syncCarrier);
     }
   })();
 </script>
