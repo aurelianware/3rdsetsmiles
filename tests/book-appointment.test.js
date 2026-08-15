@@ -55,6 +55,33 @@ test("uses Resend fallback when Cloud Dental intake fails", async () => {
   } finally { globalThis.fetch = originalFetch; }
 });
 
+test("uses the stable website request ID as the CDO idempotency key", async () => {
+  const formRequest = request("New");
+  const form = await formRequest.formData();
+  form.set("requestId", "11111111-1111-4111-8111-111111111111");
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (_url, init) => {
+    calls.push(init);
+    return new Response(JSON.stringify({ status: "requested" }), { status: 202, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    const env = { CLOUDDENTAL_API_BASE: "https://intake.test", CLOUDDENTAL_API_KEY: "secret" };
+    for (let i = 0; i < 2; i++) {
+      const replay = new Request("https://example.test/book-appointment", { method: "POST", body: form });
+      assert.equal((await onRequestPost({ request: replay, env })).status, 200);
+    }
+    assert.deepEqual(calls.map((call) => call.headers["Idempotency-Key"]), [
+      "11111111-1111-4111-8111-111111111111",
+      "11111111-1111-4111-8111-111111111111",
+    ]);
+    assert.deepEqual(calls.map((call) => JSON.parse(call.body).requestId), [
+      "11111111-1111-4111-8111-111111111111",
+      "11111111-1111-4111-8111-111111111111",
+    ]);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
 // Builds a request with the optional Prompt 3 fields set.
 function richRequest(extra = {}) {
   const form = new FormData();
