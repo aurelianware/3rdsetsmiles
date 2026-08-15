@@ -1,0 +1,106 @@
+---
+layout: layouts/base.njk
+title: "Check My Insurance"
+description: "Tell us your dental plan and our team at 3rd Set Smiles in Tempe, AZ will help verify your benefits before your visit. Most major PPO plans welcome. Call (480) 334-2752."
+permalink: /insurance-check/
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Check My Insurance", url: "/insurance-check/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Check My Insurance</div>
+    <h1>Wondering if we take your <span>insurance?</span></h1>
+    <p class="lede">Tell us your plan and our team will help verify your benefits before your visit. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)">{{ site.phone.display }}</a>.</p>
+  </div>
+</section>
+
+<section class="section contact-section">
+  <div class="container">
+    <div class="contact-wrap">
+
+      <div class="contact-info">
+        <div class="fade-in">
+          <h2>Benefits, verified by our team</h2>
+          <p>Send us your dental plan details and we'll check your benefits and out-of-pocket estimate <strong>before your visit</strong> — so there are no surprises. We work with most major PPO plans.</p>
+        </div>
+        <div class="fade-in">
+          <div class="contact-detail">
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Office Hours</div>
+            <div class="contact-detail-value">{{ site.hours.display }}<br>{{ site.hours.weekend }}</div>
+          </div>
+        </div>
+        <div class="fade-in" style="margin-top:24px">
+          <p style="color:rgba(255,255,255,0.6);font-size:0.92rem">See our <a href="/insurance-financing/" style="color:var(--gold-light)">insurance &amp; financing options</a>, including Cherry financing and in-house payment plans.</p>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap fade-in">
+        <form class="contact-form" id="insurance-check" method="POST" action="/insurance-check" novalidate>
+          <h3>Check My Insurance</h3>
+          <p class="form-intro">Share your plan and we'll help verify your benefits before your visit. This is a request — <strong>we'll confirm your specific coverage and estimated responsibility with you</strong>; it isn't a real-time coverage decision.</p>
+          <p class="form-intro" style="font-size:0.9rem"><strong>Please don't include medical or health details.</strong> For your security, don't enter member/subscriber ID numbers here — our team will collect those securely if needed.</p>
+
+          <div class="form-group">
+            <label for="ins-carrier">Insurance carrier <span aria-hidden="true">*</span></label>
+            <input id="ins-carrier" name="carrier" type="text" required autocomplete="off" placeholder="e.g. Delta Dental, Cigna, MetLife">
+          </div>
+          <div class="form-group">
+            <label for="ins-plan">Plan or network name <span class="optional">(optional)</span></label>
+            <input id="ins-plan" name="plan" type="text" autocomplete="off" placeholder="e.g. Delta Dental PPO">
+          </div>
+          <div class="form-group">
+            <label for="ins-name">Your name <span aria-hidden="true">*</span></label>
+            <input id="ins-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="ins-phone">Phone <span class="optional">(phone or email)</span></label>
+              <input id="ins-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+            </div>
+            <div class="form-group">
+              <label for="ins-email">Email <span class="optional">(phone or email)</span></label>
+              <input id="ins-email" name="email" type="email" autocomplete="email">
+            </div>
+          </div>
+          <fieldset class="form-group">
+            <legend>Would you also like to request an appointment?</legend>
+            <label><input name="requestingAppointment" type="radio" value="Yes"> Yes, please reach out to schedule</label>
+            <label><input name="requestingAppointment" type="radio" value="No"> No, just checking my benefits for now</label>
+          </fieldset>
+
+          {# Honeypot for spam bots — real users won't fill this #}
+          <div class="form-honeypot" aria-hidden="true">
+            <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          {# Marketing attribution — populated client-side by analytics.js. No PHI. #}
+          <input type="hidden" name="attribution_id" data-attribution>
+          <input type="hidden" name="utm_source" data-attribution>
+          <input type="hidden" name="utm_medium" data-attribution>
+          <input type="hidden" name="utm_campaign" data-attribution>
+          <input type="hidden" name="utm_content" data-attribution>
+          <input type="hidden" name="utm_term" data-attribution>
+          <input type="hidden" name="landing_page" data-attribution>
+          <input type="hidden" name="referrer" data-attribution>
+
+          <button class="btn-primary form-submit" type="submit">Check My Insurance</button>
+          <p class="form-note">
+            {# Submissions POST to the Cloudflare Pages Function at /functions/insurance-check.js.
+               It records an InsuranceVerificationRequest for staff review (and, when configured,
+               the CloudHealthOffice / CloudDentalOffice eligibility seam). It never returns a
+               real-time coverage decision. #}
+            Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>
+            or email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

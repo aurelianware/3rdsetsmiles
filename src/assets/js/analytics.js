@@ -195,12 +195,17 @@
     if (event) track(event, { action: action });
   }, true);
 
-  // ── Appointment-request form submissions ──
-  // Fires on the shared request form (#contact / #book, class .contact-form).
-  // Sends no field values — only that a request was submitted.
+  // ── Request form submissions ──
+  // The insurance-check form is its own conversion; every other request form
+  // (#contact / #book, class .contact-form) is an appointment request. Sends no
+  // field values — only which conversion happened and the form id.
   document.addEventListener('submit', function (e) {
     var form = e.target;
     if (!form || form.nodeName !== 'FORM') return;
+    if (form.id === 'insurance-check') {
+      track(EVENTS.INSURANCE_CHECK_SUBMITTED, { form: form.id });
+      return;
+    }
     var isRequest = form.classList.contains('contact-form') || form.id === 'contact' || form.id === 'book';
     if (isRequest) track(EVENTS.APPOINTMENT_REQUEST_SUBMITTED, { form: form.id || 'contact' });
   }, true);
