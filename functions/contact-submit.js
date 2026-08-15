@@ -62,11 +62,17 @@ export async function onRequestPost(context) {
     });
   }
 
-  const name = (form.get("name") || "").toString().trim();
-  const phone = (form.get("phone") || "").toString().trim();
-  const email = (form.get("email") || "").toString().trim();
-  const reason = (form.get("reason") || "").toString().trim();
-  const message = (form.get("message") || "").toString().trim();
+  const str = (key, max = 200) => (form.get(key) || "").toString().trim().slice(0, max);
+  const name = str("name");
+  const phone = str("phone");
+  const email = str("email");
+  const reason = str("reason");
+  const message = str("message", 1000);
+
+  // Marketing attribution (no PHI) — populated client-side by analytics.js.
+  const source = str("utm_source") || (str("referrer") ? "referral" : "direct");
+  const campaign = str("utm_campaign");
+  const attributionId = str("attribution_id");
 
   if (!name || !phone) {
     return page({
@@ -93,6 +99,8 @@ export async function onRequestPost(context) {
     email ? `Email: ${email}` : null,
     reason ? `Reason: ${reason}` : null,
     message ? `Message: ${message}` : null,
+    `Source: ${source}${campaign ? ` / ${campaign}` : ""}`,
+    attributionId ? `Attribution ID: ${attributionId}` : null,
   ].filter(Boolean).join("\n");
 
   try {

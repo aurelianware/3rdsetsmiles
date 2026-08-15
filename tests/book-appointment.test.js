@@ -55,6 +55,78 @@ test("uses Resend fallback when Cloud Dental intake fails", async () => {
   } finally { globalThis.fetch = originalFetch; }
 });
 
+// Builds a request with the optional Prompt 3 fields set.
+function richRequest(extra = {}) {
+  const form = new FormData();
+  form.set("name", "Sam Example");
+  form.set("phone", "4805550100");
+  form.set("email", "sam@example.test");
+  form.set("patientRelationship", "New");
+  form.set("date", "2030-08-12");
+  form.set("time", "10:00");
+  form.set("reason", "Dental implants consultation");
+  form.set("preferredContact", "Text");
+  form.set("insuranceIntent", "Yes");
+  form.set("insuranceCarrier", "Delta Dental");
+  form.set("utm_source", "google");
+  form.set("utm_campaign", "implants");
+  form.set("attribution_id", "aid-abc-123");
+  for (const [k, v] of Object.entries(extra)) v === null ? form.delete(k) : form.set(k, v);
+  return new Request("https://example.test/book-appointment", { method: "POST", body: form });
+}
+
+async function capturePosted(request) {
+  let posted;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (_url, init) => {
+    posted = JSON.parse(init.body);
+    return new Response(JSON.stringify({ status: "requested" }), { status: 202, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    await onRequestPost({ request, env: { CLOUDDENTAL_API_BASE: "https://intake.test", CLOUDDENTAL_API_KEY: "secret" } });
+  } finally { globalThis.fetch = originalFetch; }
+  return posted;
+}
+
+test("posts a structured AppointmentRequest with status Submitted and no PHI identifiers", async () => {
+  const posted = await capturePosted(richRequest());
+  assert.match(posted.requestId, /[0-9a-f-]{16,}/i);
+  assert.equal(posted.status, "Submitted");
+  assert.ok(!Number.isNaN(Date.parse(posted.createdAt)));
+  assert.equal(posted.preferredContact, "Text");
+  assert.equal(posted.patientId, undefined);
+  assert.equal(posted.providerId, undefined);
+  assert.equal(posted.locationId, undefined);
+});
+
+test("forwards insurance intent and carrier, but drops carrier unless intent is Yes", async () => {
+  const yes = await capturePosted(richRequest());
+  assert.equal(yes.insuranceIntent, "Yes");
+  assert.equal(yes.insuranceCarrier, "Delta Dental");
+
+  const no = await capturePosted(richRequest({ insuranceIntent: "No" }));
+  assert.equal(no.insuranceIntent, "No");
+  assert.equal(no.insuranceCarrier, null); // carrier not attached when not using insurance
+});
+
+test("captures marketing attribution and derives source/campaign", async () => {
+  const posted = await capturePosted(richRequest());
+  assert.equal(posted.source, "google");
+  assert.equal(posted.campaign, "implants");
+  assert.equal(posted.attribution.attribution_id, "aid-abc-123");
+  assert.equal(posted.attribution.utm_source, "google");
+});
+
+test("validates optional alternate: keeps a valid one, drops an invalid one, never blocks", async () => {
+  const good = await capturePosted(richRequest({ altDate: "2030-08-13", altTime: "14:00" }));
+  assert.ok(good.alternateStart, "valid alternate should be attached");
+
+  // A weekend alternate is invalid, but the request must still succeed.
+  const bad = await capturePosted(richRequest({ altDate: "2030-08-11", altTime: "14:00" })); // 2030-08-11 is a Sunday
+  assert.equal(bad.alternateStart, null);
+  assert.equal(bad.status, "Submitted");
+});
+
 test("practice email says accepted for review rather than created or confirmed", async () => {
   const originalFetch = globalThis.fetch;
   let emailBody;

@@ -8,8 +8,11 @@
 //
 //     POST {base}/api/public/booking-requests   →  202 Accepted
 //
-// with a PublicBookingRequest body:
-//   { name, phone, email, patientRelationship, preferredStart, durationMinutes, reason, message }
+// with an AppointmentRequest body (data-minimized; no clinical detail, no
+// member/subscriber IDs):
+//   { requestId, status, createdAt, patientRelationship, name, phone, email,
+//     preferredContact, preferredStart, alternateStart, durationMinutes, reason,
+//     message, insuranceIntent, insuranceCarrier, source, campaign, attribution }
 //
 // Cloud Dental Office staff own patient matching and appointment approval. This
 // function sends no patient, provider, location, or appointment identifiers.
@@ -177,14 +180,33 @@ export async function onRequestPost(context) {
     });
   }
 
-  const name = (form.get("name") || "").toString().trim();
-  const phone = (form.get("phone") || "").toString().trim();
-  const email = (form.get("email") || "").toString().trim();
-  const patientRelationship = (form.get("patientRelationship") || "").toString().trim();
-  const reason = (form.get("reason") || "").toString().trim();
-  const date = (form.get("date") || "").toString().trim();
-  const time = (form.get("time") || "").toString().trim();
-  const message = (form.get("message") || "").toString().trim();
+  const str = (key, max = 200) => (form.get(key) || "").toString().trim().slice(0, max);
+  const oneOf = (key, allowed) => (allowed.includes(str(key)) ? str(key) : null);
+
+  const name = str("name");
+  const phone = str("phone");
+  const email = str("email");
+  const patientRelationship = str("patientRelationship");
+  const reason = str("reason");
+  const date = str("date");
+  const time = str("time");
+  const message = str("message", 1000);
+
+  // Optional structured fields (Prompt 3). All are lenient — a missing or
+  // invalid value simply isn't attached; it never blocks the request.
+  const preferredContact = oneOf("preferredContact", ["Phone", "Text", "Email"]);
+  const insuranceIntent = oneOf("insuranceIntent", ["Yes", "No", "Not sure"]);
+  // Carrier is only meaningful when the visitor said they'll use insurance.
+  const insuranceCarrier = insuranceIntent === "Yes" ? (str("insuranceCarrier", 120) || null) : null;
+  const altDate = str("altDate");
+  const altTime = str("altTime");
+
+  // Marketing attribution (no PHI) — populated client-side by analytics.js.
+  const attribution = {};
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "landing_page", "referrer", "attribution_id"]) {
+    const val = str(key, 200);
+    if (val) attribution[key] = val;
+  }
 
   if (!name || !phone || !date || !time || !["New", "Existing"].includes(patientRelationship)) {
     return page({
@@ -207,16 +229,58 @@ export async function onRequestPost(context) {
     });
   }
 
+  // Optional alternate date/time — validated only when BOTH are provided, and
+  // dropped silently if invalid so it never blocks the primary request.
+  let altStartIso = null;
+  let prettyAlt = null;
+  if (altDate && altTime) {
+    const altWhen = validateWhen(altDate, altTime);
+    if (!altWhen.error) {
+      altStartIso = altWhen.startIso;
+      prettyAlt = `${altDate} at ${altTime}`;
+    }
+  }
+
   const prettyWhen = `${date} at ${time}`;
+
+  // A clean AppointmentRequest model (Prompt 3) — the shape CloudDentalOffice
+  // can adopt directly. Data-minimized: no clinical detail, no member IDs.
+  const appointmentRequest = {
+    requestId: crypto.randomUUID(),
+    status: "Submitted",
+    createdAt: new Date().toISOString(),
+    patientRelationship,
+    name,
+    phone,
+    email: email || null,
+    preferredContact: preferredContact || null,
+    preferredStart: when.startIso,
+    alternateStart: altStartIso,
+    durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
+    reason: reason || null,
+    message: message || null,
+    insuranceIntent: insuranceIntent || null,
+    insuranceCarrier,
+    source: attribution.utm_source || (attribution.referrer ? "referral" : "direct"),
+    campaign: attribution.utm_campaign || null,
+    attribution: Object.keys(attribution).length ? attribution : null,
+  };
+
   const notes = [
     "WEB BOOKING REQUEST — please confirm with patient before finalizing.",
+    `Request ID: ${appointmentRequest.requestId}`,
     `Name: ${name}`,
     `Phone: ${phone}`,
     email ? `Email: ${email}` : null,
+    preferredContact ? `Preferred contact: ${preferredContact}` : null,
     `Patient relationship: ${patientRelationship}`,
     reason ? `Reason: ${reason}` : null,
     `Preferred: ${prettyWhen} (America/Phoenix)`,
+    prettyAlt ? `Alternate: ${prettyAlt} (America/Phoenix)` : null,
+    insuranceIntent ? `Insurance: ${insuranceIntent}${insuranceCarrier ? ` — ${insuranceCarrier}` : ""}` : null,
     message ? `Message: ${message}` : null,
+    `Source: ${appointmentRequest.source}${appointmentRequest.campaign ? ` / ${appointmentRequest.campaign}` : ""}`,
+    attribution.attribution_id ? `Attribution ID: ${attribution.attribution_id}` : null,
   ].filter(Boolean).join("\n");
 
   // The public booking endpoint requires an API key, so treat Cloud Dental as
@@ -237,19 +301,8 @@ export async function onRequestPost(context) {
   let cloudDentalOk = false;
 
   if (hasCloudDental) {
-    const booking = {
-      name,
-      phone,
-      email: email || null,
-      patientRelationship,
-      preferredStart: when.startIso,
-      durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
-      reason: reason || null,
-      message: message || null,
-    };
-
     try {
-      await createInCloudDental(env, booking);
+      await createInCloudDental(env, appointmentRequest);
       cloudDentalOk = true;
     } catch (e) {
       // Fall through: a configured Resend path below still records the request.

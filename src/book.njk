@@ -62,6 +62,15 @@ breadcrumb:
             <label for="book-email">Email Address</label>
             <input id="book-email" name="email" type="email" autocomplete="email">
           </div>
+          <div class="form-group">
+            <label for="book-preferredContact">Best way to reach you</label>
+            <select id="book-preferredContact" name="preferredContact">
+              <option value="">No preference</option>
+              <option value="Phone">Phone call</option>
+              <option value="Text">Text message</option>
+              <option value="Email">Email</option>
+            </select>
+          </div>
           <fieldset class="form-group">
             <legend>Have you visited 3rd Set Smiles before? <span aria-hidden="true">*</span></legend>
             <label><input name="patientRelationship" type="radio" value="Existing" required> Yes, I'm an existing patient</label>
@@ -91,6 +100,36 @@ breadcrumb:
               <option value="17:00">5:00 PM</option>
             </select>
           </div>
+          <details class="form-alt">
+            <summary>Add an alternate date &amp; time <span class="optional">(optional)</span></summary>
+            <div class="form-grid" style="margin-top:14px">
+              <div class="form-group">
+                <label for="book-altDate">Alternate Date</label>
+                <input id="book-altDate" name="altDate" type="date" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="book-altTime">Alternate Time</label>
+                <select id="book-altTime" name="altTime">
+                  <option value="">No preference</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="10:30">10:30 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="11:30">11:30 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="12:30">12:30 PM</option>
+                  <option value="13:00">1:00 PM</option>
+                  <option value="13:30">1:30 PM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="14:30">2:30 PM</option>
+                  <option value="15:00">3:00 PM</option>
+                  <option value="15:30">3:30 PM</option>
+                  <option value="16:00">4:00 PM</option>
+                  <option value="16:30">4:30 PM</option>
+                  <option value="17:00">5:00 PM</option>
+                </select>
+              </div>
+            </div>
+          </details>
           <div class="form-group">
             <label for="book-reason">What's this visit for?</label>
             <select id="book-reason" name="reason">
@@ -105,6 +144,18 @@ breadcrumb:
               <option>Other</option>
             </select>
           </div>
+          <fieldset class="form-group">
+            <legend>Will you be using dental insurance? <span class="optional">(optional)</span></legend>
+            <label><input name="insuranceIntent" type="radio" value="Yes"> Yes</label>
+            <label><input name="insuranceIntent" type="radio" value="No"> No</label>
+            <label><input name="insuranceIntent" type="radio" value="Not sure"> Not sure</label>
+          </fieldset>
+          <div class="form-group" id="book-carrier-group" hidden>
+            <label for="book-insuranceCarrier">Insurance carrier <span class="optional">(optional)</span></label>
+            <input id="book-insuranceCarrier" name="insuranceCarrier" type="text" autocomplete="off" placeholder="e.g. Delta Dental, Cigna, MetLife">
+            <p class="form-note" style="margin-top:6px">Just the plan name for now — please don't enter member or subscriber ID numbers here. We'll verify your specific benefits before your visit.</p>
+          </div>
+
           <div class="form-group">
             <label for="book-message">Anything else? <span class="optional">(optional)</span></label>
             <textarea id="book-message" name="message" rows="3" placeholder="A good time to reach you, a second choice of day, etc."></textarea>
@@ -114,6 +165,18 @@ breadcrumb:
           <div class="form-honeypot" aria-hidden="true">
             <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off"></label>
           </div>
+
+          {# Marketing attribution — populated client-side by analytics.js from
+             the visitor's session (UTM + attribution_id). No PHI; lets staff/
+             CloudDentalOffice tie a request to its acquisition source. #}
+          <input type="hidden" name="attribution_id" data-attribution>
+          <input type="hidden" name="utm_source" data-attribution>
+          <input type="hidden" name="utm_medium" data-attribution>
+          <input type="hidden" name="utm_campaign" data-attribution>
+          <input type="hidden" name="utm_content" data-attribution>
+          <input type="hidden" name="utm_term" data-attribution>
+          <input type="hidden" name="landing_page" data-attribution>
+          <input type="hidden" name="referrer" data-attribution>
 
           <button class="btn-primary form-submit" type="submit">Request Appointment</button>
           <p class="form-note">
@@ -134,12 +197,23 @@ breadcrumb:
   // Prevent picking a date in the past; default to today. Progressive
   // enhancement only — the server also validates the submitted date.
   (function () {
-    var d = document.getElementById("book-date");
-    if (!d) return;
     var today = new Date();
     var off = today.getTimezoneOffset() * 60000;
     var iso = new Date(today.getTime() - off).toISOString().slice(0, 10);
-    d.min = iso;
-    if (!d.value) d.value = iso;
+    var d = document.getElementById("book-date");
+    if (d) { d.min = iso; if (!d.value) d.value = iso; }
+    // Alternate date can't be in the past either (but stays optional/empty).
+    var alt = document.getElementById("book-altDate");
+    if (alt) alt.min = iso;
+
+    // Reveal the carrier field only when the visitor says they'll use insurance.
+    var carrier = document.getElementById("book-carrier-group");
+    if (carrier) {
+      document.querySelectorAll('input[name="insuranceIntent"]').forEach(function (r) {
+        r.addEventListener("change", function () {
+          carrier.hidden = this.value !== "Yes";
+        });
+      });
+    }
   })();
 </script>
