@@ -75,41 +75,6 @@ ${body}
   });
 }
 
-// Office hours, in Arizona local minutes-since-midnight. Latest start is 17:00
-// so a 60-minute default appointment still ends by the 18:00 close. Kept in
-// sync with the slot list in src/book.njk.
-const OPEN_MINUTES = 10 * 60; // 10:00
-const LAST_START_MINUTES = 17 * 60; // 17:00
-
-// Validate the visitor's preferred date + time server-side, independent of the
-// delivery path (Cloud Dental Office or email). 3rd Set Smiles is in Tempe, AZ,
-// which does not observe daylight saving time, so the offset is a fixed -07:00
-// (MST) year-round; the requested wall-clock date/time IS Arizona local.
-// Returns { startIso } on success, or { error } with a visitor-facing reason.
-function validateWhen(dateStr, timeStr) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || !/^\d{2}:\d{2}$/.test(timeStr)) {
-    return { error: "Please choose a valid date and time." };
-  }
-  const start = new Date(`${dateStr}T${timeStr}:00-07:00`);
-  if (Number.isNaN(start.getTime())) {
-    return { error: "Please choose a valid date and time." };
-  }
-  if (start.getTime() <= Date.now()) {
-    return { error: "Please choose a date and time in the future." };
-  }
-  // Day-of-week for the Arizona calendar date (07:00Z is the same calendar day).
-  const dow = new Date(`${dateStr}T00:00:00-07:00`).getUTCDay();
-  if (dow === 0 || dow === 6) {
-    return { error: "We're open Monday through Friday — please choose a weekday." };
-  }
-  const [hh, mm] = timeStr.split(":").map(Number);
-  const minutes = hh * 60 + mm;
-  if (minutes < OPEN_MINUTES || minutes > LAST_START_MINUTES || (mm !== 0 && mm !== 30)) {
-    return { error: "Please choose a time during office hours (10:00 AM – 5:00 PM)." };
-  }
-  return { startIso: start.toISOString() };
-}
-
 async function createInCloudDental(env, booking) {
   const base = env.CLOUDDENTAL_API_BASE.replace(/\/+$/, "");
   const path = env.CLOUDDENTAL_BOOKING_PATH || DEFAULT_BOOKING_PATH;
@@ -135,7 +100,9 @@ async function createInCloudDental(env, booking) {
     });
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
-      throw new Error(`Cloud Dental Office responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+      const error = new Error(`Cloud Dental Office responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+      error.status = res.status;
+      throw error;
     }
     return res.json().catch(() => ({}));
   } finally {
@@ -193,8 +160,8 @@ export async function onRequestPost(context) {
   const email = str("email");
   const patientRelationship = str("patientRelationship");
   const reason = str("reason");
-  const date = str("date");
-  const time = str("time");
+  const preferredStart = str("preferredStart", 100);
+  const availabilityToken = str("availabilityToken", 4096);
   const message = str("message", 1000);
   const submittedRequestId = str("requestId", 128);
 
@@ -204,8 +171,6 @@ export async function onRequestPost(context) {
   const insuranceIntent = oneOf("insuranceIntent", ["Yes", "No", "Not sure"]);
   // Carrier is only meaningful when the visitor said they'll use insurance.
   const insuranceCarrier = insuranceIntent === "Yes" ? (str("insuranceCarrier", 120) || null) : null;
-  const altDate = str("altDate");
-  const altTime = str("altTime");
 
   // Marketing attribution (no PHI) — populated client-side by analytics.js.
   const attribution = {};
@@ -214,40 +179,26 @@ export async function onRequestPost(context) {
     if (val) attribution[key] = val;
   }
 
-  if (!name || !phone || !date || !time || !["New", "Existing"].includes(patientRelationship)) {
+  if (!name || !phone || !preferredStart || !availabilityToken || !["New", "Existing"].includes(patientRelationship)) {
     return page({
       title: "Missing information",
       heading: "We need a little more",
-      body: `<p>Please include your name, phone number, whether you've visited us before, and a preferred date and time, then try again. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      body: `<p>Please include your name and phone number, tell us whether you're a new or existing patient, then choose one of the available appointment times. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
       status: 400,
     });
   }
 
-  // Validate the requested date/time server-side for EVERY delivery path (not
-  // just Cloud Dental Office) — future, a weekday, and within office hours.
-  const when = validateWhen(date, time);
-  if (when.error) {
+  const start = new Date(preferredStart);
+  if (Number.isNaN(start.getTime()) || start.getTime() <= Date.now()) {
     return page({
       title: "Check the date and time",
       heading: "That date or time looks off",
-      body: `<p>${esc(when.error)} You can also call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      body: `<p>Please choose an available future time. You can also call us at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
       status: 400,
     });
   }
 
-  // Optional alternate date/time — validated only when BOTH are provided, and
-  // dropped silently if invalid so it never blocks the primary request.
-  let altStartIso = null;
-  let prettyAlt = null;
-  if (altDate && altTime) {
-    const altWhen = validateWhen(altDate, altTime);
-    if (!altWhen.error) {
-      altStartIso = altWhen.startIso;
-      prettyAlt = `${altDate} at ${altTime}`;
-    }
-  }
-
-  const prettyWhen = `${date} at ${time}`;
+  const prettyWhen = start.toLocaleString("en-US", { timeZone: "America/Phoenix", dateStyle: "medium", timeStyle: "short" });
 
   // A clean AppointmentRequest model (Prompt 3) — the shape CloudDentalOffice
   // can adopt directly. Data-minimized: no clinical detail, no member IDs.
@@ -265,8 +216,9 @@ export async function onRequestPost(context) {
     phone,
     email: email || null,
     preferredContact: preferredContact || null,
-    preferredStart: when.startIso,
-    alternateStart: altStartIso,
+    preferredStart: start.toISOString(),
+    availabilityToken,
+    alternateStart: null,
     durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
     reason: reason || null,
     message: message || null,
@@ -287,7 +239,6 @@ export async function onRequestPost(context) {
     `Patient relationship: ${patientRelationship}`,
     reason ? `Reason: ${reason}` : null,
     `Preferred: ${prettyWhen} (America/Phoenix)`,
-    prettyAlt ? `Alternate: ${prettyAlt} (America/Phoenix)` : null,
     insuranceIntent ? `Insurance: ${insuranceIntent}${insuranceCarrier ? ` — ${insuranceCarrier}` : ""}` : null,
     message ? `Message: ${message}` : null,
     `Source: ${appointmentRequest.source}${appointmentRequest.campaign ? ` / ${appointmentRequest.campaign}` : ""}`,
@@ -316,6 +267,12 @@ export async function onRequestPost(context) {
       await createInCloudDental(env, appointmentRequest);
       cloudDentalOk = true;
     } catch (e) {
+      if (e && e.status === 409) {
+        return page({
+          title: "Choose another time", heading: "That time was just taken",
+          body: `<p>Sorry, ${esc(name)} — that appointment time is no longer available. Please return to the booking page and choose another available time.</p>`, status: 409,
+        });
+      }
       // Fall through: a configured Resend path below still records the request.
     }
   }

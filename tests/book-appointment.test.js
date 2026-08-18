@@ -8,8 +8,8 @@ function request(relationship = "Existing") {
   form.set("phone", "4805550100");
   form.set("email", "sam@example.test");
   form.set("patientRelationship", relationship);
-  form.set("date", "2030-08-12");
-  form.set("time", "10:00");
+  form.set("preferredStart", "2030-08-12T17:00:00.000Z");
+  form.set("availabilityToken", "opaque-signed-slot");
   form.set("reason", "Exam");
   return new Request("https://example.test/book-appointment", { method: "POST", body: form });
 }
@@ -36,6 +36,7 @@ test("posts relationship without internal identifiers and uses request language"
 test("requires a valid patient relationship", async () => {
   const response = await onRequestPost({ request: request("Unknown"), env: {} });
   assert.equal(response.status, 400);
+  assert.match(await response.text(), /new or existing patient/i);
 });
 
 test("uses Resend fallback when Cloud Dental intake fails", async () => {
@@ -89,8 +90,8 @@ function richRequest(extra = {}) {
   form.set("phone", "4805550100");
   form.set("email", "sam@example.test");
   form.set("patientRelationship", "New");
-  form.set("date", "2030-08-12");
-  form.set("time", "10:00");
+  form.set("preferredStart", "2030-08-12T17:00:00.000Z");
+  form.set("availabilityToken", "opaque-signed-slot");
   form.set("reason", "Dental implants consultation");
   form.set("preferredContact", "Text");
   form.set("insuranceIntent", "Yes");
@@ -144,14 +145,29 @@ test("captures marketing attribution and derives source/campaign", async () => {
   assert.equal(posted.attribution.utm_source, "google");
 });
 
-test("validates optional alternate: keeps a valid one, drops an invalid one, never blocks", async () => {
-  const good = await capturePosted(richRequest({ altDate: "2030-08-13", altTime: "14:00" }));
-  assert.ok(good.alternateStart, "valid alternate should be attached");
+test("posts the opaque availability selection without internal identifiers", async () => {
+  const posted = await capturePosted(richRequest());
+  assert.equal(posted.availabilityToken, "opaque-signed-slot");
+  assert.equal(posted.providerId, undefined);
+  assert.equal(posted.locationId, undefined);
+  assert.equal(posted.appointmentTypeId, undefined);
+});
 
-  // A weekend alternate is invalid, but the request must still succeed.
-  const bad = await capturePosted(richRequest({ altDate: "2030-08-11", altTime: "14:00" })); // 2030-08-11 is a Sunday
-  assert.equal(bad.alternateStart, null);
-  assert.equal(bad.status, "Submitted");
+test("shows a friendly conflict and does not email a stale slot", async () => {
+  const originalFetch = globalThis.fetch;
+  let emailCalled = false;
+  globalThis.fetch = async (url) => {
+    if (String(url).includes("api.resend.com")) { emailCalled = true; return new Response("{}", { status: 200 }); }
+    return new Response(JSON.stringify({ message: "no longer available" }), { status: 409 });
+  };
+  try {
+    const response = await onRequestPost({ request: request("New"), env: {
+      CLOUDDENTAL_API_BASE: "https://intake.test", CLOUDDENTAL_API_KEY: "secret",
+      RESEND_API_KEY: "resend", CONTACT_TO_EMAIL: "office@example.test", CONTACT_FROM_EMAIL: "web@example.test"
+    } });
+    assert.equal(response.status, 409); assert.equal(emailCalled, false);
+    assert.match(await response.text(), /time is no longer available|time was just taken/i);
+  } finally { globalThis.fetch = originalFetch; }
 });
 
 test("practice email says accepted for review rather than created or confirmed", async () => {

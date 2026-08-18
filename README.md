@@ -90,6 +90,19 @@ which integrates with **Cloud Dental Office**
 (<https://github.com/aurelianware/clouddentaloffice>) — the practice's
 open-source scheduling backend.
 
+The page loads live, canonical CloudDentalOffice availability through the same
+scheduling engine used by external scheduling channels. The browser calls the
+same-origin `/booking-availability` Pages Function; that server-side proxy keeps
+`CLOUDDENTAL_API_KEY` private and returns only public labels, times, and an opaque
+selection token. No scheduling rules are duplicated in JavaScript.
+
+On submission, IntakeService revalidates the token. HTTP `409` means the slot
+was taken after it was displayed; the page asks the visitor to choose another
+time and does not send a misleading fallback email. This remains
+**request-based website booking**: successful submission creates a staff-reviewable
+BookingRequest, not an Appointment. Confirmed marketplace bookings such as
+Zocdoc use a separate authenticated confirmed-booking workflow.
+
 The function posts to Cloud Dental Office's dedicated **public IntakeService** —
 `POST {base}/api/public/booking-requests` — added for this integration
 ([details](https://github.com/aurelianware/clouddentaloffice)). That service is
@@ -124,18 +137,16 @@ self-hosted and has no public URL by default):
 | `CLOUDDENTAL_API_BASE` | to enable direct booking | Base URL of the public IntakeService, e.g. `https://book.yourpractice.com` (the booking path is appended automatically). |
 | `CLOUDDENTAL_API_KEY` | with `CLOUDDENTAL_API_BASE` | The `PublicBooking` API key; sent as `Authorization: Bearer …`. Required by the endpoint once it's enabled. |
 | `CLOUDDENTAL_BOOKING_PATH` | optional | Override the endpoint path (default `/api/public/booking-requests`). |
+| `CLOUDDENTAL_AVAILABILITY_PATH` | optional | Override the availability endpoint (default `/api/public/availability`). |
 | `CLOUDDENTAL_APPT_MINUTES` | optional | Appointment length in minutes (default `60`). |
 | `CLOUDDENTAL_TIMEOUT_MS` | optional | Request timeout in ms (default `8000`). If the IntakeService is unreachable, the request aborts and the email fallback takes over. |
 
-Patient matching, provider/location selection, availability review, and approval
-all happen in **Cloud Dental Office**, never on the public website.
-
-Times are interpreted in `America/Phoenix` (fixed `-07:00`, no DST) and sent
-to Cloud Dental Office as UTC ISO-8601. The Function validates the requested
-slot server-side on **every** delivery path — it must be a future weekday
-within office hours (10:00 AM–5:00 PM start) — so email-only mode can't accept
-weekend/past/out-of-hours requests either. The form is intentionally
-data-minimized to appointment-intake contact and preference information.
+Patient matching and approval happen only in **Cloud Dental Office**. The public
+page displays provider/location/type aliases supplied by CloudDentalOffice and
+never receives their internal identifiers. Times are displayed in
+`America/Phoenix` and submitted as UTC ISO-8601 with the opaque selection token.
+The Function performs only structural validation; SchedulingService owns all
+working-hours, duration, eligibility, lead-time, horizon, and collision rules.
 
 > **Note:** Only the Cloud Dental Office **IntakeService** should face the
 > internet (with TLS + the `PublicBooking` API key). It has no database or read
