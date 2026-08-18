@@ -61,6 +61,18 @@ module.exports = function (eleventyConfig) {
     }).replace(" ", "T") + "-07:00";
   });
 
+  // Month + year only (e.g. "August 2025"). Parses YYYY-MM-DD from its parts to
+  // avoid timezone drift, so a date-only string never slips to the prior month.
+  // Used for review dates, where the day is approximate.
+  eleventyConfig.addFilter("monthYear", function (value) {
+    const months = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    const m = String(value || "").match(/^(\d{4})-(\d{2})/);
+    if (m) return months[parseInt(m[2], 10) - 1] + " " + m[1];
+    const d = new Date(value);
+    return months[d.getMonth()] + " " + d.getFullYear();
+  });
+
   eleventyConfig.addFilter("humanDate", function (value) {
     const d = value ? new Date(value) : new Date();
     return d.toLocaleDateString("en-US", {

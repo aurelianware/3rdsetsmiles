@@ -32,7 +32,7 @@ breadcrumb:
         <blockquote>{{ r.quote }}</blockquote>
         <figcaption>
           <cite>{{ r.author }}</cite>
-          <span class="review-meta">{{ r.location }} &middot; {{ r.date | humanDate }} &middot; via {{ r.source }}</span>
+          <span class="review-meta">{% if r.location %}{{ r.location }} &middot; {% endif %}{{ r.date | monthYear }} &middot; via {{ r.source }}</span>
         </figcaption>
       </figure>
       {% endfor %}
