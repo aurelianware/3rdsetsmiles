@@ -226,21 +226,26 @@ faq:
       <h2 id="reviews-heading" style="color:var(--navy)">Trusted by patients across the East Valley</h2>
       <p class="muted" style="max-width:640px;margin:14px auto 0">Patients come to us for gentle, unhurried care — and stay for the long-term relationship. Read what they're saying, or share your own experience.</p>
     </div>
-    {# TODO: real reviews — when the practice provides verified, approved review
-       text, add them here as <div class="testimonial-card"> blocks (or move them
-       into a reusable testimonials data source per Prompt 4). Do NOT invent
-       quotes, and do NOT add aggregateRating to JSON-LD until real, verifiable
-       review counts and an average rating are available. #}
-    <div class="notice fade-in" style="max-width:720px;margin:0 auto;text-align:center">
-      <strong>Read verified reviews from real patients.</strong>
-      <p style="margin-top:8px">See what people are saying about Dr. Phillips and the team on
-        <a href="{{ site.social.google }}" rel="noopener">Google</a>,
-        <a href="{{ site.social.yelp }}" rel="noopener">Yelp</a>,
-        and <a href="{{ site.social.facebook }}" rel="noopener">Facebook</a>.
-      </p>
+    {# Featured reviews from src/_data/reviews.js (verified Yelp reviews).
+       Displayed as attributed social proof only — no Review/aggregateRating
+       JSON-LD (Google doesn't surface rich results for self-serving
+       LocalBusiness markup, and these are third-party reviews). #}
+    <div class="testimonial-grid">
+      {% for r in reviews %}{% if r.featured %}
+      <figure class="testimonial-card fade-in">
+        <div class="review-stars" aria-label="{{ r.rating }} out of 5 stars" role="img">
+          {% for i in range(0, r.rating) %}★{% endfor %}
+        </div>
+        <blockquote>{{ r.quote }}</blockquote>
+        <figcaption>
+          <cite>{{ r.author }}</cite>
+          <span class="review-meta">{{ r.location }} &middot; via {{ r.source }}</span>
+        </figcaption>
+      </figure>
+      {% endif %}{% endfor %}
     </div>
-    <div class="center btn-row" style="justify-content:center;margin-top:24px">
-      <a href="/testimonials/" class="btn-outline btn-outline-dark">Read Patient Reviews</a>
+    <div class="center btn-row" style="justify-content:center;margin-top:32px">
+      <a href="/testimonials/" class="btn-outline btn-outline-dark">Read More Reviews</a>
       <a href="{{ site.social.googleReview }}" class="btn-outline btn-outline-dark" rel="noopener" data-action="google-review">Leave a Google Review</a>
     </div>
   </div>
