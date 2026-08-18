@@ -77,3 +77,19 @@ breadcrumb:
     </div>
   </div>
 </section>
+
+{# Google Map to the practice. Keyless embed (output=embed) built from the NAP
+   in site.json — never hardcode the address here. Requires the Google Maps
+   hosts in the CSP frame-src (see src/_headers). Lazy-loaded to protect LCP.
+   To swap in Google's official "Share → Embed a map" iframe, replace the src
+   with its https://www.google.com/maps/embed?pb=… URL (same CSP applies). #}
+<section class="section" style="padding-top:0" aria-label="Map to our Tempe office">
+  <div class="container">
+    <iframe
+      class="contact-map"
+      src="https://www.google.com/maps?q={{ (site.name + ', ' + site.address.full) | urlencode }}&z=15&output=embed"
+      title="Map to {{ site.name }} at {{ site.address.full }}"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
