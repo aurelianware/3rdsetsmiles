@@ -109,6 +109,20 @@ module.exports = function (eleventyConfig) {
     return (categories || []).find((c) => c.key === key);
   });
 
+  // Service helper: sibling services in the same category, excluding the
+  // current page, ordered by `order` (the collection is already sorted) and
+  // capped. Powers the "Related treatments" block in the service layout.
+  eleventyConfig.addFilter("relatedServices", function (services, key, currentUrl, limit = 5) {
+    return (services || [])
+      .filter(
+        (s) =>
+          s.data.serviceMeta &&
+          s.data.serviceMeta.category === key &&
+          s.url !== currentUrl
+      )
+      .slice(0, limit);
+  });
+
   // Blog helper: get posts in a category key from src/_data/blogCategories.js
   eleventyConfig.addFilter("postsInCategory", function (posts, key) {
     return (posts || []).filter((p) => p.data.blogCategory === key);

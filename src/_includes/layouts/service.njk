@@ -79,6 +79,29 @@ layout: layouts/base.njk
 }
 </script>
 
+{# Related treatments — same-category siblings, excluding this page. Driven by
+   serviceMeta.category so it stays in sync with the services hub. Strengthens
+   internal linking and topical clustering for SEO. Hidden if there are none. #}
+{% set relatedServices = collections.services | relatedServices(serviceMeta.category, page.url, 5) %}
+{% if relatedServices.length %}
+<section class="section section-cream">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:28px">
+      <div class="section-label">Explore More</div>
+      <h2 style="color:var(--navy)">Related treatments</h2>
+    </div>
+    <div class="services-list-grid">
+      {% for s in relatedServices %}
+      <a class="service-card" href="{{ s.url }}">
+        <span class="service-name">{{ s.data.serviceMeta.label }}</span>
+        <span class="service-blurb">{{ s.data.serviceMeta.shortBlurb }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <section class="section cta-banner">
   <div class="container">
     <div class="fade-in">
