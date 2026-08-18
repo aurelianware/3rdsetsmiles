@@ -102,6 +102,29 @@ layout: layouts/base.njk
 </section>
 {% endif %}
 
+{# Related reading — blog posts whose tags include this service's slug. Completes
+   the two-way service <-> blog linking (posts already link back via
+   relatedServiceLinks). Hidden when no post matches. #}
+{% set relatedReading = collections.blog | relatedPostsForService(page.fileSlug, 3) %}
+{% if relatedReading.length %}
+<section class="section">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:28px">
+      <div class="section-label">From the Blog</div>
+      <h2 style="color:var(--navy)">Related reading</h2>
+    </div>
+    <div class="services-list-grid">
+      {% for post in relatedReading %}
+      <a class="service-card" href="{{ post.url }}">
+        <span class="service-name">{{ post.data.title }}</span>
+        <span class="service-blurb">{{ post.data.description }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <section class="section cta-banner">
   <div class="container">
     <div class="fade-in">
