@@ -20,7 +20,7 @@ module.exports = [
     slug: "full-mouth-implant-cost-arizona",
     category: "cost-financing",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "Why do quotes vary so much for full-arch treatment?",
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     slug: "same-day-extractions-and-implants",
     category: "implant-education",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "Can my failing teeth be removed and implants placed in one visit?",
   },
   {
@@ -36,7 +36,7 @@ module.exports = [
     slug: "implant-recovery-and-maintenance",
     category: "implant-education",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "What should recovery feel like and how do I protect my implant long-term?",
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
     slug: "emergency-dentist-vs-emergency-room",
     category: "urgent-care",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "When should I call a dentist and when should I go straight to the ER?",
   },
   {
@@ -52,7 +52,7 @@ module.exports = [
     slug: "severe-tooth-pain-after-hours",
     category: "urgent-care",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "How do I manage pain safely until the office reopens?",
   },
   {
@@ -60,7 +60,7 @@ module.exports = [
     slug: "dental-infections-and-swelling",
     category: "urgent-care",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "What swelling symptoms mean I need urgent medical care now?",
   },
   {
@@ -68,7 +68,7 @@ module.exports = [
     slug: "simple-vs-surgical-extractions",
     category: "extractions-oral-surgery",
     priority: "Medium",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "What makes an extraction surgical, and does that change recovery?",
   },
   {
@@ -76,7 +76,7 @@ module.exports = [
     slug: "dry-socket-prevention-and-symptoms",
     category: "extractions-oral-surgery",
     priority: "Medium",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "How do I lower dry socket risk and what warning signs should I watch for?",
   },
 ];
