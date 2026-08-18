@@ -67,9 +67,14 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("monthYear", function (value) {
     const months = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"];
-    const m = String(value || "").match(/^(\d{4})-(\d{2})/);
-    if (m) return months[parseInt(m[2], 10) - 1] + " " + m[1];
+    if (!value) return String(value ?? "");
+    const m = String(value).match(/^(\d{4})-(\d{2})/);
+    if (m) {
+      const month = months[parseInt(m[2], 10) - 1];
+      if (month) return month + " " + m[1];
+    }
     const d = new Date(value);
+    if (isNaN(d.getTime())) return String(value);
     return months[d.getMonth()] + " " + d.getFullYear();
   });
 
