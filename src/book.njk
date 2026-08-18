@@ -50,6 +50,37 @@ breadcrumb:
           <p class="form-intro">Tell us who you are and when you'd like to come in. We'll confirm the exact time by phone or email.</p>
           <p class="form-intro" style="font-size:0.9rem"><strong>Please don't include medical history or health details.</strong> This form is for scheduling only and isn't a secure channel for medical information.</p>
 
+          <fieldset class="form-group">
+            <legend>Have you visited 3rd Set Smiles before? <span aria-hidden="true">*</span></legend>
+            <label><input name="patientRelationship" type="radio" value="Existing" required> Yes, I'm an existing patient</label>
+            <label><input name="patientRelationship" type="radio" value="New" required> No, I'm a new patient</label>
+          </fieldset>
+          <div class="form-group">
+            <label for="book-reason">Appointment type <span aria-hidden="true">*</span></label>
+            <select id="book-reason" name="reason" required disabled>
+              <option value="">First choose new or existing patient</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="book-provider">Provider</label>
+            <select id="book-provider" disabled><option value="">Available provider</option></select>
+          </div>
+          <div class="form-group">
+            <label for="book-location">Location</label>
+            <select id="book-location" disabled><option value="">Practice location</option></select>
+          </div>
+          <div class="form-group">
+            <label for="book-date">Available date <span aria-hidden="true">*</span></label>
+            <select id="book-date" required disabled><option value="">Choose an appointment type first</option></select>
+          </div>
+          <div class="form-group">
+            <label for="book-time">Available time <span aria-hidden="true">*</span></label>
+            <select id="book-time" required disabled><option value="">Choose a date first</option></select>
+            <p id="book-availability-status" class="form-note" role="status" aria-live="polite">Choose whether you are a new or existing patient to load current availability.</p>
+          </div>
+          <input type="hidden" name="preferredStart" id="book-preferred-start">
+          <input type="hidden" name="availabilityToken" id="book-availability-token">
+
           <div class="form-group">
             <label for="book-name">Your Name <span aria-hidden="true">*</span></label>
             <input id="book-name" name="name" type="text" required autocomplete="name">
@@ -65,83 +96,7 @@ breadcrumb:
           <div class="form-group">
             <label for="book-preferredContact">Best way to reach you</label>
             <select id="book-preferredContact" name="preferredContact">
-              <option value="">No preference</option>
-              <option value="Phone">Phone call</option>
-              <option value="Text">Text message</option>
-              <option value="Email">Email</option>
-            </select>
-          </div>
-          <fieldset class="form-group">
-            <legend>Have you visited 3rd Set Smiles before? <span aria-hidden="true">*</span></legend>
-            <label><input name="patientRelationship" type="radio" value="Existing" required> Yes, I'm an existing patient</label>
-            <label><input name="patientRelationship" type="radio" value="New" required> No, I'm a new patient</label>
-          </fieldset>
-          <div class="form-group">
-            <label for="book-date">Preferred Date <span aria-hidden="true">*</span></label>
-            <input id="book-date" name="date" type="date" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="book-time">Preferred Time <span aria-hidden="true">*</span></label>
-            <select id="book-time" name="time" required>
-              <option value="10:00">10:00 AM</option>
-              <option value="10:30">10:30 AM</option>
-              <option value="11:00">11:00 AM</option>
-              <option value="11:30">11:30 AM</option>
-              <option value="12:00">12:00 PM</option>
-              <option value="12:30">12:30 PM</option>
-              <option value="13:00">1:00 PM</option>
-              <option value="13:30">1:30 PM</option>
-              <option value="14:00">2:00 PM</option>
-              <option value="14:30">2:30 PM</option>
-              <option value="15:00">3:00 PM</option>
-              <option value="15:30">3:30 PM</option>
-              <option value="16:00">4:00 PM</option>
-              <option value="16:30">4:30 PM</option>
-              <option value="17:00">5:00 PM</option>
-            </select>
-          </div>
-          <details class="form-alt">
-            <summary>Add an alternate date &amp; time <span class="optional">(optional)</span></summary>
-            <div class="form-grid" style="margin-top:14px">
-              <div class="form-group">
-                <label for="book-altDate">Alternate Date</label>
-                <input id="book-altDate" name="altDate" type="date" autocomplete="off">
-              </div>
-              <div class="form-group">
-                <label for="book-altTime">Alternate Time</label>
-                <select id="book-altTime" name="altTime">
-                  <option value="">No preference</option>
-                  <option value="10:00">10:00 AM</option>
-                  <option value="10:30">10:30 AM</option>
-                  <option value="11:00">11:00 AM</option>
-                  <option value="11:30">11:30 AM</option>
-                  <option value="12:00">12:00 PM</option>
-                  <option value="12:30">12:30 PM</option>
-                  <option value="13:00">1:00 PM</option>
-                  <option value="13:30">1:30 PM</option>
-                  <option value="14:00">2:00 PM</option>
-                  <option value="14:30">2:30 PM</option>
-                  <option value="15:00">3:00 PM</option>
-                  <option value="15:30">3:30 PM</option>
-                  <option value="16:00">4:00 PM</option>
-                  <option value="16:30">4:30 PM</option>
-                  <option value="17:00">5:00 PM</option>
-                </select>
-              </div>
-            </div>
-          </details>
-          <div class="form-group">
-            <label for="book-reason">What's this visit for?</label>
-            <select id="book-reason" name="reason">
-              <option>New patient exam &amp; cleaning</option>
-              <option>Dental implants consultation</option>
-              <option>All-on-4 / Full-arch consultation</option>
-              <option>Cosmetic dentistry (veneers, whitening)</option>
-              <option>Clear aligners</option>
-              <option>Crowns, bridges, or fillings</option>
-              <option>Emergency / pain</option>
-              <option>Insurance question</option>
-              <option>Other</option>
+              <option value="">No preference</option><option value="Phone">Phone call</option><option value="Text">Text message</option><option value="Email">Email</option>
             </select>
           </div>
           <fieldset class="form-group">
@@ -197,19 +152,9 @@ breadcrumb:
   </div>
 </section>
 
+<script src="/assets/js/booking.js" defer></script>
 <script>
-  // Prevent picking a date in the past; default to today. Progressive
-  // enhancement only — the server also validates the submitted date.
   (function () {
-    var today = new Date();
-    var off = today.getTimezoneOffset() * 60000;
-    var iso = new Date(today.getTime() - off).toISOString().slice(0, 10);
-    var d = document.getElementById("book-date");
-    if (d) { d.min = iso; if (!d.value) d.value = iso; }
-    // Alternate date can't be in the past either (but stays optional/empty).
-    var alt = document.getElementById("book-altDate");
-    if (alt) alt.min = iso;
-
     var requestId = document.getElementById("book-request-id");
     if (requestId && !requestId.value && window.crypto && window.crypto.randomUUID) {
       requestId.value = window.crypto.randomUUID();
