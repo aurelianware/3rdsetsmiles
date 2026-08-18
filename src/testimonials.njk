@@ -50,9 +50,21 @@ breadcrumb:
       </p>
     </div>
 
-    <div class="prose container-narrow" style="margin-top:40px">
-      <h2>Already a patient?</h2>
-      <p>If you've had a positive experience, we'd be deeply grateful if you'd share it on <a href="{{ site.social.googleReview }}" rel="noopener" data-action="google-review">Google</a> or <a href="{{ site.social.yelp }}" rel="noopener">Yelp</a>. Word of mouth is the lifeblood of an independent practice, and a couple of sentences from you helps the next person searching for an honest dentist find us.</p>
+    {# Rate us on Google — button for phones (tap), QR for desktop (scan).
+       QR is a static asset generated from site.social.googleReviewShort;
+       regenerate src/assets/google-review-qr.svg if that link changes. #}
+    <div class="review-cta fade-in">
+      <div class="review-cta-text">
+        <div class="section-label" style="color:var(--gold)">Already a patient?</div>
+        <h2>Rate us on Google</h2>
+        <p>If you've had a good experience, a quick review helps the next Tempe family find honest dental care — it takes about 20 seconds. You can also leave one on <a href="{{ site.social.yelp }}" rel="noopener">Yelp</a>.</p>
+        <a class="btn-primary" href="{{ site.social.googleReviewShort }}" rel="noopener" data-action="google-review">Write a Google Review</a>
+      </div>
+      <div class="review-cta-qr">
+        <img src="/assets/google-review-qr.svg" width="200" height="200" loading="lazy"
+             alt="QR code to leave a Google review for 3rd Set Smiles">
+        <span>Scan to review on your phone</span>
+      </div>
     </div>
   </div>
 </section>
