@@ -29,6 +29,6 @@
     {% for item in nav.primary %}
       <a href="{{ item.url }}">{{ item.label }}</a>
     {% endfor %}
-    <a href="tel:{{ site.phone.telShort }}" class="nav-mobile-call">Call {{ site.phone.display }}</a>
+    <a href="tel:{{ site.phone.telShort }}" class="nav-mobile-call" data-action="call-header">Call {{ site.phone.display }}</a>
   </nav>
 </header>

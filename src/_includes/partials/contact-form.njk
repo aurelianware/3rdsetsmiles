@@ -59,7 +59,7 @@
     {# Submissions POST to the Cloudflare Pages Function at /functions/contact-submit.js.
        Delivery requires RESEND_API_KEY, CONTACT_TO_EMAIL, and CONTACT_FROM_EMAIL to be
        set in the Pages dashboard; until then the handler asks visitors to call/email. #}
-    Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>
+    Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}" data-action="call-contact">{{ site.phone.display }}</a>
     or email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
   </p>
 </form>

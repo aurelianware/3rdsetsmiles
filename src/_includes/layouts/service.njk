@@ -20,7 +20,7 @@ layout: layouts/base.njk
       <a href="/contact/" class="btn-outline">Request an Appointment</a>
       {% else %}
       <a href="/contact/" class="btn-primary">Request an Appointment</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-service">Call {{ site.phone.display }}</a>
       {% endif %}
     </div>
   </div>
@@ -86,7 +86,7 @@ layout: layouts/base.njk
       <p>Schedule a consultation at our Tempe office. We'll listen, examine, and give you honest options &mdash; no pressure.</p>
       <div class="btn-row">
         <a href="/contact/" class="btn-primary">Request an Appointment</a>
-        <a href="tel:{{ site.phone.telShort }}" class="btn-outline">Call {{ site.phone.display }}</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-service">Call {{ site.phone.display }}</a>
       </div>
     </div>
   </div>

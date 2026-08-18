@@ -12,7 +12,7 @@ breadcrumb:
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Check My Insurance</div>
     <h1>Wondering if we take your <span>insurance?</span></h1>
-    <p class="lede">Tell us your plan and our team will help verify your benefits before your visit. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)">{{ site.phone.display }}</a>.</p>
+    <p class="lede">Tell us your plan and our team will help verify your benefits before your visit. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)" data-action="call-insurance">{{ site.phone.display }}</a>.</p>
   </div>
 </section>
 
@@ -28,7 +28,7 @@ breadcrumb:
         <div class="fade-in">
           <div class="contact-detail">
             <div class="contact-detail-label">Phone</div>
-            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a></div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}" data-action="call-insurance">{{ site.phone.display }}</a></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-label">Office Hours</div>
@@ -95,7 +95,7 @@ breadcrumb:
                It records an InsuranceVerificationRequest for staff review (and, when configured,
                the CloudHealthOffice / CloudDentalOffice eligibility seam). It never returns a
                real-time coverage decision. #}
-            Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a>
+            Prefer to talk now? Call <a href="tel:{{ site.phone.telShort }}" data-action="call-insurance">{{ site.phone.display }}</a>
             or email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
           </p>
         </form>

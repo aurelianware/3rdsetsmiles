@@ -21,7 +21,7 @@ breadcrumb:
 
     <div class="notice">
       <strong>$49 New-Patient Special.</strong>
-      <p style="margin-top:8px">Comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning for <strong>$49</strong> — our welcome offer for new patients without insurance. <a href="tel:{{ site.phone.telShort }}">Call {{ site.phone.display }}</a> to book.</p>
+      <p style="margin-top:8px">Comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning for <strong>$49</strong> — our welcome offer for new patients without insurance. <a href="tel:{{ site.phone.telShort }}" data-action="call-offer">Call {{ site.phone.display }}</a> to book.</p>
     </div>
 
     <h2>$49 New-Patient Exam, X-Rays &amp; Cleaning</h2>
@@ -37,8 +37,8 @@ breadcrumb:
     <p class="muted">Offers cannot be combined with insurance benefits unless noted. New patients only where indicated. Subject to change without notice.</p>
 
     <div class="btn-row" style="margin-top:24px">
-      <a href="/contact/" class="btn-primary">Schedule an Appointment</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark">Call {{ site.phone.display }}</a>
+      <a href="/contact/" class="btn-primary" data-action="request-appointment">Schedule an Appointment</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-offer">Call {{ site.phone.display }}</a>
     </div>
   </div>
 </section>
