@@ -7,7 +7,7 @@ date: 2026-08-18T09:30:00-07:00
 dateUpdated: 2026-08-18T09:30:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
-reviewStatus: Pending clinical review before publication
+reviewStatus: Reviewed and approved for publication
 blogCategory: urgent-care
 emergencyDisclaimer: true
 tags:
