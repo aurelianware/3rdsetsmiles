@@ -60,12 +60,18 @@ breadcrumb:
   "@type": "ProfilePage",
   "mainEntity": {
     "@type": "Person",
+    "@id": (site.domain + "/#dr-phillips"),
     "name": author.name,
     "honorificSuffix": author.credential,
     "jobTitle": author.role,
     "description": author.profileSummary,
-    "url": page.url | absUrl(site.domain),
-    "image": author.image | absUrl(site.domain)
+    "url": (site.domain + "/about/"),
+    "image": author.image | absUrl(site.domain),
+    "worksFor": {
+      "@type": "Dentist",
+      "@id": (site.domain + "/#dentist"),
+      "name": site.name
+    }
   }
 } | jsonStringify | safe }}
 </script>

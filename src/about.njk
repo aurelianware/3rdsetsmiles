@@ -96,3 +96,37 @@ breadcrumb:
     </div>
   </div>
 </section>
+
+{# Canonical Person entity for Dr. Phillips. Shares one @id (…/#dr-phillips)
+   with the founder node in base.njk and the author ProfilePage, so search
+   engines resolve them to a single provider. worksFor links him to the
+   practice's Dentist node (…/#dentist). Only verified, non-CONFIRM facts are
+   marked up here — no unconfirmed awards, dates, or memberships. #}
+{% set drp = authors['dr-matthew-phillips'] %}
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": (site.domain + "/#dr-phillips"),
+  "name": drp.name,
+  "honorificSuffix": drp.credential,
+  "jobTitle": drp.role,
+  "description": drp.profileSummary,
+  "url": (site.domain + "/about/"),
+  "mainEntityOfPage": (page.url | absUrl(site.domain)),
+  "image": (drp.image | absUrl(site.domain)),
+  "worksFor": {
+    "@type": "Dentist",
+    "@id": (site.domain + "/#dentist"),
+    "name": site.name
+  },
+  "knowsAbout": [
+    "Dental implants",
+    "All-on-4 full-arch implants",
+    "Implant-supported dentures",
+    "Cosmetic dentistry",
+    "General and family dentistry"
+  ],
+  "areaServed": site.areaServed
+} | jsonStringify | safe }}
+</script>
