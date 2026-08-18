@@ -20,7 +20,7 @@ module.exports = [
     slug: "full-mouth-implant-cost-arizona",
     category: "cost-financing",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "Why do quotes vary so much for full-arch treatment?",
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     slug: "same-day-extractions-and-implants",
     category: "implant-education",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "Can my failing teeth be removed and implants placed in one visit?",
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
     slug: "emergency-dentist-vs-emergency-room",
     category: "urgent-care",
     priority: "High",
-    stage: "Planned",
+    stage: "Drafted",
     patientQuestion: "When should I call a dentist and when should I go straight to the ER?",
   },
   {
