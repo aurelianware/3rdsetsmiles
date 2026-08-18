@@ -36,6 +36,7 @@ test("posts relationship without internal identifiers and uses request language"
 test("requires a valid patient relationship", async () => {
   const response = await onRequestPost({ request: request("Unknown"), env: {} });
   assert.equal(response.status, 400);
+  assert.match(await response.text(), /new or existing patient/i);
 });
 
 test("uses Resend fallback when Cloud Dental intake fails", async () => {

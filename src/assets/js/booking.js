@@ -25,7 +25,7 @@
     var valueOf = function (name) { return parts.find(function (part) { return part.type === name; }).value; };
     return valueOf("year") + "-" + valueOf("month") + "-" + valueOf("day");
   }
-  function prettyDate(value) { return new Date(value + "T12:00:00-07:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }); }
+  function prettyDate(value) { return new Date(value + "T12:00:00-07:00").toLocaleDateString("en-US", { timeZone: "America/Phoenix", weekday: "short", month: "short", day: "numeric" }); }
   function matching() {
     return slots.filter(function (slot) {
       return (!type.value || slot.appointmentTypeCode === type.value) && (!provider.value || slot.providerCode === provider.value) && (!location.value || slot.locationCode === location.value);
@@ -71,6 +71,9 @@
     } catch (_) {
       slots = []; status.textContent = "We couldn't load online availability. Please try again or call (480) 334-2752.";
       fill(type, [], "Availability unavailable");
+      fill(provider, [], "Availability unavailable"); fill(location, [], "Availability unavailable");
+      fill(date, [], "Availability unavailable"); fill(time, [], "Availability unavailable");
+      time._availableSlots = []; resetSelection();
     }
   }
   document.querySelectorAll('input[name="patientRelationship"]').forEach(function (radio) { radio.addEventListener("change", load); });

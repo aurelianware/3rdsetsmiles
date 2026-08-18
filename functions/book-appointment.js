@@ -183,7 +183,7 @@ export async function onRequestPost(context) {
     return page({
       title: "Missing information",
       heading: "We need a little more",
-      body: `<p>Please include your name and phone number, then choose one of the available appointment times. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      body: `<p>Please include your name and phone number, tell us whether you're a new or existing patient, then choose one of the available appointment times. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
       status: 400,
     });
   }

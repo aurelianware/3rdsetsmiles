@@ -31,4 +31,6 @@ test("booking controls have labels, live status, and required hidden selection f
   assert.match(script, /fetch\("\/booking-availability\?/);
   assert.match(script, /patientRelationship/);
   assert.match(script, /couldn't load online availability/i);
+  assert.match(script, /timeZone: "America\/Phoenix"/);
+  assert.match(script, /time\._availableSlots = \[\]/);
 });
