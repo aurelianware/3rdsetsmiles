@@ -1,8 +1,10 @@
-{# contact-form.njk — Reusable appointment request form #}
+{# contact-form.njk — Reusable appointment request form.
+   Optional page context (set before the include): formId, formHeading,
+   formIntro, formReason (preselects the "How can we help?" option). #}
 {% set fid = formId or 'contact' %}
 <form class="contact-form" id="{{ fid }}" method="POST" action="/contact-submit" novalidate>
-  <h3>Request an Appointment</h3>
-  <p class="form-intro">Tell us a little about what you're looking for and we'll get back to you within one business day.</p>
+  <h3>{{ formHeading or 'Request an Appointment' }}</h3>
+  <p class="form-intro">{{ formIntro or "Tell us a little about what you're looking for and we'll get back to you within one business day." }}</p>
   <p class="form-intro" style="font-size:0.9rem"><strong>Please don't include medical history or health details.</strong> This form is for scheduling only and isn't a secure channel for medical information.</p>
 
   <div class="form-grid">
@@ -20,16 +22,17 @@
     </div>
     <div class="form-group">
       <label for="{{ fid }}-reason">How can we help?</label>
+      {% set fReason = formReason or 'New patient exam & cleaning' %}
       <select id="{{ fid }}-reason" name="reason">
-        <option>New patient exam &amp; cleaning</option>
-        <option>Dental implants consultation</option>
-        <option>All-on-4 / Full-arch consultation</option>
-        <option>Cosmetic dentistry (veneers, whitening)</option>
-        <option>Clear aligners</option>
-        <option>Crowns, bridges, or fillings</option>
-        <option>Emergency / pain</option>
-        <option>Insurance question</option>
-        <option>Other</option>
+        <option{% if fReason == 'New patient exam & cleaning' %} selected{% endif %}>New patient exam &amp; cleaning</option>
+        <option{% if fReason == 'Dental implants consultation' %} selected{% endif %}>Dental implants consultation</option>
+        <option{% if fReason == 'All-on-4 / Full-arch consultation' %} selected{% endif %}>All-on-4 / Full-arch consultation</option>
+        <option{% if fReason == 'Cosmetic dentistry (veneers, whitening)' %} selected{% endif %}>Cosmetic dentistry (veneers, whitening)</option>
+        <option{% if fReason == 'Clear aligners' %} selected{% endif %}>Clear aligners</option>
+        <option{% if fReason == 'Crowns, bridges, or fillings' %} selected{% endif %}>Crowns, bridges, or fillings</option>
+        <option{% if fReason == 'Emergency / pain' %} selected{% endif %}>Emergency / pain</option>
+        <option{% if fReason == 'Insurance question' %} selected{% endif %}>Insurance question</option>
+        <option{% if fReason == 'Other' %} selected{% endif %}>Other</option>
       </select>
     </div>
   </div>
