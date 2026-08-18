@@ -2,3 +2,10 @@
 /services/root-canal-therapy    /services/      301
 /hero-demo           /               301
 /hero-demo/*         /               301
+
+# Legacy /our-services/<category>/<service>/ URL scheme (pre-redesign, still
+# indexed by Google). Map known pages to their current equivalents; the splat
+# rule catches any other old service URL and sends it to the services hub so
+# nothing 404s. Specific rules MUST stay above the splat (first match wins).
+/our-services/restorative-dentistry/dental-crowns/   /services/crowns-bridges/        301
+/our-services/*                                       /services/                       301
