@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 title: "$49 New-Patient Special — Dentist in Tempe, AZ"
-description: "$49 new-patient special in Tempe, AZ — comprehensive exam, digital X-rays & cleaning for new patients without insurance at 3rd Set Smiles. Plus Veteran & uninsured discounts. Call (480) 334-2752."
+description: "$49 new-patient special in Tempe, AZ — comprehensive exam, digital X-rays & cleaning for new patients without insurance at 3rd Set Smiles. Request your visit online or call (480) 334-2752."
 permalink: /special-offers/
 breadcrumb:
   - { label: "Home", url: "/" }
@@ -12,33 +12,85 @@ breadcrumb:
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Special Offers</div>
     <h1>$49 New-Patient <span>Special</span></h1>
-    <p class="lede">New to 3rd Set Smiles and without insurance? Get a comprehensive exam, digital X-rays &amp; a cleaning for just $49 — plus discounts for Veterans and patients without insurance.</p>
+    <p class="lede">New to 3rd Set Smiles and without insurance? Get a comprehensive exam, digital X-rays &amp; a cleaning for just $49 — request your visit below and we'll confirm within one business day.</p>
+  </div>
+</section>
+
+<section class="offer-band" aria-labelledby="offer-heading">
+  <div class="container">
+    <div class="offer-inner">
+      <div class="offer-body">
+        <div class="section-label" style="color:var(--gold-light)">New to 3rd Set Smiles?</div>
+        <h2 id="offer-heading">No dental insurance? Start with our <span>$49</span> new-patient visit.</h2>
+        <ul class="offer-list">
+          <li>Comprehensive exam</li>
+          <li>Full-mouth digital X-rays</li>
+          <li>Healthy-mouth cleaning</li>
+        </ul>
+        <p class="offer-fine">For new patients without insurance. Excludes deep (periodontal) cleanings or treatment-related X-rays. Cannot be combined with insurance benefits. Subject to change without notice.</p>
+      </div>
+      <div class="offer-cta">
+        <div class="offer-price"><span class="offer-price-num">$49</span><span class="offer-price-label">Exam, X-rays &amp; cleaning</span></div>
+        <a href="#request" class="btn-primary" data-action="new-patient-offer">Claim This Offer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="request">
+  <div class="container">
+    <div class="contact-wrap">
+
+      <div class="contact-info">
+        <div class="fade-in">
+          <h2>What your $49 visit includes</h2>
+          <p>A relaxed, no-pressure first visit with Dr. Phillips — time to understand your mouth and your goals before anything else.</p>
+          <ul class="checklist">
+            <li>Comprehensive exam, including an oral-cancer screening</li>
+            <li>Full-mouth digital X-rays</li>
+            <li>A healthy-mouth cleaning</li>
+            <li>A written summary and honest options — no pressure to commit</li>
+          </ul>
+        </div>
+
+        <div class="fade-in">
+          <div class="section-label" style="color:var(--gold-light);margin-top:8px">Also available to new patients</div>
+          <ul class="checklist">
+            <li><strong>Free implant consultation</strong> — single-tooth or <a href="/services/all-on-4/">full-arch</a>, with a written treatment plan and transparent pricing.</li>
+            <li><strong>Whitening with your cleaning</strong> — custom take-home trays at a reduced rate.</li>
+            <li><strong>Veteran &amp; uninsured discounts</strong> — we're a veteran-owned practice and glad to help.</li>
+          </ul>
+        </div>
+
+        <div class="fade-in">
+          <div class="contact-detail">
+            <div class="contact-detail-label">Prefer to book by phone?</div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}" data-action="call-offer">{{ site.phone.display }}</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Hours</div>
+            <div class="contact-detail-value">
+              {{ site.hours.display }}<br>
+              <span style="color:rgba(255,255,255,0.55)">{{ site.hours.weekend }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap fade-in">
+        {% set formId = "offer" %}
+        {% set formHeading = "Claim your $49 new-patient visit" %}
+        {% set formIntro = "New patient without insurance? Send your details and we'll confirm your $49 exam, X-rays & cleaning within one business day." %}
+        {% set formReason = "New patient exam & cleaning" %}
+        {% include "partials/contact-form.njk" %}
+      </div>
+
+    </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container-narrow prose">
-
-    <div class="notice">
-      <strong>$49 New-Patient Special.</strong>
-      <p style="margin-top:8px">Comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning for <strong>$49</strong> — our welcome offer for new patients without insurance. <a href="tel:{{ site.phone.telShort }}" data-action="call-offer">Call {{ site.phone.display }}</a> to book.</p>
-    </div>
-
-    <h2>$49 New-Patient Exam, X-Rays &amp; Cleaning</h2>
-    <p>A welcome offer for new patients without insurance — comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning for just $49. Excludes deep (periodontal) cleanings or treatment-related X-rays.</p>
-
-    <h2>Free implant consultation</h2>
-    <p>If you're considering single-tooth implants or <a href="/services/all-on-4/">full-arch reconstruction</a>, your initial consultation with Dr. Phillips is complimentary. We'll review your case, do a 3D scan when appropriate, and give you a written treatment plan with transparent pricing.</p>
-
-    <h2>Whitening with your cleaning</h2>
-    <p>Add custom take-home whitening trays to your routine cleaning at a reduced rate. Trays last for years of touch-ups.</p>
-
-    <hr class="divider">
-    <p class="muted">Offers cannot be combined with insurance benefits unless noted. New patients only where indicated. Subject to change without notice.</p>
-
-    <div class="btn-row" style="margin-top:24px">
-      <a href="/contact/" class="btn-primary" data-action="request-appointment">Schedule an Appointment</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-offer">Call {{ site.phone.display }}</a>
-    </div>
+    <p class="muted" style="text-align:center">Offers cannot be combined with insurance benefits unless noted. New patients only where indicated. The $49 special excludes deep (periodontal) cleanings and treatment-related X-rays. Subject to change without notice.</p>
   </div>
 </section>
