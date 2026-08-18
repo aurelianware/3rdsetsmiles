@@ -123,6 +123,17 @@ module.exports = function (eleventyConfig) {
       .slice(0, limit);
   });
 
+  // Service helper: blog posts relevant to a service, matched when the post's
+  // tags include the service slug (e.g. the /services/dental-implants/ page
+  // surfaces posts tagged "dental-implants"). Newest first, capped. Powers the
+  // "Related reading" block; renders nothing when a service has no matching post.
+  eleventyConfig.addFilter("relatedPostsForService", function (posts, slug, limit = 3) {
+    return (posts || [])
+      .filter((p) => (p.data.tags || []).includes(slug))
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, limit);
+  });
+
   // Blog helper: get posts in a category key from src/_data/blogCategories.js
   eleventyConfig.addFilter("postsInCategory", function (posts, key) {
     return (posts || []).filter((p) => p.data.blogCategory === key);
