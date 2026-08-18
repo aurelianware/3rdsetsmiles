@@ -239,7 +239,7 @@ faq:
         <blockquote>{{ r.quote }}</blockquote>
         <figcaption>
           <cite>{{ r.author }}</cite>
-          <span class="review-meta">{{ r.location }} &middot; via {{ r.source }}</span>
+          <span class="review-meta">{% if r.location %}{{ r.location }} &middot; {% endif %}via {{ r.source }}</span>
         </figcaption>
       </figure>
       {% endif %}{% endfor %}
