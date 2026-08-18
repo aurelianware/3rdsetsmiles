@@ -73,10 +73,14 @@
     "telephone": {{ site.phone.tel | dump | safe }},
     "email": {{ site.email | dump | safe }},
     "priceRange": "$$",
+    "logo": {{ (site.domain + "/assets/apple-touch-icon.png") | dump | safe }},
     "founder": {
       "@type": "Person",
+      "@id": {{ (site.domain + "/#dr-phillips") | dump | safe }},
       "name": {{ site.dentist.name | dump | safe }},
-      "jobTitle": {{ site.dentist.credential | dump | safe }}
+      "honorificSuffix": {{ site.dentist.credential | dump | safe }},
+      "jobTitle": "Dentist",
+      "url": {{ (site.domain + "/about/") | dump | safe }}
     },
     "areaServed": [
       {%- for area in site.areaServed %}
