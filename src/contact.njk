@@ -28,7 +28,7 @@ breadcrumb:
         <div class="fade-in">
           <div class="contact-detail">
             <div class="contact-detail-label">Phone</div>
-            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}">{{ site.phone.display }}</a></div>
+            <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}" data-action="call-contact">{{ site.phone.display }}</a></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-label">Email</div>
@@ -60,7 +60,7 @@ breadcrumb:
         </div>
 
         <div class="fade-in btn-row" style="margin-top:24px">
-          <a class="btn-primary" href="/book/">Book Online</a>
+          <a class="btn-primary" href="/book/" data-action="request-appointment">Book Online</a>
           <a class="btn-outline" href="https://www.google.com/maps/dir/?api=1&destination=2600+E+Southern+Ave+Suite+B1+Tempe+AZ+85282" rel="noopener" data-action="directions">Get Directions</a>
         </div>
 

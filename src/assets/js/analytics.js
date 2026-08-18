@@ -26,7 +26,8 @@
     EMERGENCY_PHONE_CLICKED: 'emergency_phone_clicked',
     IMPLANT_CONSULTATION_CLICKED: 'implant_consultation_clicked',
     GOOGLE_REVIEW_CLICKED: 'google_review_clicked',
-    DIRECTIONS_CLICKED: 'directions_clicked'
+    DIRECTIONS_CLICKED: 'directions_clicked',
+    PAGE_NOT_FOUND: 'page_not_found'
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"

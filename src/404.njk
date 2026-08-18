@@ -15,7 +15,19 @@ eleventyExcludeFromCollections: true
     <div class="btn-row" style="justify-content:center;margin-top:20px">
       <a href="/" class="btn-primary">Go to the home page</a>
       <a href="/services/" class="btn-outline btn-outline-dark">See our services</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark">Call {{ site.phone.display }}</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-404">Call {{ site.phone.display }}</a>
     </div>
   </div>
 </section>
+
+{# Report the missing URL to analytics so 404s are diagnosable in GA4. Cloudflare
+   serves this page AT the requested (bad) path, so window.location.pathname is
+   the offending URL — track() records it as the event's `path`. analytics.js is
+   deferred, so it has defined window.track by the time DOMContentLoaded fires. #}
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.track && window.ANALYTICS_EVENTS) {
+      window.track(window.ANALYTICS_EVENTS.PAGE_NOT_FOUND);
+    }
+  });
+</script>
