@@ -484,7 +484,10 @@ main { padding-top: calc(72px + var(--banner-h)); }
   display: flex; flex-direction: column; height: 100%;
 }
 .testimonial-card blockquote { font-style: italic; flex: 1; margin-bottom: 14px; }
+.testimonial-card figcaption { display: flex; flex-direction: column; gap: 2px; }
 .testimonial-card cite { font-weight: 700; color: var(--navy); font-size: 0.9rem; font-style: normal; }
+.review-stars { color: var(--gold); letter-spacing: 2px; font-size: 1.05rem; margin-bottom: 12px; }
+.review-meta { color: var(--mid-gray, #6b7280); font-size: 0.8rem; }
 
 /* ── About ── */
 .about-wrap { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
