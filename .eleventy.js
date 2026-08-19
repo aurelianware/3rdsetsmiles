@@ -128,6 +128,11 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   });
 
+  eleventyConfig.addFilter("casesInCategory", function (cases, categories) {
+    const allowed = new Set(categories || []);
+    return (cases || []).filter((item) => allowed.has(item.treatmentCategory));
+  });
+
   // Look up the category object (for label/blurb) by its key.
   eleventyConfig.addFilter("findCategory", function (categories, key) {
     return (categories || []).find((c) => c.key === key);

@@ -104,6 +104,10 @@ Event names are centralized in `EVENTS` in `analytics.js` and mirrored in
 | `booking_started` | The `/book/` page opens, optionally with controlled source and intent context. |
 | `appointment_type_selected` | A live CDO appointment type is preselected or selected by the patient. |
 | `availability_viewed` | Live CDO availability loads successfully. |
+| `full_arch_page_view` | The dedicated full-arch / All-on-X landing page is viewed. |
+| `implant_phone_click` | A full-arch or implant phone CTA is clicked. |
+| `implant_financing_click` | A full-arch cost or financing resource is opened. |
+| `implant_candidate_article_click` | The All-on-4 candidacy guide is opened from the implant funnel. |
 
 ### Attribution attached to every event
 
@@ -115,6 +119,10 @@ Booking events may additionally carry enumerated `source` and
 `appointment_intent` values. Arbitrary query-string values are dropped in both
 the browser and collector; neither property may contain patient or clinical
 information.
+
+Implant funnel CTA events may also carry an enumerated `cta_position` such as
+`hero`, `education`, `financing`, `resources`, or `bottom`. See
+[`implant-patient-acquisition.md`](implant-patient-acquisition.md).
 
 ## What is intentionally NOT tracked
 

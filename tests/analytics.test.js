@@ -22,6 +22,13 @@ test("accepts PHI-free booking and review funnel events", async () => {
   }
 });
 
+test("accepts PHI-free implant funnel events", async () => {
+  for (const event of ["full_arch_page_view", "implant_consult_click", "implant_phone_click", "implant_financing_click", "implant_candidate_article_click"]) {
+    const res = await onRequestPost({ request: post({ event, source: "full-arch", appointment_intent: "implant-consult", cta_position: "hero" }) });
+    assert.equal(res.status, 204);
+  }
+});
+
 test("rejects unknown or missing event names", async () => {
   assert.equal((await onRequestPost({ request: post({ event: "not_a_real_event" }) })).status, 400);
   assert.equal((await onRequestPost({ request: post({ path: "/" }) })).status, 400);

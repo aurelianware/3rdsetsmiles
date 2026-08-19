@@ -34,7 +34,11 @@
     REVIEW_GOOGLE_CLICK: 'review_google_click',
     BOOKING_STARTED: 'booking_started',
     APPOINTMENT_TYPE_SELECTED: 'appointment_type_selected',
-    AVAILABILITY_VIEWED: 'availability_viewed'
+    AVAILABILITY_VIEWED: 'availability_viewed',
+    FULL_ARCH_PAGE_VIEW: 'full_arch_page_view',
+    IMPLANT_PHONE_CLICK: 'implant_phone_click',
+    IMPLANT_FINANCING_CLICK: 'implant_financing_click',
+    IMPLANT_CANDIDATE_ARTICLE_CLICK: 'implant_candidate_article_click'
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"
@@ -51,16 +55,20 @@
     'emergency-booking': EVENTS.EMERGENCY_BOOKING_CLICK,
     'new-patient-offer-booking': EVENTS.NEW_PATIENT_OFFER_BOOKING_CLICK,
     'implant-booking': EVENTS.IMPLANT_CONSULT_CLICK,
-    'cosmetic-booking': EVENTS.COSMETIC_CONSULT_CLICK
+    'cosmetic-booking': EVENTS.COSMETIC_CONSULT_CLICK,
+    'call-implant': EVENTS.IMPLANT_PHONE_CLICK,
+    'implant-financing': EVENTS.IMPLANT_FINANCING_CLICK,
+    'implant-candidate': EVENTS.IMPLANT_CANDIDATE_ARTICLE_CLICK
   };
 
-  var SAFE_SOURCES = new Set(['homepage', 'emergency', 'implants', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
+  var SAFE_SOURCES = new Set(['homepage', 'emergency', 'implants', 'full-arch', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
   var SAFE_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
+  var SAFE_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   // The only caller-supplied prop keys track() will forward. Everything else is
   // dropped client-side (the collector allowlists again server-side).
-  var PROP_ALLOW = { action: true, form: true, source: true, appointment_intent: true };
+  var PROP_ALLOW = { action: true, form: true, source: true, appointment_intent: true, cta_position: true };
   var STORE_ATTR = '3ss_attribution';   // sessionStorage: UTM + landing + referrer
   var STORE_ID = '3ss_aid';             // localStorage: durable attributionId
 
@@ -72,6 +80,7 @@
     if (!parsed) return out;
     var source = parsed.searchParams.get('source');
     var intent = parsed.searchParams.get('appointmentType');
+    if (!source && (parsed.pathname === '/services/all-on-4/' || parsed.pathname === '/services/all-on-4')) source = 'full-arch';
     if (SAFE_SOURCES.has(source)) out.source = source;
     if (SAFE_INTENTS.has(intent)) out.appointment_intent = intent;
     return out;
@@ -131,7 +140,7 @@
     // Merge caller props FIRST, restricted to simple bounded scalars, so the
     // reserved/trusted fields set below always win. window.track is public, so
     // a caller must never be able to override event, attribution, ts or path.
-    var payload = {};
+    var payload = controlledContext(window.location.href);
     if (props) {
       for (var p in props) {
         if (!Object.prototype.hasOwnProperty.call(props, p)) continue;
@@ -139,6 +148,7 @@
         var val = props[p], t = typeof val;
         if (p === 'source' && !SAFE_SOURCES.has(val)) continue;
         if (p === 'appointment_intent' && !SAFE_INTENTS.has(val)) continue;
+        if (p === 'cta_position' && !SAFE_POSITIONS.has(val)) continue;
         if (t === 'string') payload[p] = val.slice(0, 200);
         else if (t === 'boolean' || (t === 'number' && isFinite(val))) payload[p] = val;
       }
@@ -177,6 +187,7 @@
           form: payload.form,
           source: payload.source,
           appointment_intent: payload.appointment_intent,
+          cta_position: payload.cta_position,
           attribution_id: payload.attribution_id
         });
       });
@@ -228,6 +239,8 @@
       props.action = action;
       var declaredSource = el.getAttribute('data-source');
       if (SAFE_SOURCES.has(declaredSource)) props.source = declaredSource;
+      var position = el.getAttribute('data-position');
+      if (SAFE_POSITIONS.has(position)) props.cta_position = position;
       // Review outreach source belongs to the current review-page URL, not the
       // external Google destination.
       if (action === 'google-review') {
@@ -259,5 +272,8 @@
   fillAttributionFields();
   if (window.location.pathname === '/book/' || window.location.pathname === '/book') {
     track(EVENTS.BOOKING_STARTED, controlledContext(window.location.href));
+  }
+  if (window.location.pathname === '/services/all-on-4/' || window.location.pathname === '/services/all-on-4') {
+    track(EVENTS.FULL_ARCH_PAGE_VIEW, { source: 'full-arch' });
   }
 })();

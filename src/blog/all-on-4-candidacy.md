@@ -93,3 +93,5 @@ You should leave with written options, not pressure.
 The best All-on-4 candidates are not just people with missing or failing teeth. They are patients whose anatomy, health profile, and treatment goals align with a fixed full-arch plan that can be delivered and maintained safely.
 
 If you are comparing options, ask for a structured consultation, a written plan, and enough time to make a confident decision.
+
+The only way to determine which treatment is appropriate is through an individual examination and imaging. If you are ready to compare fixed and removable options, [schedule a free implant consultation](/book/?appointmentType=implant-consult&source=implant-candidacy) or review the [full-arch dental implant overview](/services/all-on-4/).

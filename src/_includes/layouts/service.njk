@@ -17,10 +17,10 @@ layout: layouts/base.njk
     <div class="btn-row">
       {% if callFirst %}
       <a href="tel:{{ site.phone.tel }}" class="btn-primary" data-action="call-hero">Call {{ site.phone.display }}</a>
-      <a href="{{ bookingUrl or '/book/' }}" class="btn-outline" data-action="{{ bookingAction or 'book-online' }}">{{ bookingCta or 'Check Available Appointments' }}</a>
+      <a href="{{ bookingUrl or '/book/' }}" class="btn-outline" data-action="{{ bookingAction or 'book-online' }}"{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ bookingCta or 'Check Available Appointments' }}</a>
       {% else %}
-      <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}">{{ bookingCta or 'Book Online' }}</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-service">Call {{ site.phone.display }}</a>
+      <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}"{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ bookingCta or 'Book Online' }}</a>
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="{{ phoneAction or 'call-service' }}">Call {{ site.phone.display }}</a>
       {% endif %}
     </div>
   </div>
@@ -131,8 +131,8 @@ layout: layouts/base.njk
       <h2>Ready to talk to Dr. Phillips?</h2>
       <p>Schedule a consultation at our Tempe office. We'll listen, examine, and give you honest options &mdash; no pressure.</p>
       <div class="btn-row">
-        <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}">{{ bookingCta or 'Book Online' }}</a>
-        <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-service">Call {{ site.phone.display }}</a>
+        <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}"{% if bottomBookingPosition %} data-position="{{ bottomBookingPosition }}"{% endif %}>{{ bookingCta or 'Book Online' }}</a>
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="{{ phoneAction or 'call-service' }}">Call {{ site.phone.display }}</a>
       </div>
     </div>
   </div>

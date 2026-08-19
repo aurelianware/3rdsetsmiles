@@ -92,3 +92,5 @@ For the balance, options such as third-party financing (for example, Cherry) or 
 The cheapest quote and the most expensive quote may both be reasonable — for two different treatment plans. The goal is not to find the lowest number; it is to understand exactly what each number buys, then choose the plan that fits your anatomy, your goals, and your budget with no surprises later.
 
 If you would like a structured consultation with a written, itemized plan, we are happy to walk through your options in plain language.
+
+[See available times for a free implant consultation](/book/?appointmentType=implant-consult&source=implant-cost). Selecting a time creates an appointment request that the practice reviews and confirms; it does not approve financing or determine treatment.
