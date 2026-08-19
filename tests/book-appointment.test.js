@@ -39,6 +39,33 @@ test("requires a valid patient relationship", async () => {
   assert.match(await response.text(), /new or existing patient/i);
 });
 
+test("accepts a general request without a live availability token", async () => {
+  // Before the scheduling backend is connected (or when it's unreachable), the
+  // page submits a preferred date/time with no availabilityToken. The request
+  // must still be accepted and forwarded, not rejected as missing information.
+  const form = new FormData();
+  form.set("name", "Pat Example");
+  form.set("phone", "4805550111");
+  form.set("patientRelationship", "New");
+  form.set("preferredStart", "2030-08-12T17:00:00.000Z");
+  form.set("reason", "New Patient Exam & Cleaning");
+  const req = new Request("https://example.test/book-appointment", { method: "POST", body: form });
+
+  let posted;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (_url, init) => {
+    posted = JSON.parse(init.body);
+    return new Response(JSON.stringify({ status: "requested" }), { status: 202, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    const response = await onRequestPost({ request: req, env: { CLOUDDENTAL_API_BASE: "https://intake.test", CLOUDDENTAL_API_KEY: "secret" } });
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /received your appointment request/i);
+    assert.equal(posted.availabilityToken, null);
+    assert.equal(posted.preferredContact, null);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
 test("uses Resend fallback when Cloud Dental intake fails", async () => {
   const originalFetch = globalThis.fetch;
   let resendCalled = false;
