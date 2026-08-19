@@ -36,7 +36,7 @@
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"
-  // action falls back to PHONE_CTA_CLICKED so new phone links are covered.
+  // action falls back to PHONE_CLICK so new phone links are covered.
   var ACTION_EVENTS = {
     'request-appointment': EVENTS.APPOINTMENT_REQUEST_STARTED,
     'new-patient-offer': EVENTS.NEW_PATIENT_OFFER_CLICKED,
