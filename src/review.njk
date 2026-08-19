@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+title: "Leave a Review"
+description: "Share feedback about your experience with 3rd Set Smiles in Tempe by leaving a Google review."
+permalink: /review/
+noindex: true
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Leave a Review", url: "/review/" }
+---
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Leave a Review</div>
+    <h1>Thank You for Choosing <span>3rd Set Smiles</span></h1>
+    <p class="lede">We appreciate feedback from every patient. If you'd like to share your experience publicly, use the direct Google review link below.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% set reviewHeading = "Leave Us a Google Review" %}
+    {% set reviewIntro = "Your honest feedback helps our team and gives other patients useful context when choosing a dentist. We welcome feedback from every patient." %}
+    {% set showReviewQr = true %}
+    {% include "partials/review-cta.njk" %}
+    <p class="muted center" style="margin-top:24px">Please don't include private medical, dental, insurance, or contact information in a public review.</p>
+  </div>
+</section>

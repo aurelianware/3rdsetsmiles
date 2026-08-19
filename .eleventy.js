@@ -121,6 +121,13 @@ module.exports = function (eleventyConfig) {
     );
   });
 
+  // Before/after cases are public only after the office records authorization.
+  // `published` is an explicit opt-in, never inferred from the presence of files.
+  eleventyConfig.addFilter("publishedCases", function (cases) {
+    return (cases || []).filter((item) => item.published === true)
+      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+  });
+
   // Look up the category object (for label/blurb) by its key.
   eleventyConfig.addFilter("findCategory", function (categories, key) {
     return (categories || []).find((c) => c.key === key);

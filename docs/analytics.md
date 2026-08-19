@@ -97,12 +97,24 @@ Event names are centralized in `EVENTS` in `analytics.js` and mirrored in
 | `new_patient_offer_booking_click` | The $49 offer's online booking CTA is clicked. |
 | `implant_booking_click` | An implant-consultation booking CTA is clicked. |
 | `phone_click` | Any non-emergency phone link is clicked (an unmapped `data-action="call-*"`). |
+| `booking_cta_click` | A general CTA opens the online booking flow. |
+| `implant_consult_click` | An implant or full-arch consultation CTA opens booking. |
+| `cosmetic_consult_click` | A cosmetic consultation CTA opens booking. |
+| `review_google_click` | A patient opens the centrally configured Google review destination. |
+| `booking_started` | The `/book/` page opens, optionally with controlled source and intent context. |
+| `appointment_type_selected` | A live CDO appointment type is preselected or selected by the patient. |
+| `availability_viewed` | Live CDO availability loads successfully. |
 
 ### Attribution attached to every event
 
 `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`,
 `landing_page`, `referrer` (only when off-site), `attribution_id`, plus the
 event `ts` and `path`.
+
+Booking events may additionally carry enumerated `source` and
+`appointment_intent` values. Arbitrary query-string values are dropped in both
+the browser and collector; neither property may contain patient or clinical
+information.
 
 ## What is intentionally NOT tracked
 

@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 title: "Before & After Gallery"
-description: "Before-and-after smile transformations from Dr. Matthew Phillips at 3rd Set Smiles in Tempe, AZ. Real patient results, shared with consent."
+description: "Before-and-after dental case gallery for 3rd Set Smiles in Tempe, AZ. Cases are published only after authorization for public display is confirmed."
 permalink: /before-after-gallery/
 noindex: true
 breadcrumb:
@@ -13,7 +13,7 @@ breadcrumb:
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Before &amp; After Gallery</div>
     <h1>Real Smiles, <span>Real Transformations</span></h1>
-    <p class="lede">Every case below is Dr. Phillips&rsquo; own work &mdash; from a single restored tooth to a full smile makeover. Shared with patient consent.</p>
+    <p class="lede">Authorized examples of Dr. Phillips&rsquo; work will be shared here as they are approved for public display.</p>
   </div>
 </section>
 
@@ -24,8 +24,10 @@ breadcrumb:
          consent. Keep `noindex: true` in the front matter until consent for
          public display is documented for every case shown here. -->
 
+    {% set publishedCases = beforeAfter | publishedCases %}
+    {% if publishedCases.length %}
     <div class="ba-gallery">
-      {% for c in beforeAfter %}
+      {% for c in publishedCases %}
       <article class="ba-card fade-in">
         <div class="ba-pair">
           <figure class="ba-shot">
@@ -42,11 +44,17 @@ breadcrumb:
         </div>
         <div class="ba-caption">
           <h2>{{ c.title }}</h2>
-          <p>{{ c.treatment }}</p>
+          <p>{{ c.description }}</p>
         </div>
       </article>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="notice center">
+      <strong>Authorized patient cases are being prepared.</strong>
+      <p style="margin-top:10px">We will publish before-and-after examples only after documentation for public display is confirmed.</p>
+    </div>
+    {% endif %}
 
     <div class="ba-cta fade-in">
       <h2>Wondering what&rsquo;s possible for your smile?</h2>
