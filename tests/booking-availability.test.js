@@ -27,10 +27,14 @@ test("booking controls have labels, live status, and required hidden selection f
   const script = await readFile(new URL("../src/assets/js/booking.js", import.meta.url), "utf8");
   for (const id of ["book-reason", "book-provider", "book-location", "book-date", "book-time"]) assert.match(page, new RegExp(`for="${id}"`));
   assert.match(page, /role="status" aria-live="polite"/);
+  assert.match(page, /id="book-availability-retry"/);
   assert.match(page, /name="availabilityToken"/); assert.match(page, /name="preferredStart"/);
   assert.match(script, /fetch\("\/booking-availability\?/);
   assert.match(script, /patientRelationship/);
   assert.match(script, /couldn't load online availability/i);
   assert.match(script, /timeZone: "America\/Phoenix"/);
   assert.match(script, /time\._availableSlots = \[\]/);
+  assert.match(script, /That visit type isn't available online right now/);
+  assert.match(script, /retry\.addEventListener\("click", load\)/);
+  assert.match(script, /type\.addEventListener\("change"/);
 });

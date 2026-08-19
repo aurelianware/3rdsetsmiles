@@ -1,0 +1,18 @@
+{# Reusable existing-patient review CTA. The destination lives only in
+   site.review.googleUrl. This is intentionally a direct, ungated path: every
+   patient receives equal access to the same external review destination. #}
+<div class="review-cta fade-in">
+  <div class="review-cta-text">
+    <div class="section-label" style="color:var(--gold)">Already a patient?</div>
+    <h2>{{ reviewHeading or "Share your experience" }}</h2>
+    <p>{{ reviewIntro or "Your feedback helps other Tempe patients make an informed choice about their dental care." }}</p>
+    <a class="btn-primary" href="{{ site.review.googleUrl }}" rel="noopener" data-action="google-review"{% if reviewSource %} data-source="{{ reviewSource }}"{% endif %}>Leave Us a Google Review</a>
+  </div>
+  {% if showReviewQr %}
+  <div class="review-cta-qr">
+    <img src="/assets/google-review-qr.svg" width="200" height="200" loading="lazy"
+         alt="QR code to leave a Google review for 3rd Set Smiles">
+    <span>Scan to review on your phone</span>
+  </div>
+  {% endif %}
+</div>

@@ -8,6 +8,7 @@
   var token = document.getElementById("book-availability-token");
   var preferredStart = document.getElementById("book-preferred-start");
   var status = document.getElementById("book-availability-status");
+  var retry = document.getElementById("book-availability-retry");
   if (!type || !date || !time || !token || !preferredStart) return;
   var requestedIntent = new URLSearchParams(window.location.search).get("appointmentType") || "";
 
@@ -21,14 +22,22 @@
     var name = normalized(slot.appointmentTypeName);
     if (wanted === code || wanted === name) return true;
     var aliases = {
+      "new patient": ["new patient", "new patient exam", "new patient cleaning"],
       "new patient exam": ["new patient", "new patient exam", "new patient cleaning"],
       "emergency": ["emergency", "urgent"],
+      "cosmetic consult": ["cosmetic", "cosmetic consultation"],
       "cosmetic consultation": ["cosmetic", "cosmetic consultation"],
+      "implant consult": ["implant", "implant consultation", "dental implant"],
       "implant consultation": ["implant", "implant consultation", "dental implant"]
     };
     return (aliases[wanted] || []).some(function (term) {
       return code.indexOf(term) !== -1 || name.indexOf(term) !== -1;
     });
+  }
+  function emit(event, props) {
+    if (window.track && window.ANALYTICS_EVENTS && window.ANALYTICS_EVENTS[event]) {
+      window.track(window.ANALYTICS_EVENTS[event], props || {});
+    }
   }
 
   function unique(items, key, label) {
@@ -80,6 +89,7 @@
     var selected = document.querySelector('input[name="patientRelationship"]:checked');
     if (!selected) return;
     status.textContent = "Loading current availability…"; type.disabled = true; resetSelection();
+    if (retry) retry.hidden = true;
     var from = new Date(); var to = new Date(from.getTime() + 30 * 86400000);
     var query = new URLSearchParams({ patientRelationship: selected.value, from: from.toISOString(), to: to.toISOString() });
     try {
@@ -88,12 +98,17 @@
       slots = await response.json();
       fill(type, unique(slots, "appointmentTypeCode", "appointmentTypeName"), slots.length ? "Choose an appointment type" : "No appointments available");
       fill(provider, [], "Choose an appointment type first"); fill(location, [], "Choose an appointment type first"); fill(date, [], "Choose an appointment type first"); fill(time, [], "Choose a date first");
-      status.textContent = slots.length ? "Times shown are live and will be checked again when you submit." : "No online times are currently available. Please call us for help.";
+      status.textContent = slots.length ? "Times shown are live and will be checked again when you submit." : "No online appointment times are available in the next 30 days. Try again, choose another option when available, or call the office.";
+      if (retry) retry.hidden = slots.length > 0;
+      if (slots.length) emit("AVAILABILITY_VIEWED", { appointment_intent: normalized(requestedIntent) });
       var intendedSlot = slots.find(intentMatch);
       if (intendedSlot) {
         type.value = intendedSlot.appointmentTypeCode;
         updateFilters();
         status.textContent = "Appointment type selected from the page you visited. Times shown are live and will be checked again when you submit.";
+        emit("APPOINTMENT_TYPE_SELECTED", { appointment_intent: normalized(requestedIntent) });
+      } else if (requestedIntent && slots.length) {
+        status.textContent = "That visit type isn't available online right now. Please choose another appointment type or call the office.";
       }
     } catch (_) {
       slots = []; status.textContent = "We couldn't load online availability. Please try again or call (480) 334-2752.";
@@ -101,12 +116,18 @@
       fill(provider, [], "Availability unavailable"); fill(location, [], "Availability unavailable");
       fill(date, [], "Availability unavailable"); fill(time, [], "Availability unavailable");
       time._availableSlots = []; resetSelection();
+      if (retry) retry.hidden = false;
     }
   }
   document.querySelectorAll('input[name="patientRelationship"]').forEach(function (radio) { radio.addEventListener("change", load); });
-  type.addEventListener("change", updateFilters); provider.addEventListener("change", updateDates); location.addEventListener("change", updateDates);
+  type.addEventListener("change", function () {
+    updateFilters();
+    if (type.value) emit("APPOINTMENT_TYPE_SELECTED", { appointment_intent: "patient-selected" });
+  });
+  provider.addEventListener("change", updateDates); location.addEventListener("change", updateDates);
   date.addEventListener("change", updateTimes); time.addEventListener("change", selectTime);
-  if (normalized(requestedIntent) === "new patient exam") {
+  if (retry) retry.addEventListener("click", load);
+  if (["new patient", "new patient exam"].includes(normalized(requestedIntent))) {
     var newPatient = document.querySelector('input[name="patientRelationship"][value="New"]');
     if (newPatient) { newPatient.checked = true; load(); }
   }

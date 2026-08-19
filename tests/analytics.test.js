@@ -15,6 +15,13 @@ test("accepts a valid conversion event and returns 204", async () => {
   assert.equal(res.status, 204);
 });
 
+test("accepts PHI-free booking and review funnel events", async () => {
+  for (const event of ["booking_cta_click", "booking_started", "appointment_type_selected", "availability_viewed", "review_google_click"]) {
+    const res = await onRequestPost({ request: post({ event, source: "emergency", appointment_intent: "emergency" }) });
+    assert.equal(res.status, 204);
+  }
+});
+
 test("rejects unknown or missing event names", async () => {
   assert.equal((await onRequestPost({ request: post({ event: "not_a_real_event" }) })).status, 400);
   assert.equal((await onRequestPost({ request: post({ path: "/" }) })).status, 400);

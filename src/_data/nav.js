@@ -11,6 +11,7 @@ module.exports = {
     { label: "Contact", url: "/contact/" }
   ],
   footer: [
+    { label: "Leave a Review", url: "/review/" },
     { label: "Blog", url: "/blog/" },
     { label: "Book Online", url: "/book/" },
     { label: "Testimonials", url: "/testimonials/" },

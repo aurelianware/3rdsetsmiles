@@ -103,6 +103,12 @@ time and does not send a misleading fallback email. This remains
 BookingRequest, not an Appointment. Confirmed marketplace bookings such as
 Zocdoc use a separate authenticated confirmed-booking workflow.
 
+Use `https://www.3rdsetsmiles.com/book/?source=google-business` as the Google
+Business Profile booking link. `source` is a controlled, non-PHI acquisition
+label; the page canonical remains `/book/`. Service-intent mappings, funnel
+events, and the post-visit review destination are documented in
+[`docs/patient-acquisition-funnels.md`](docs/patient-acquisition-funnels.md).
+
 The function posts to Cloud Dental Office's dedicated **public IntakeService** —
 `POST {base}/api/public/booking-requests` — added for this integration
 ([details](https://github.com/aurelianware/clouddentaloffice)). That service is

@@ -14,7 +14,7 @@
 const ALLOWED = new Set([
   'event', 'ts', 'path', 'landing_page', 'referrer',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-  'attribution_id', 'action', 'form'
+  'attribution_id', 'action', 'form', 'source', 'appointment_intent'
 ]);
 
 // The canonical event names (keep in sync with analytics.js / docs/analytics.md).
@@ -25,8 +25,13 @@ const EVENTS = new Set([
   'emergency_phone_clicked', 'implant_consultation_clicked',
   'google_review_clicked', 'directions_clicked', 'page_not_found',
   'book_online_click', 'emergency_booking_click',
-  'new_patient_offer_booking_click', 'implant_booking_click', 'phone_click'
+  'new_patient_offer_booking_click', 'implant_booking_click', 'phone_click',
+  'booking_cta_click', 'implant_consult_click', 'cosmetic_consult_click',
+  'review_google_click', 'booking_started', 'appointment_type_selected',
+  'availability_viewed'
 ]);
+const SOURCES = new Set(['homepage', 'emergency', 'implants', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
+const APPOINTMENT_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
 
 function sanitize(input) {
   const out = {};
@@ -34,6 +39,8 @@ function sanitize(input) {
   for (const key of Object.keys(input)) {
     if (!ALLOWED.has(key)) continue;               // drop unknown keys (PHI guard)
     const value = input[key];
+    if (key === 'source' && !SOURCES.has(value)) continue;
+    if (key === 'appointment_intent' && !APPOINTMENT_INTENTS.has(value)) continue;
     if (typeof value === 'string') out[key] = value.slice(0, 200);
     else if (typeof value === 'number' && Number.isFinite(value)) out[key] = value;
   }

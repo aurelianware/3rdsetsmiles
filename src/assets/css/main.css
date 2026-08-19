@@ -83,6 +83,15 @@ p, li, label, span, div { line-height: 1.7; }
 .btn-outline-dark { border-color: var(--navy); color: var(--navy); }
 .btn-outline-dark:hover { background: rgba(11,29,58,0.05); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn-text {
+  margin-top: 8px; padding: 4px 0; border: 0; background: transparent;
+  color: var(--navy); font: inherit; font-weight: 700; text-decoration: underline;
+  text-underline-offset: 3px; cursor: pointer;
+}
+.btn-text:hover { color: var(--accent); }
+.btn-text:focus-visible, .emergency-mobile-actions a:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 3px;
+}
 
 /* ── Animations ── */
 .fade-in { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
@@ -165,6 +174,26 @@ p, li, label, span, div { line-height: 1.7; }
   }
   .mobile-call-bar:active { background: var(--gold-light); }
   body { padding-bottom: 60px; }
+}
+
+/* Emergency-only mobile actions replace the generic call bar with two clear,
+   thumb-friendly choices. They remain ordinary links and never trap focus. */
+.emergency-mobile-actions { display: none; }
+@media (max-width: 700px) {
+  .page-emergency-dentistry .mobile-call-bar { display: none; }
+  .emergency-mobile-actions {
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 901;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)); gap: 8px;
+    background: var(--navy); box-shadow: 0 -2px 16px rgba(0,0,0,.22);
+  }
+  .emergency-mobile-actions a {
+    min-height: 48px; display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--gold); border-radius: 6px; color: var(--gold-light);
+    font-weight: 700; text-align: center; padding: 8px 10px;
+  }
+  .emergency-mobile-actions a:first-child { background: var(--gold); color: var(--navy); }
+  .page-emergency-dentistry { padding-bottom: 72px; }
 }
 
 /* Push content below the fixed top banner + nav */

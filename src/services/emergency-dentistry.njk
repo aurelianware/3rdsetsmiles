@@ -4,7 +4,7 @@ title: "Emergency Dentist"
 description: "Need urgent dental care in Tempe? Learn what to do for tooth pain, broken teeth, swelling and other dental emergencies, and check appointment availability online."
 permalink: /services/emergency-dentistry/
 callFirst: true
-bookingUrl: "/book/?appointmentType=emergency"
+bookingUrl: "/book/?appointmentType=emergency&source=emergency"
 bookingCta: "Check Emergency Appointment Times"
 bookingAction: "emergency-booking"
 serviceMeta:
@@ -37,10 +37,13 @@ faq:
   <li>Soft-tissue injuries to the lips, cheeks, or tongue</li>
 </ul>
 
-<p><a class="btn-primary" href="/book/?appointmentType=emergency" data-action="emergency-booking">Check Emergency Appointment Times</a></p>
-
 <h2>What we'll do at the visit</h2>
 <p>Our first goals are to stop the pain, control any infection, and stabilize the tooth. We may take a focused X-ray, place a temporary restoration or sedative filling, prescribe antibiotics if there's infection, and schedule a follow-up to complete the definitive treatment.</p>
 
 <h2>When to skip the dentist and go to the ER</h2>
 <p>Go directly to the emergency room (or call 911) if you have significant facial swelling that's affecting your breathing or vision, uncontrolled bleeding, a suspected jaw fracture, or any other life-threatening injury. Dental care can follow afterward once you're stable.</p>
+
+<nav class="emergency-mobile-actions" aria-label="Emergency dental actions">
+  <a href="tel:{{ site.phone.tel }}" data-action="call-emergency" aria-label="Call 3rd Set Smiles now">Call Now</a>
+  <a href="/book/?appointmentType=emergency&amp;source=emergency" data-action="emergency-booking">Book Online</a>
+</nav>

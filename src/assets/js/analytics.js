@@ -19,20 +19,22 @@
   var EVENTS = {
     APPOINTMENT_REQUEST_STARTED: 'appointment_request_started',
     APPOINTMENT_REQUEST_SUBMITTED: 'appointment_request_submitted',
-    PHONE_CTA_CLICKED: 'phone_cta_clicked',
     NEW_PATIENT_OFFER_CLICKED: 'new_patient_offer_clicked',
     INSURANCE_CHECK_STARTED: 'insurance_check_started',
     INSURANCE_CHECK_SUBMITTED: 'insurance_check_submitted',
     EMERGENCY_PHONE_CLICKED: 'emergency_phone_clicked',
-    IMPLANT_CONSULTATION_CLICKED: 'implant_consultation_clicked',
-    GOOGLE_REVIEW_CLICKED: 'google_review_clicked',
     DIRECTIONS_CLICKED: 'directions_clicked',
     PAGE_NOT_FOUND: 'page_not_found',
-    BOOK_ONLINE_CLICK: 'book_online_click',
     EMERGENCY_BOOKING_CLICK: 'emergency_booking_click',
     NEW_PATIENT_OFFER_BOOKING_CLICK: 'new_patient_offer_booking_click',
-    IMPLANT_BOOKING_CLICK: 'implant_booking_click',
-    PHONE_CLICK: 'phone_click'
+    PHONE_CLICK: 'phone_click',
+    BOOKING_CTA_CLICK: 'booking_cta_click',
+    IMPLANT_CONSULT_CLICK: 'implant_consult_click',
+    COSMETIC_CONSULT_CLICK: 'cosmetic_consult_click',
+    REVIEW_GOOGLE_CLICK: 'review_google_click',
+    BOOKING_STARTED: 'booking_started',
+    APPOINTMENT_TYPE_SELECTED: 'appointment_type_selected',
+    AVAILABILITY_VIEWED: 'availability_viewed'
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"
@@ -41,24 +43,39 @@
     'request-appointment': EVENTS.APPOINTMENT_REQUEST_STARTED,
     'new-patient-offer': EVENTS.NEW_PATIENT_OFFER_CLICKED,
     'insurance-check': EVENTS.INSURANCE_CHECK_STARTED,
-    'implant-consultation': EVENTS.IMPLANT_CONSULTATION_CLICKED,
-    'google-review': EVENTS.GOOGLE_REVIEW_CLICKED,
+    'google-review': EVENTS.REVIEW_GOOGLE_CLICK,
     'directions': EVENTS.DIRECTIONS_CLICKED,
     'call-emergency': EVENTS.EMERGENCY_PHONE_CLICKED,
-    'book-online': EVENTS.BOOK_ONLINE_CLICK,
+    'book-online': EVENTS.BOOKING_CTA_CLICK,
+    'booking-cta': EVENTS.BOOKING_CTA_CLICK,
     'emergency-booking': EVENTS.EMERGENCY_BOOKING_CLICK,
     'new-patient-offer-booking': EVENTS.NEW_PATIENT_OFFER_BOOKING_CLICK,
-    'implant-booking': EVENTS.IMPLANT_BOOKING_CLICK
+    'implant-booking': EVENTS.IMPLANT_CONSULT_CLICK,
+    'cosmetic-booking': EVENTS.COSMETIC_CONSULT_CLICK
   };
+
+  var SAFE_SOURCES = new Set(['homepage', 'emergency', 'implants', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
+  var SAFE_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   // The only caller-supplied prop keys track() will forward. Everything else is
   // dropped client-side (the collector allowlists again server-side).
-  var PROP_ALLOW = { action: true, form: true };
+  var PROP_ALLOW = { action: true, form: true, source: true, appointment_intent: true };
   var STORE_ATTR = '3ss_attribution';   // sessionStorage: UTM + landing + referrer
   var STORE_ID = '3ss_aid';             // localStorage: durable attributionId
 
   function safe(fn) { try { return fn(); } catch (e) { return undefined; } }
+
+  function controlledContext(url) {
+    var out = {};
+    var parsed = safe(function () { return new URL(url || window.location.href, window.location.origin); });
+    if (!parsed) return out;
+    var source = parsed.searchParams.get('source');
+    var intent = parsed.searchParams.get('appointmentType');
+    if (SAFE_SOURCES.has(source)) out.source = source;
+    if (SAFE_INTENTS.has(intent)) out.appointment_intent = intent;
+    return out;
+  }
 
   // Endpoint is configured by the page (see base.njk). Empty ⇒ dataLayer only.
   function endpoint() {
@@ -120,6 +137,8 @@
         if (!Object.prototype.hasOwnProperty.call(props, p)) continue;
         if (!PROP_ALLOW[p]) continue; // allowlist prop keys, not just types
         var val = props[p], t = typeof val;
+        if (p === 'source' && !SAFE_SOURCES.has(val)) continue;
+        if (p === 'appointment_intent' && !SAFE_INTENTS.has(val)) continue;
         if (t === 'string') payload[p] = val.slice(0, 200);
         else if (t === 'boolean' || (t === 'number' && isFinite(val))) payload[p] = val;
       }
@@ -156,6 +175,8 @@
         window.gtag('event', event, {
           action: payload.action,
           form: payload.form,
+          source: payload.source,
+          appointment_intent: payload.appointment_intent,
           attribution_id: payload.attribution_id
         });
       });
@@ -202,7 +223,19 @@
     if (!action) return;
     var event = ACTION_EVENTS[action];
     if (!event && action.indexOf('call-') === 0) event = EVENTS.PHONE_CLICK;
-    if (event) track(event, { action: action });
+    if (event) {
+      var props = controlledContext(el.href || window.location.href);
+      props.action = action;
+      var declaredSource = el.getAttribute('data-source');
+      if (SAFE_SOURCES.has(declaredSource)) props.source = declaredSource;
+      // Review outreach source belongs to the current review-page URL, not the
+      // external Google destination.
+      if (action === 'google-review') {
+        var reviewContext = controlledContext(window.location.href);
+        if (reviewContext.source) props.source = reviewContext.source;
+      }
+      track(event, props);
+    }
   }, true);
 
   // ── Request form submissions ──
@@ -224,4 +257,7 @@
   // onto any opted-in hidden form fields (defer guarantees the DOM is parsed).
   attribution();
   fillAttributionFields();
+  if (window.location.pathname === '/book/' || window.location.pathname === '/book') {
+    track(EVENTS.BOOKING_STARTED, controlledContext(window.location.href));
+  }
 })();
