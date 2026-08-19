@@ -85,15 +85,18 @@ Event names are centralized in `EVENTS` in `analytics.js` and mirrored in
 | --- | --- |
 | `appointment_request_started` | A "Request an Appointment" CTA is clicked (`data-action="request-appointment"`) |
 | `appointment_request_submitted` | The shared request form (`.contact-form` / `#contact` / `#book`) is submitted |
-| `phone_cta_clicked` | Any non-emergency phone link is clicked (any `data-action="call-*"`) |
 | `new_patient_offer_clicked` | The $49 new-patient offer CTA is clicked (`data-action="new-patient-offer"`) |
 | `insurance_check_started` | A "Check My Insurance" CTA is clicked (`data-action="insurance-check"`) |
 | `insurance_check_submitted` | The dedicated insurance-verification form is submitted *(reserved for the Prompt 6 insurance workflow; emit via `window.track(window.ANALYTICS_EVENTS.INSURANCE_CHECK_SUBMITTED)` when that form ships)* |
 | `emergency_phone_clicked` | An emergency phone link is clicked (`data-action="call-emergency"`) |
-| `implant_consultation_clicked` | An implant-consultation CTA is clicked (`data-action="implant-consultation"`) |
 | `google_review_clicked` | A "Leave a Google Review" CTA is clicked (`data-action="google-review"`) |
 | `directions_clicked` | A "Get Directions" link is clicked (`data-action="directions"`) |
 | `page_not_found` | A visitor lands on the 404 page. The event's `path` is the missing URL they requested (Cloudflare serves `404.html` at the original path), so you can see *which* URLs 404 in GA4 by breaking the event down by page path. |
+| `book_online_click` | A general service-page online booking CTA is clicked. |
+| `emergency_booking_click` | An emergency appointment-times CTA is clicked. |
+| `new_patient_offer_booking_click` | The $49 offer's online booking CTA is clicked. |
+| `implant_booking_click` | An implant-consultation booking CTA is clicked. |
+| `phone_click` | Any non-emergency phone link is clicked (an unmapped `data-action="call-*"`). |
 
 ### Attribution attached to every event
 

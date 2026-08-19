@@ -27,11 +27,16 @@
     IMPLANT_CONSULTATION_CLICKED: 'implant_consultation_clicked',
     GOOGLE_REVIEW_CLICKED: 'google_review_clicked',
     DIRECTIONS_CLICKED: 'directions_clicked',
-    PAGE_NOT_FOUND: 'page_not_found'
+    PAGE_NOT_FOUND: 'page_not_found',
+    BOOK_ONLINE_CLICK: 'book_online_click',
+    EMERGENCY_BOOKING_CLICK: 'emergency_booking_click',
+    NEW_PATIENT_OFFER_BOOKING_CLICK: 'new_patient_offer_booking_click',
+    IMPLANT_BOOKING_CLICK: 'implant_booking_click',
+    PHONE_CLICK: 'phone_click'
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"
-  // action falls back to PHONE_CTA_CLICKED so new phone links are covered.
+  // action falls back to PHONE_CLICK so new phone links are covered.
   var ACTION_EVENTS = {
     'request-appointment': EVENTS.APPOINTMENT_REQUEST_STARTED,
     'new-patient-offer': EVENTS.NEW_PATIENT_OFFER_CLICKED,
@@ -39,7 +44,11 @@
     'implant-consultation': EVENTS.IMPLANT_CONSULTATION_CLICKED,
     'google-review': EVENTS.GOOGLE_REVIEW_CLICKED,
     'directions': EVENTS.DIRECTIONS_CLICKED,
-    'call-emergency': EVENTS.EMERGENCY_PHONE_CLICKED
+    'call-emergency': EVENTS.EMERGENCY_PHONE_CLICKED,
+    'book-online': EVENTS.BOOK_ONLINE_CLICK,
+    'emergency-booking': EVENTS.EMERGENCY_BOOKING_CLICK,
+    'new-patient-offer-booking': EVENTS.NEW_PATIENT_OFFER_BOOKING_CLICK,
+    'implant-booking': EVENTS.IMPLANT_BOOKING_CLICK
   };
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
@@ -192,7 +201,7 @@
     var action = el.getAttribute('data-action');
     if (!action) return;
     var event = ACTION_EVENTS[action];
-    if (!event && action.indexOf('call-') === 0) event = EVENTS.PHONE_CTA_CLICKED;
+    if (!event && action.indexOf('call-') === 0) event = EVENTS.PHONE_CLICK;
     if (event) track(event, { action: action });
   }, true);
 

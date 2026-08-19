@@ -198,10 +198,12 @@ this build do not (and cannot) do them:
    `404.html`, Cloudflare should return a true 404 for unknown paths. Verify
    after deploy by visiting a fake URL such as
    `https://www.3rdsetsmiles.com/does-not-exist` and confirming a 404 status.
-2. **Cloudflare zone Redirect Rule (apex → www, 301):**
-   `http.host eq "3rdsetsmiles.com"` →
-   `concat("https://www.3rdsetsmiles.com", http.request.uri.path)`,
-   preserving query string.
+2. **Canonical redirect verification:** root Pages middleware now redirects the
+   apex host, HTTP requests, and slashless page routes directly to their final
+   `https://www.3rdsetsmiles.com/path/` URL while preserving the query string.
+   Keep both the apex and `www` custom domains attached to the Pages project so
+   requests reach that middleware; an equivalent zone rule may remain as
+   defense in depth, but must target the same final URL to avoid a chain.
 3. **Google Business Profile:** confirm phone is **(480) 334-2752**, remove any
    "VA Community Care Provider" or veteran-specific language, confirm hours
    Mon–Fri 10am–6pm (matching `src/_data/site.json`).
@@ -248,8 +250,9 @@ this build do not (and cannot) do them:
 /accessibility
 ```
 
-`/patient-resources` is 301-redirected to `/new-patients`. `/hero-demo` and
-`/hero-demo/*` (prior dev junk paths) are explicitly 404'd via `_redirects`.
+`/patient-resources` is 301-redirected to `/new-patients/`. `/hero-demo` and
+`/hero-demo/*` have no production route and return the site's real 404 response;
+they are not redirected to the homepage or included in the sitemap.
 
 ## Editing content
 

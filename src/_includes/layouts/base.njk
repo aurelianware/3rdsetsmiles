@@ -26,7 +26,7 @@
   {# Open Graph #}
   <meta property="og:type" content="{{ ogType or 'website' }}">
   <meta property="og:site_name" content="{{ site.name }}">
-  <meta property="og:title" content="{{ title }} | {{ site.name }}">
+  <meta property="og:title" content="{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}">
   <meta property="og:description" content="{{ description }}">
   <meta property="og:url" content="{{ page.url | absUrl(site.domain) }}">
   <meta property="og:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
@@ -69,10 +69,9 @@
     "@type": "Dentist",
     "@id": {{ (site.domain + "/#dentist") | dump | safe }},
     "name": {{ site.name | dump | safe }},
-    "url": {{ site.domain | dump | safe }},
+    "url": {{ (site.domain + "/") | dump | safe }},
     "telephone": {{ site.phone.tel | dump | safe }},
     "email": {{ site.email | dump | safe }},
-    "priceRange": "$$",
     "logo": {{ (site.domain + "/assets/apple-touch-icon.png") | dump | safe }},
     "founder": {
       "@type": "Person",
