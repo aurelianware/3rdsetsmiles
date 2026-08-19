@@ -1,4 +1,7 @@
 const { execFileSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 
 module.exports = function (eleventyConfig) {
   // Passthrough copy: files that should land in the output root verbatim.
@@ -21,6 +24,41 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("isoDate", function (value) {
     const d = value ? new Date(value) : new Date();
     return d.toISOString().slice(0, 10);
+  });
+
+  // Cache-busting for HTML-referenced local assets. `/assets/*` is served
+  // `immutable` for 30 days (see src/_headers), which means browsers and the
+  // CDN never revalidate a cached file during that window. With stable, unhashed
+  // URLs that would pin every visitor to the deployed-at-first-visit version of
+  // our JS/CSS — so a fix like the booking page never reaches returning users.
+  // Append a short content hash (?v=…) so the URL changes whenever the file's
+  // bytes change, which is exactly the condition under which `immutable` is
+  // safe. Hash is computed once per build and cached per path.
+  const bustCache = new Map();
+  const srcRoot = path.join(__dirname, "src");
+  eleventyConfig.addFilter("bust", function (assetPath) {
+    if (!assetPath || typeof assetPath !== "string" || !assetPath.startsWith("/")) return assetPath;
+    if (bustCache.has(assetPath)) return bustCache.get(assetPath);
+    // Hash only the path portion; a query/fragment isn't part of the file on disk.
+    const clean = assetPath.split(/[?#]/)[0];
+    let out = clean;
+    const file = path.resolve(srcRoot, "." + clean);
+    // Never let a crafted path (e.g. "..") read outside the source tree, even if
+    // a future caller passes variable input rather than a string literal.
+    if (file !== srcRoot && !file.startsWith(srcRoot + path.sep)) {
+      console.warn(`[bust] refusing out-of-tree asset path: ${assetPath}`);
+    } else {
+      try {
+        const hash = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+        out = `${clean}?v=${hash}`;
+      } catch (e) {
+        // Don't fail the build, but surface the problem so a typo'd template path
+        // (which would silently defeat cache-busting) is visible in build output.
+        console.warn(`[bust] could not read asset for cache-busting: ${clean} (${e.code || e.message})`);
+      }
+    }
+    bustCache.set(assetPath, out);
+    return out;
   });
 
   // Sitemap <lastmod>: honest, stable per-file date from the last git commit

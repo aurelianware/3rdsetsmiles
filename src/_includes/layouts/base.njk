@@ -55,7 +55,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
   {# Site CSS #}
-  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | bust }}">
 
   {# JSON-LD below. Every `| dump` value is also piped through `| safe`:
      Nunjucks HTML-escapes by default, which would turn the quotes produced
@@ -211,7 +211,7 @@
      set to a same-origin path. No third-party scripts, no PHI. See
      /docs/analytics.md. #}
   <script>window.dataLayer=window.dataLayer||[];window.SITE_ANALYTICS={endpoint:{{ (site.analytics.endpoint or "") | dump | safe }}};</script>
-  <script src="/assets/js/analytics.js" defer></script>
-  <script src="/assets/js/main.js" defer></script>
+  <script src="{{ '/assets/js/analytics.js' | bust }}" defer></script>
+  <script src="{{ '/assets/js/main.js' | bust }}" defer></script>
 </body>
 </html>
