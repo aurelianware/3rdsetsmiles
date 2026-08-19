@@ -35,16 +35,27 @@ module.exports = function (eleventyConfig) {
   // bytes change, which is exactly the condition under which `immutable` is
   // safe. Hash is computed once per build and cached per path.
   const bustCache = new Map();
+  const srcRoot = path.join(__dirname, "src");
   eleventyConfig.addFilter("bust", function (assetPath) {
     if (!assetPath || typeof assetPath !== "string" || !assetPath.startsWith("/")) return assetPath;
     if (bustCache.has(assetPath)) return bustCache.get(assetPath);
-    let out = assetPath;
-    try {
-      const file = path.join(__dirname, "src", assetPath.replace(/^\/+/, ""));
-      const hash = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
-      out = `${assetPath}?v=${hash}`;
-    } catch (e) {
-      // Missing/unreadable file — fall back to the bare path rather than break the build.
+    // Hash only the path portion; a query/fragment isn't part of the file on disk.
+    const clean = assetPath.split(/[?#]/)[0];
+    let out = clean;
+    const file = path.resolve(srcRoot, "." + clean);
+    // Never let a crafted path (e.g. "..") read outside the source tree, even if
+    // a future caller passes variable input rather than a string literal.
+    if (file !== srcRoot && !file.startsWith(srcRoot + path.sep)) {
+      console.warn(`[bust] refusing out-of-tree asset path: ${assetPath}`);
+    } else {
+      try {
+        const hash = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+        out = `${clean}?v=${hash}`;
+      } catch (e) {
+        // Don't fail the build, but surface the problem so a typo'd template path
+        // (which would silently defeat cache-busting) is visible in build output.
+        console.warn(`[bust] could not read asset for cache-busting: ${clean} (${e.code || e.message})`);
+      }
     }
     bustCache.set(assetPath, out);
     return out;
