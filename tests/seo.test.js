@@ -29,10 +29,10 @@ test("canonical middleware leaves canonical pages and function endpoints alone",
 });
 
 const priorities = [
-  ["special-offers/index.html", "$49 New Patient Dental Special in Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient"],
-  ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ", "Emergency Dentist in", "/book/?appointmentType=emergency"],
-  ["services/cosmetic-dentistry/index.html", "Cosmetic Dentist in Tempe, AZ", "Cosmetic Dentistry", "/book/?appointmentType=cosmetic-consult"],
-  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ", "Dental Implants", "/book/?appointmentType=implant-consult"],
+  ["special-offers/index.html", "$49 New Patient Dental Special in Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
+  ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ", "Emergency Dentist in", "/book/?appointmentType=emergency&amp;source=emergency"],
+  ["services/cosmetic-dentistry/index.html", "Cosmetic Dentist in Tempe, AZ", "Cosmetic Dentistry", "/book/?appointmentType=cosmetic-consult&amp;source=cosmetic"],
+  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ", "Dental Implants", "/book/?appointmentType=implant-consult&amp;source=implants"],
 ];
 
 test("priority pages have unique intent metadata, self-canonicals, one H1, and booking CTAs", () => {
@@ -43,7 +43,7 @@ test("priority pages have unique intent metadata, self-canonicals, one H1, and b
     assert.match(html, /<meta name="description" content="[^"]+">/);
     assert.equal((html.match(/<h1[ >]/g) || []).length, 1);
     assert.ok(html.includes(h1));
-    assert.ok(html.includes(`href="${booking}`));
+    assert.ok(html.includes(`href="${booking}"`));
     assert.match(html, /<link rel="canonical" href="https:\/\/www\.3rdsetsmiles\.com\/.+\/">/);
     titles.add(title);
   }

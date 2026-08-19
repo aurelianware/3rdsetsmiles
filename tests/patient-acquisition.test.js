@@ -6,8 +6,16 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-execSync("npm run build", { cwd: root, stdio: "pipe" });
-const read = (file) => readFileSync(path.join(root, "_site", file), "utf8");
+let built = false;
+function ensureBuild() {
+  if (built) return;
+  execSync("npm run build", { cwd: root, stdio: "pipe" });
+  built = true;
+}
+function read(file) {
+  ensureBuild();
+  return readFileSync(path.join(root, "_site", file), "utf8");
+}
 
 test("priority CTAs carry controlled intent and source", () => {
   const cases = [
