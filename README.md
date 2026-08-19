@@ -250,7 +250,7 @@ this build do not (and cannot) do them:
 /insurance-financing
 /special-offers
 /testimonials
-/before-after-gallery       (noindex until populated with real photos)
+/before-after-gallery       (published; indexed, authorized patient cases)
 /privacy
 /terms
 /accessibility

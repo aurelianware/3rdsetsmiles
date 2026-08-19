@@ -62,11 +62,15 @@ test("FAQ content is visible and represented by existing FAQ structured data", (
   assert.match(html, /"@type": "FAQPage"/);
 });
 
-test("zero authorized implant cases renders no results or placeholder clinical imagery", () => {
+test("authorized implant cases render with a PHI-free, outcomes-vary caption", () => {
   const html = read("services/all-on-4/index.html");
-  assert.doesNotMatch(html, /Authorized implant treatment results/);
-  assert.doesNotMatch(html, /class="ba-card/);
-  assert.doesNotMatch(html, /case4-(?:before|after)/);
+  // The authorized full-arch case is now published and renders here.
+  assert.match(html, /Authorized implant treatment results/);
+  assert.match(html, /class="ba-card/);
+  assert.match(html, /case4-(?:before|after)/);
+  // The compliance-safe caption stays, and no patient identity is exposed.
+  assert.match(html, /Individual outcomes vary/);
+  assert.doesNotMatch(html, /patient(?:Id|Name)/i);
 });
 
 test("implant funnel analytics are controlled and PHI-free", () => {

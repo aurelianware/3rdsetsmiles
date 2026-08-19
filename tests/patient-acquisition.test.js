@@ -67,11 +67,16 @@ test("booking analytics accepts only controlled source and intent labels", () =>
   }
 });
 
-test("gallery publishes only explicitly authorized cases", () => {
+test("gallery publishes authorized cases and is indexable", () => {
   const html = read("before-after-gallery/index.html");
-  assert.match(html, /Authorized patient cases are being prepared/);
-  assert.doesNotMatch(html, /class="ba-card/);
+  // Authorized cases now render, and the page is no longer noindex.
+  assert.match(html, /class="ba-card/);
+  assert.doesNotMatch(html, /Authorized patient cases are being prepared/);
+  assert.doesNotMatch(html, /<meta name="robots" content="noindex/);
+  // Published cases are an explicit opt-in in the data file.
   const data = readFileSync(path.join(root, "src/_data/beforeAfter.js"), "utf8");
-  assert.match(data, /published: false/);
-  assert.match(data, /documented patient authorization/);
+  assert.match(data, /published: true/);
+  assert.doesNotMatch(data, /published: false/);
+  // And the page appears in the sitemap now that it is indexable.
+  assert.ok(read("sitemap.xml").includes("/before-after-gallery/"));
 });

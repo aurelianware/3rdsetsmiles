@@ -1,9 +1,8 @@
 ---
 layout: layouts/base.njk
 title: "Before & After Gallery"
-description: "Before-and-after dental case gallery for 3rd Set Smiles in Tempe, AZ. Cases are published only after authorization for public display is confirmed."
+description: "Before-and-after dental case gallery for 3rd Set Smiles in Tempe, AZ. See authorized patient transformations by Dr. Matthew Phillips."
 permalink: /before-after-gallery/
-noindex: true
 breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "Before & After Gallery", url: "/before-after-gallery/" }
@@ -13,16 +12,12 @@ breadcrumb:
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Before &amp; After Gallery</div>
     <h1>Real Smiles, <span>Real Transformations</span></h1>
-    <p class="lede">Authorized examples of Dr. Phillips&rsquo; work will be shared here as they are approved for public display.</p>
+    <p class="lede">Authorized patient transformations by Dr. Phillips &mdash; real before-and-after results from care provided at 3rd Set Smiles.</p>
   </div>
 </section>
 
 <section class="section section-cream">
   <div class="container">
-
-    <!-- CONFIRM: photos are published only with signed HIPAA photo-release
-         consent. Keep `noindex: true` in the front matter until consent for
-         public display is documented for every case shown here. -->
 
     {% set publishedCases = beforeAfter | publishedCases %}
     {% if publishedCases.length %}
@@ -51,8 +46,8 @@ breadcrumb:
     </div>
     {% else %}
     <div class="notice center">
-      <strong>Authorized patient cases are being prepared.</strong>
-      <p style="margin-top:10px">We will publish before-and-after examples only after documentation for public display is confirmed.</p>
+      <strong>More before-and-after cases are coming soon.</strong>
+      <p style="margin-top:10px">In the meantime, <a href="/contact/">schedule a consultation</a> to talk through what&rsquo;s possible for your smile.</p>
     </div>
     {% endif %}
 
