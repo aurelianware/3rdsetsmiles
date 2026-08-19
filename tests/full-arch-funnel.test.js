@@ -87,3 +87,9 @@ test("existing candidacy and cost articles end in the consultation journey", () 
   assert.ok(candidacy.includes("appointmentType=implant-consult&amp;source=implant-candidacy"));
   assert.ok(cost.includes("appointmentType=implant-consult&amp;source=implant-cost"));
 });
+
+test("implant-supported dentures retain their distinct implants attribution", () => {
+  const html = read("services/implant-supported-dentures/index.html");
+  assert.ok(html.includes('href="/book/?appointmentType=implant-consult&amp;source=implants"'));
+  assert.ok(!html.includes('href="/book/?appointmentType=implant-consult&amp;source=full-arch"'));
+});
