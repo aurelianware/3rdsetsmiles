@@ -859,3 +859,22 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
 
 .roadmap-table tr:last-child td { border-bottom: 0; }
 .roadmap-table a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Full-arch conversion content */
+.implant-inline-cta { margin: 34px 0; }
+.implant-inline-cta h2 { margin-bottom: 10px; }
+.implant-inline-cta p { margin-bottom: 18px; }
+.implant-trust {
+  display: grid; grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 28px; align-items: center; margin: 24px 0 38px;
+}
+.implant-trust img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 20%;
+  border-radius: 14px;
+}
+.implant-resource-list a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 620px) {
+  .implant-trust { grid-template-columns: 1fr; }
+  .implant-trust img { max-width: 280px; }
+  .implant-inline-cta .btn-primary, .implant-inline-cta .btn-outline { width: 100%; text-align: center; }
+}

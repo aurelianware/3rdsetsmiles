@@ -21,7 +21,8 @@ Public intent slugs are suggestions, not CloudDentalOffice identifiers:
 | Landing context | Booking URL |
 | --- | --- |
 | Emergency | `/book/?appointmentType=emergency&source=emergency` |
-| Implants/full arch | `/book/?appointmentType=implant-consult&source=implants` |
+| General implants | `/book/?appointmentType=implant-consult&source=implants` |
+| Full arch / All-on-X | `/book/?appointmentType=implant-consult&source=full-arch` |
 | Cosmetic/veneers/whitening | `/book/?appointmentType=cosmetic-consult&source=cosmetic` |
 | $49 new-patient offer | `/book/?appointmentType=new-patient&source=new-patient-offer` |
 | Homepage | `/book/?source=homepage` |

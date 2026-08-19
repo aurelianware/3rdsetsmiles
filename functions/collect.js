@@ -14,7 +14,8 @@
 const ALLOWED = new Set([
   'event', 'ts', 'path', 'landing_page', 'referrer',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-  'attribution_id', 'action', 'form', 'source', 'appointment_intent'
+  'attribution_id', 'action', 'form', 'source', 'appointment_intent',
+  'cta_position'
 ]);
 
 // The canonical event names (keep in sync with analytics.js / docs/analytics.md).
@@ -28,10 +29,12 @@ const EVENTS = new Set([
   'new_patient_offer_booking_click', 'implant_booking_click', 'phone_click',
   'booking_cta_click', 'implant_consult_click', 'cosmetic_consult_click',
   'review_google_click', 'booking_started', 'appointment_type_selected',
-  'availability_viewed'
+  'availability_viewed', 'full_arch_page_view', 'implant_phone_click',
+  'implant_financing_click', 'implant_candidate_article_click'
 ]);
-const SOURCES = new Set(['homepage', 'emergency', 'implants', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
+const SOURCES = new Set(['homepage', 'emergency', 'implants', 'full-arch', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
 const APPOINTMENT_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
+const CTA_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
 
 function sanitize(input) {
   const out = {};
@@ -41,6 +44,7 @@ function sanitize(input) {
     const value = input[key];
     if (key === 'source' && !SOURCES.has(value)) continue;
     if (key === 'appointment_intent' && !APPOINTMENT_INTENTS.has(value)) continue;
+    if (key === 'cta_position' && !CTA_POSITIONS.has(value)) continue;
     if (typeof value === 'string') out[key] = value.slice(0, 200);
     else if (typeof value === 'number' && Number.isFinite(value)) out[key] = value;
   }
