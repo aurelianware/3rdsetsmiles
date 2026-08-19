@@ -94,6 +94,11 @@ Event names are centralized in `EVENTS` in `analytics.js` and mirrored in
 | `google_review_clicked` | A "Leave a Google Review" CTA is clicked (`data-action="google-review"`) |
 | `directions_clicked` | A "Get Directions" link is clicked (`data-action="directions"`) |
 | `page_not_found` | A visitor lands on the 404 page. The event's `path` is the missing URL they requested (Cloudflare serves `404.html` at the original path), so you can see *which* URLs 404 in GA4 by breaking the event down by page path. |
+| `book_online_click` | A general service-page online booking CTA is clicked. |
+| `emergency_booking_click` | An emergency appointment-times CTA is clicked. |
+| `new_patient_offer_booking_click` | The $49 offer's online booking CTA is clicked. |
+| `implant_booking_click` | An implant-consultation booking CTA is clicked. |
+| `phone_click` | Any newly instrumented non-emergency `call-*` action is clicked. |
 
 ### Attribution attached to every event
 

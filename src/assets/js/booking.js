@@ -9,6 +9,27 @@
   var preferredStart = document.getElementById("book-preferred-start");
   var status = document.getElementById("book-availability-status");
   if (!type || !date || !time || !token || !preferredStart) return;
+  var requestedIntent = new URLSearchParams(window.location.search).get("appointmentType") || "";
+
+  function normalized(value) {
+    return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  }
+  function intentMatch(slot) {
+    var wanted = normalized(requestedIntent);
+    if (!wanted) return false;
+    var code = normalized(slot.appointmentTypeCode);
+    var name = normalized(slot.appointmentTypeName);
+    if (wanted === code || wanted === name) return true;
+    var aliases = {
+      "new patient exam": ["new patient", "new patient exam", "new patient cleaning"],
+      "emergency": ["emergency", "urgent"],
+      "cosmetic consultation": ["cosmetic", "cosmetic consultation"],
+      "implant consultation": ["implant", "implant consultation", "dental implant"]
+    };
+    return (aliases[wanted] || []).some(function (term) {
+      return code.indexOf(term) !== -1 || name.indexOf(term) !== -1;
+    });
+  }
 
   function unique(items, key, label) {
     var seen = new Map(); items.forEach(function (item) { if (item[key]) seen.set(item[key], item[label] || item[key]); });
@@ -68,6 +89,12 @@
       fill(type, unique(slots, "appointmentTypeCode", "appointmentTypeName"), slots.length ? "Choose an appointment type" : "No appointments available");
       fill(provider, [], "Choose an appointment type first"); fill(location, [], "Choose an appointment type first"); fill(date, [], "Choose an appointment type first"); fill(time, [], "Choose a date first");
       status.textContent = slots.length ? "Times shown are live and will be checked again when you submit." : "No online times are currently available. Please call us for help.";
+      var intendedSlot = slots.find(intentMatch);
+      if (intendedSlot) {
+        type.value = intendedSlot.appointmentTypeCode;
+        updateFilters();
+        status.textContent = "Appointment type selected from the page you visited. Times shown are live and will be checked again when you submit.";
+      }
     } catch (_) {
       slots = []; status.textContent = "We couldn't load online availability. Please try again or call (480) 334-2752.";
       fill(type, [], "Availability unavailable");
@@ -79,4 +106,8 @@
   document.querySelectorAll('input[name="patientRelationship"]').forEach(function (radio) { radio.addEventListener("change", load); });
   type.addEventListener("change", updateFilters); provider.addEventListener("change", updateDates); location.addEventListener("change", updateDates);
   date.addEventListener("change", updateTimes); time.addEventListener("change", selectTime);
+  if (normalized(requestedIntent) === "new patient exam") {
+    var newPatient = document.querySelector('input[name="patientRelationship"][value="New"]');
+    if (newPatient) { newPatient.checked = true; load(); }
+  }
 })();

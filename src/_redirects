@@ -1,7 +1,5 @@
-/patient-resources              /new-patients   301
-/services/root-canal-therapy    /services/      301
-/hero-demo           /               301
-/hero-demo/*         /               301
+/patient-resources              /new-patients/   301
+/services/root-canal-therapy    /services/       301
 
 # Legacy /our-services/<category>/<service>/ URL scheme (pre-redesign, still
 # indexed by Google). Map known pages to their current equivalents; the splat

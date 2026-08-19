@@ -23,7 +23,9 @@ const EVENTS = new Set([
   'phone_cta_clicked', 'new_patient_offer_clicked',
   'insurance_check_started', 'insurance_check_submitted',
   'emergency_phone_clicked', 'implant_consultation_clicked',
-  'google_review_clicked', 'directions_clicked', 'page_not_found'
+  'google_review_clicked', 'directions_clicked', 'page_not_found',
+  'book_online_click', 'emergency_booking_click',
+  'new_patient_offer_booking_click', 'implant_booking_click', 'phone_click'
 ]);
 
 function sanitize(input) {
