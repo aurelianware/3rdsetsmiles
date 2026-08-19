@@ -31,10 +31,23 @@ test("booking controls have labels, live status, and required hidden selection f
   assert.match(page, /name="availabilityToken"/); assert.match(page, /name="preferredStart"/);
   assert.match(script, /fetch\("\/booking-availability\?/);
   assert.match(script, /patientRelationship/);
-  assert.match(script, /couldn't load online availability/i);
   assert.match(script, /timeZone: "America\/Phoenix"/);
   assert.match(script, /time\._availableSlots = \[\]/);
   assert.match(script, /That visit type isn't available online right now/);
   assert.match(script, /retry\.addEventListener\("click", load\)/);
   assert.match(script, /type\.addEventListener\("change"/);
+});
+
+test("booking page degrades to a general request when live availability is unavailable", async () => {
+  const script = await readFile(new URL("../src/assets/js/booking.js", import.meta.url), "utf8");
+  // A failed/unconfigured availability response must not dead-end the page; it
+  // switches to a general request mode instead of showing an unusable form.
+  assert.match(script, /enterGeneralRequestMode/);
+  assert.match(script, /if \(!response\.ok\)/);
+  assert.match(script, /confirm within one business day/i);
+  // The fallback still lets the visitor pick a weekday date and a time window
+  // that build preferredStart without a live availability token.
+  assert.match(script, /generalDates/);
+  assert.match(script, /generalTimes/);
+  assert.match(script, /Sat.*Sun|Sun.*Sat/); // weekends are skipped
 });

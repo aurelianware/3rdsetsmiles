@@ -179,11 +179,16 @@ export async function onRequestPost(context) {
     if (val) attribution[key] = val;
   }
 
-  if (!name || !phone || !preferredStart || !availabilityToken || !["New", "Existing"].includes(patientRelationship)) {
+  // A live availability token is used when the scheduling backend is connected,
+  // but it isn't required: before Cloud Dental Office is wired up (or when it's
+  // unreachable/has no online times) the page submits a general request with a
+  // preferred date/time and no token. Staff confirm every request either way,
+  // so require only the fields we truly need to follow up.
+  if (!name || !phone || !preferredStart || !["New", "Existing"].includes(patientRelationship)) {
     return page({
       title: "Missing information",
       heading: "We need a little more",
-      body: `<p>Please include your name and phone number, tell us whether you're a new or existing patient, then choose one of the available appointment times. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
+      body: `<p>Please include your name and phone number, tell us whether you're a new or existing patient, then choose a preferred appointment date and time. You can also call us directly at <a href="tel:+14803342752">(480) 334-2752</a>.</p>`,
       status: 400,
     });
   }
@@ -217,7 +222,7 @@ export async function onRequestPost(context) {
     email: email || null,
     preferredContact: preferredContact || null,
     preferredStart: start.toISOString(),
-    availabilityToken,
+    availabilityToken: availabilityToken || null,
     alternateStart: null,
     durationMinutes: Number(env.CLOUDDENTAL_APPT_MINUTES) || undefined,
     reason: reason || null,
