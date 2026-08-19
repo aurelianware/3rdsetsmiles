@@ -21,10 +21,12 @@ test("full-arch landing page has intentional metadata and one patient-first H1",
   assert.match(html, /many teeth are missing or failing/i);
 });
 
-test("consultation CTAs use the CDO-validated intent and preserve full-arch source", () => {
+test("consultation CTAs use the CDO-validated intent and the all-on-4 source", () => {
   const html = read("services/all-on-4/index.html");
-  const href = 'href="/book/?appointmentType=implant-consult&amp;source=full-arch"';
+  const href = 'href="/book/?appointmentType=implant-consult&amp;source=all-on-4"';
   assert.ok((html.match(new RegExp(href.replace(/[?]/g, "\\?"), "g")) || []).length >= 3);
+  // The old page-level source must not linger on booking CTAs.
+  assert.ok(!html.includes('href="/book/?appointmentType=implant-consult&amp;source=full-arch"'));
   for (const position of ["hero", "education", "financing", "bottom"])
     assert.ok(html.includes(`data-position="${position}"`));
 
@@ -62,11 +64,15 @@ test("FAQ content is visible and represented by existing FAQ structured data", (
   assert.match(html, /"@type": "FAQPage"/);
 });
 
-test("zero authorized implant cases renders no results or placeholder clinical imagery", () => {
+test("authorized implant cases render with a PHI-free, outcomes-vary caption", () => {
   const html = read("services/all-on-4/index.html");
-  assert.doesNotMatch(html, /Authorized implant treatment results/);
-  assert.doesNotMatch(html, /class="ba-card/);
-  assert.doesNotMatch(html, /case4-(?:before|after)/);
+  // The authorized full-arch case is now published and renders here.
+  assert.match(html, /Authorized implant treatment results/);
+  assert.match(html, /class="ba-card/);
+  assert.match(html, /case4-(?:before|after)/);
+  // The compliance-safe caption stays, and no patient identity is exposed.
+  assert.match(html, /Individual outcomes vary/);
+  assert.doesNotMatch(html, /patient(?:Id|Name)/i);
 });
 
 test("implant funnel analytics are controlled and PHI-free", () => {

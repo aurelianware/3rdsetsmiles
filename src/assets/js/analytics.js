@@ -61,7 +61,7 @@
     'implant-candidate': EVENTS.IMPLANT_CANDIDATE_ARTICLE_CLICK
   };
 
-  var SAFE_SOURCES = new Set(['homepage', 'emergency', 'implants', 'full-arch', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
+  var SAFE_SOURCES = new Set(['homepage', 'homepage-hero', 'homepage-advanced', 'emergency', 'implants', 'full-arch', 'all-on-4', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
   var SAFE_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
   var SAFE_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
 

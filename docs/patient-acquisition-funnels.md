@@ -71,9 +71,10 @@ regenerated if that URL changes.
 
 ## Before-and-after cases
 
-The current gallery remains `noindex` while the office confirms documentation
-for every displayed case. Patient imagery may be published only with appropriate
-written authorization covering public web use. Case records should contain only
-a non-identifying title, treatment category, image paths, short factual
-description, sort order, and publication state—never patient identity or
-clinical-record data. Do not add placeholder or fabricated cases.
+The gallery is published and indexable now that authorization for the displayed
+cases has been confirmed. Patient imagery may be published only with appropriate
+written authorization covering public web use, and each case is an explicit
+`published: true` opt-in. Case records should contain only a non-identifying
+title, treatment category, image paths, short factual description, sort order,
+and publication state—never patient identity or clinical-record data. Do not add
+placeholder or fabricated cases.
