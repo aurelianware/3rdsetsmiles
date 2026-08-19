@@ -73,10 +73,12 @@ test("gallery publishes authorized cases and is indexable", () => {
   assert.match(html, /class="ba-card/);
   assert.doesNotMatch(html, /Authorized patient cases are being prepared/);
   assert.doesNotMatch(html, /<meta name="robots" content="noindex/);
-  // Published cases are an explicit opt-in in the data file.
+  // Publication is an explicit per-case opt-in. The four currently authorized
+  // cases each render as a card above; we don't forbid future draft cases
+  // (published: false) here — that stays a valid, supported state.
   const data = readFileSync(path.join(root, "src/_data/beforeAfter.js"), "utf8");
   assert.match(data, /published: true/);
-  assert.doesNotMatch(data, /published: false/);
+  assert.equal((html.match(/class="ba-card/g) || []).length, 4);
   // And the page appears in the sitemap now that it is indexable.
   assert.ok(read("sitemap.xml").includes("/before-after-gallery/"));
 });
