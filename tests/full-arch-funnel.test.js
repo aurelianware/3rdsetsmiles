@@ -21,10 +21,12 @@ test("full-arch landing page has intentional metadata and one patient-first H1",
   assert.match(html, /many teeth are missing or failing/i);
 });
 
-test("consultation CTAs use the CDO-validated intent and preserve full-arch source", () => {
+test("consultation CTAs use the CDO-validated intent and the all-on-4 source", () => {
   const html = read("services/all-on-4/index.html");
-  const href = 'href="/book/?appointmentType=implant-consult&amp;source=full-arch"';
+  const href = 'href="/book/?appointmentType=implant-consult&amp;source=all-on-4"';
   assert.ok((html.match(new RegExp(href.replace(/[?]/g, "\\?"), "g")) || []).length >= 3);
+  // The old page-level source must not linger on booking CTAs.
+  assert.ok(!html.includes('href="/book/?appointmentType=implant-consult&amp;source=full-arch"'));
   for (const position of ["hero", "education", "financing", "bottom"])
     assert.ok(html.includes(`data-position="${position}"`));
 
