@@ -14,6 +14,7 @@ module.exports = {
     { label: "Leave a Review", url: "/review/" },
     { label: "Blog", url: "/blog/" },
     { label: "Book Online", url: "/book/" },
+    { label: "Our Office", url: "/office/" },
     { label: "Testimonials", url: "/testimonials/" },
     { label: "Before & After Gallery", url: "/before-after-gallery/" },
     { label: "Privacy", url: "/privacy/" },

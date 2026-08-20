@@ -171,8 +171,10 @@ faq:
         <div class="fade-in callout-box">
           <p>The same hands that trained other clinicians in full-arch implant protocols now care for patients here in Tempe.</p>
         </div>
-        <div class="fade-in" style="margin-top:24px">
+        <div class="fade-in btn-row" style="margin-top:24px">
+          {{ bookingCta(booking, "Book with Dr. Phillips", { scope: "provider", source: "doctor_section", aria: "Book online with Dr. Matthew Phillips on Zocdoc" }) }}
           <a href="/about/" class="btn-outline btn-outline-dark">Meet Dr. Phillips</a>
+          <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-doctor">Call {{ site.phone.display }}</a>
         </div>
       </div>
     </div>
@@ -222,6 +224,9 @@ faq:
         <img src="/assets/office/office-consult.webp" alt="Private consultation office at 3rd Set Smiles for unhurried treatment planning" loading="lazy" width="1168" height="880">
         <figcaption>Private consults, where we talk through your options — no pressure.</figcaption>
       </figure>
+    </div>
+    <div class="center" style="margin-top:32px">
+      <a href="/office/" class="btn-outline btn-outline-dark">Take a Look Around →</a>
     </div>
   </div>
 </section>

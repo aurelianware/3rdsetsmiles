@@ -88,7 +88,12 @@
       {%- endfor %}
     ],
     "hasMap": {{ ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) | dump | safe }},
-    "image": {{ (site.ogImage | absUrl(site.domain)) | dump | safe }},
+    "image": [
+      {{ (site.ogImage | absUrl(site.domain)) | dump | safe }},
+      {{ ("/assets/office/office-exterior.webp" | absUrl(site.domain)) | dump | safe }},
+      {{ ("/assets/office/office-operatory.webp" | absUrl(site.domain)) | dump | safe }},
+      {{ ("/assets/office/office-consult.webp" | absUrl(site.domain)) | dump | safe }}
+    ],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": {{ site.address.street | dump | safe }},
