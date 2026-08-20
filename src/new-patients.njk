@@ -1,60 +1,261 @@
 ---
 layout: layouts/base.njk
-title: "New Patients"
-description: "New patient information for 3rd Set Smiles in Tempe, AZ. What to expect at your first visit, paperwork, insurance, and how to book. Call (480) 334-2752."
+title: "New Patients Welcome — Dentist in Tempe, AZ"
+description: "Accepting new dental patients in Tempe, AZ. See what to expect at your first visit with Dr. Matthew Phillips, what to bring, insurance we accept, and book online in minutes."
 permalink: /new-patients/
+ogType: website
 breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "New Patients", url: "/new-patients/" }
+faq:
+  - q: "Are you accepting new patients in Tempe?"
+    a: "Yes. Dr. Matthew Phillips is welcoming new patients of all ages at 3rd Set Smiles in Tempe, AZ. You can book online through Zocdoc or call the office at (480) 334-2752."
+  - q: "What happens at my first dental visit?"
+    a: "Your first visit is unhurried. You'll meet Dr. Phillips and the team, talk through your concerns and goals, review your relevant health and dental history, and have a comprehensive exam. Digital X-rays are taken when appropriate, and we review what we find and your options together — with a written summary if treatment is recommended and no pressure to commit."
+  - q: "What should I bring to my first appointment?"
+    a: "Bring a photo ID, your dental insurance information if you have coverage, a list of any current medications, and any recent dental X-rays or records if you've been seen elsewhere in the last year or two."
+  - q: "What insurance do you accept?"
+    a: "We work with most major PPO dental plans. We don't currently bill HMO/DMO plans directly. For treatment your plan doesn't fully cover, we offer Cherry financing and in-house payment options."
+  - q: "How much does the first visit cost?"
+    a: "It depends on your plan and what your visit involves. New patients without insurance can start with our $49 new-patient special (comprehensive exam, full-mouth digital X-rays, and a healthy-mouth cleaning). Deep periodontal cleanings and treatment-related X-rays aren't included, and the offer can't be combined with insurance benefits."
+  - q: "Can I book online now?"
+    a: "Yes. Use the Book Online button to view Dr. Phillips' availability and reserve your first visit through Zocdoc, or call (480) 334-2752 during office hours."
+  - q: "I'm nervous about the dentist — can you help?"
+    a: "Absolutely. We keep first visits calm and unhurried, and sedation and anxiety-friendly options are available. Tell us when you book so we can plan for your comfort."
+  - q: "What if I have a dental emergency?"
+    a: "If you're in pain or have a broken or knocked-out tooth, call (480) 334-2752 as early as you can — same-day and after-hours emergency appointments may be available. See our emergency dentistry page for what to do in the meantime."
 ---
+{% from "partials/booking-cta.njk" import bookingCta %}
 
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>New Patients</div>
-    <h1>Welcome to <span>3rd Set Smiles</span></h1>
-    <p class="lede">Here's what to expect at your first appointment — and how to make it as easy as possible.</p>
+    <div class="pill"><span class="pill-text">Now Accepting New Patients</span></div>
+    <h1>New patients are <span>welcome here</span></h1>
+    <p class="lede">Comprehensive, unhurried dentistry with Dr. Matthew Phillips in {{ site.address.locality }}, {{ site.address.regionName }}. See exactly what your first visit looks like — then book online in a couple of minutes.</p>
+    <div class="btn-row">
+      {{ bookingCta(booking, "Book Online", { source: "new_patients", aria: "Book your first visit online with Dr. Matthew Phillips on Zocdoc" }) }}
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-newpatients">Call {{ site.phone.display }}</a>
+    </div>
+    <ul class="trust-row" aria-label="Why new patients choose us">
+      <li class="trust-chip">New patients welcome</li>
+      <li class="trust-chip">Most major PPO plans</li>
+      <li class="trust-chip">Sedation available</li>
+      <li class="trust-chip">Emergency appointments available</li>
+      <li class="trust-chip">Veteran-owned practice</li>
+      <li class="trust-chip">20+ years of experience</li>
+    </ul>
   </div>
 </section>
 
-<section class="section">
-  <div class="container-narrow prose">
-    <h2>What to expect at your first visit</h2>
-    <p>Your first visit is mostly about us getting to know you and your mouth. We block out extra time for new patients so nothing feels rushed.</p>
-    <ul class="checklist">
-      <li>A real conversation about why you're here and what you'd like out of dental care going forward.</li>
-      <li>A comprehensive exam — teeth, gums, bite, and soft-tissue / oral cancer screening.</li>
-      <li>Digital X-rays as appropriate (we'll skip them if you've had recent ones we can pull).</li>
-      <li>A cleaning, if your gums and time allow at the first visit.</li>
-      <li>A clear summary of anything we found and a written treatment plan if work is recommended — no pressure to commit on the spot.</li>
+<!-- What to expect — numbered first-visit walkthrough -->
+<section class="section section-navy" aria-labelledby="expect-heading">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:42px">
+      <div class="section-label" style="color:var(--gold-light)">Your First Visit</div>
+      <h2 id="expect-heading">What to expect, step by step</h2>
+      <p class="lede" style="color:rgba(255,255,255,0.72);max-width:640px;margin:14px auto 0">We block extra time for new patients so nothing feels rushed. Here's how a first visit usually goes — your care is always tailored to you.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">1</span>
+        <div class="process-num" aria-hidden="true">1</div>
+        <h3>Meet Dr. Phillips &amp; the team</h3>
+        <p>A warm welcome and a real conversation — no judgment about how long it's been.</p>
+      </div>
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">2</span>
+        <div class="process-num" aria-hidden="true">2</div>
+        <h3>Talk through your concerns &amp; goals</h3>
+        <p>What brought you in, what you've tried before, and what you'd like dental care to look like going forward.</p>
+      </div>
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">3</span>
+        <div class="process-num" aria-hidden="true">3</div>
+        <h3>Review your health &amp; dental history</h3>
+        <p>We go over relevant medical and dental history so your care fits your whole health picture.</p>
+      </div>
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">4</span>
+        <div class="process-num" aria-hidden="true">4</div>
+        <h3>Comprehensive exam</h3>
+        <p>Teeth, gums, bite, and a soft-tissue / oral-cancer screening — a thorough look at where things stand.</p>
+      </div>
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">5</span>
+        <div class="process-num" aria-hidden="true">5</div>
+        <h3>Digital imaging when appropriate</h3>
+        <p>Low-dose digital X-rays if they're needed — we'll skip them if we can use recent images from another office.</p>
+      </div>
+      <div class="process-card fade-in">
+        <span class="process-num-bg" aria-hidden="true">6</span>
+        <div class="process-num" aria-hidden="true">6</div>
+        <h3>Findings, options &amp; next steps</h3>
+        <p>We explain what we found in plain language and, if treatment is recommended, give you written options — no pressure to decide on the spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What to bring -->
+<section class="section" aria-labelledby="bring-heading">
+  <div class="container-narrow">
+    <div class="fade-in" style="margin-bottom:24px">
+      <div class="section-label">Come Prepared</div>
+      <h2 id="bring-heading" style="color:var(--navy)">What to bring</h2>
+      <p class="muted" style="margin-top:10px">A few things help us make the most of your time — bring what applies to you.</p>
+    </div>
+    <ul class="checklist fade-in">
+      <li><strong>Photo ID</strong> — a driver's license or other government-issued ID.</li>
+      <li><strong>Dental insurance information</strong>, if you have coverage — your card or plan details so we can verify benefits.</li>
+      <li><strong>A list of current medications</strong> and any major medical history.</li>
+      <li><strong>Relevant dental records or recent X-rays</strong>, if you've been seen elsewhere in the last 1–2 years.</li>
+      <li><strong>A heads-up about dental anxiety</strong> — if past visits have been difficult, tell us when you book and we'll plan accordingly.</li>
     </ul>
+    <p class="muted fade-in" style="margin-top:18px">When you book, we'll email a secure new-patient intake form to complete before you arrive, so check-in is quick. Please don't send health details through the website — bring them to your visit or use the secure form.</p>
+  </div>
+</section>
 
-    <h2>Before your appointment</h2>
-    <ul class="checklist">
-      <li>Bring (or upload ahead of time) your insurance card and a photo ID.</li>
-      <li>List any current medications and major medical history.</li>
-      <li>Bring a copy of any recent dental X-rays if you've been seen elsewhere in the last 1–2 years.</li>
-      <li>If you have anxiety or have had difficult dental experiences before, tell us when you book — we'll plan accordingly.</li>
+<!-- $49 new-patient offer — verified terms from /special-offers/ -->
+<section class="offer-band" aria-labelledby="offer-heading">
+  <div class="container">
+    <div class="fade-in offer-inner">
+      <div class="offer-body">
+        <div class="section-label" style="color:var(--gold-light)">New &amp; Uninsured?</div>
+        <h2 id="offer-heading">Start with our <span>$49</span> new-patient visit</h2>
+        <ul class="offer-list">
+          <li>Comprehensive exam</li>
+          <li>Full-mouth digital X-rays</li>
+          <li>Healthy-mouth cleaning</li>
+        </ul>
+        <p class="offer-fine">For new patients without insurance. Excludes deep (periodontal) cleanings or treatment-related X-rays. Cannot be combined with insurance benefits. Subject to change without notice.</p>
+      </div>
+      <div class="offer-cta">
+        <div class="offer-price"><span class="offer-price-num">$49</span><span class="offer-price-label">Exam, X-rays &amp; cleaning</span></div>
+        <a href="/special-offers/" class="btn-primary" data-action="new-patient-offer" data-source="new-patient-offer">See $49 Offer Details</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Insurance & payment -->
+<section class="section section-cream" aria-labelledby="insurance-heading">
+  <div class="container-narrow">
+    <div class="fade-in" style="margin-bottom:20px">
+      <div class="section-label">Insurance &amp; Payment</div>
+      <h2 id="insurance-heading" style="color:var(--navy)">Coverage &amp; ways to pay</h2>
+    </div>
+    <ul class="checklist fade-in">
+      <li>We work with <strong>most major PPO dental plans</strong> and will help you understand your benefits.</li>
+      <li>We don't currently bill <strong>HMO/DMO</strong> plans directly.</li>
+      <li><strong>No insurance?</strong> Ask about our $49 new-patient special and Veteran/uninsured discounts.</li>
+      <li>For treatment your plan doesn't fully cover, we offer <strong>Cherry financing</strong> and <strong>in-house payment options</strong>.</li>
     </ul>
+    <div class="btn-row fade-in" style="margin-top:24px">
+      <a href="/insurance-check/" class="btn-primary" data-action="insurance-check">Check My Insurance</a>
+      <a href="/insurance-financing/" class="btn-outline btn-outline-dark">Insurance &amp; Financing</a>
+    </div>
+  </div>
+</section>
 
-    <h2>Insurance &amp; payment</h2>
-    <p>We work with most major PPO dental plans. We don't yet directly bill HMO/DMO plans. For procedures your insurance doesn't fully cover, we offer Cherry financing and in-house payment options. See our <a href="/insurance-financing/">insurance &amp; financing page</a> for details.</p>
+<!-- Nervous / Emergency — two supportive paths -->
+<section class="section" aria-labelledby="support-heading">
+  <div class="container">
+    <h2 id="support-heading" class="center fade-in" style="color:var(--navy);margin-bottom:36px">However you're feeling, we've got you</h2>
+    <div class="intent-grid">
+      <div class="intent-card fade-in">
+        <div class="intent-icon" aria-hidden="true">☾</div>
+        <h3>Nervous about dentistry?</h3>
+        <p>You're not alone — and it's welcome here. We keep first visits calm and unhurried, with sedation and anxiety-friendly options available. Tell us when you book so we can plan for your comfort.</p>
+        <a href="/services/sedation-dentistry/" class="intent-link">Learn about sedation &amp; comfort options →</a>
+      </div>
+      <div class="intent-card fade-in">
+        <div class="intent-icon" aria-hidden="true">⚡</div>
+        <h3>Have a dental emergency?</h3>
+        <p>Toothache, swelling, or a broken or knocked-out tooth? Call as early as you can — same-day and after-hours emergency appointments may be available.</p>
+        <a href="tel:{{ site.phone.telShort }}" class="intent-link" data-action="call-emergency">Call {{ site.phone.display }} →</a>
+        <a href="/services/emergency-dentistry/" class="intent-link" style="margin-top:8px">What to do in a dental emergency →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <h2>Patient forms</h2>
-    <p>To save time on the day of your visit, we'll email you a secure new-patient intake form when you book. Please fill it out before you arrive.</p>
-    <!-- TODO: Add link to actual hosted intake form when the practice management system is finalized. -->
+<!-- Trust — verified signals only -->
+<section class="section section-cream" aria-labelledby="trust-heading">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:36px">
+      <div class="section-label">Why Patients Choose Us</div>
+      <h2 id="trust-heading" style="color:var(--navy)">A dentist you can settle in with</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-in">
+        <h3>One experienced dentist</h3>
+        <p>Dr. Matthew Phillips brings 20+ years of experience — from everyday family care to advanced implant reconstruction. <a href="/about/">Meet Dr. Phillips →</a></p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Comprehensive care, one home</h3>
+        <p>Cleanings, fillings, crowns, extractions, <a href="/services/dental-implants/">implants</a> and <a href="/services/dentures/">dentures</a> — routine and advanced care under one roof. <a href="/services/">See all services →</a></p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Honest, unhurried visits</h3>
+        <p>Time to understand your options and costs, and a written plan — never pressure. Read what patients say on our <a href="/testimonials/">reviews page →</a></p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Proud to serve Veterans</h3>
+        <p>A veteran-owned practice founded by a former Army dentist, with special consideration for Veterans without insurance. <a href="/veterans/">Care for Veterans →</a></p>
+      </div>
+    </div>
+    {% set featured = reviews | selectattr("featured") | first %}
+    {% if featured %}
+    <figure class="testimonial-card fade-in" style="max-width:680px;margin:36px auto 0">
+      <div class="review-stars" aria-label="{{ featured.rating }} out of 5 stars" role="img">{% for i in range(0, featured.rating) %}★{% endfor %}</div>
+      <blockquote>{{ featured.quote }}</blockquote>
+      <figcaption>
+        <cite>{{ featured.author }}</cite>
+        <span class="review-meta">{% if featured.location %}{{ featured.location }} &middot; {% endif %}via {{ featured.source }}</span>
+      </figcaption>
+    </figure>
+    {% endif %}
+  </div>
+</section>
 
-    <h2>Office address &amp; hours</h2>
-    <p>
-      {{ site.address.street }}<br>
-      {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}<br>
-      {{ site.hours.display }}<br>
-      <span class="muted">{{ site.hours.weekend }}</span>{% if site.hours.note %}<br>
-      <span class="muted">{{ site.hours.note }}</span>{% endif %}
-    </p>
+<!-- Visit info + FAQ -->
+<section class="section" aria-labelledby="faq-heading">
+  <div class="container-narrow">
+    <div class="fade-in" style="margin-bottom:24px">
+      <div class="section-label">Good to Know</div>
+      <h2 id="faq-heading" style="color:var(--navy)">New patient questions, answered</h2>
+      <p class="muted" style="margin-top:10px">
+        Find us at {{ site.address.street }}, {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}.
+        {{ site.hours.display }} &middot; <span class="muted">{{ site.hours.weekend }}</span>.
+        <a href="/contact/">Directions &amp; map →</a>
+      </p>
+    </div>
+    <div class="faq-block">
+      {% for item in faq %}
+      <div class="faq-item fade-in">
+        <button class="faq-btn" type="button" aria-expanded="false">
+          <span>{{ item.q }}</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>{{ item.a }}</p></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
-    <div style="margin-top:32px" class="btn-row">
-      <a href="/contact/" class="btn-primary" data-action="request-appointment">Request an Appointment</a>
-      <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-newpatients">Call {{ site.phone.display }}</a>
+<!-- Final CTA -->
+<section class="section cta-banner">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Ready for your first visit?</h2>
+      <p>Book online in a couple of minutes, or call and we'll help you find a time. New patients are always welcome at 3rd Set Smiles in {{ site.address.locality }}, {{ site.address.regionName }}.</p>
+      <div class="btn-row">
+        {{ bookingCta(booking, "Book Online", { source: "new_patients", aria: "Book your first visit online with Dr. Matthew Phillips on Zocdoc" }) }}
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>
+      </div>
+      <p class="cta-emergency">Not ready to pick a time? <a href="/contact/" data-action="request-appointment">Send an appointment request</a> and we'll reach out.</p>
     </div>
   </div>
 </section>

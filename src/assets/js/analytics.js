@@ -70,7 +70,7 @@
   // practice-level link kept for future multi-provider use). booking_source =
   // where on the site the click came from. Both are low-cardinality, non-PHI.
   var SAFE_BOOKING_SCOPES = new Set(['provider', 'practice']);
-  var SAFE_BOOKING_SOURCES = new Set(['hero', 'header', 'mobile_nav', 'sticky_mobile', 'provider_profile', 'appointment_page', 'contact', 'footer', 'service_page', 'homepage']);
+  var SAFE_BOOKING_SOURCES = new Set(['hero', 'header', 'mobile_nav', 'sticky_mobile', 'provider_profile', 'appointment_page', 'contact', 'footer', 'service_page', 'homepage', 'new_patients']);
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   // The only caller-supplied prop keys track() will forward. Everything else is
