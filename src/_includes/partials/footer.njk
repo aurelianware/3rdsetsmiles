@@ -19,7 +19,7 @@
         {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}
       </address>
       <p class="footer-hours">{{ site.hours.display }}<br>{{ site.hours.weekend }}{% if site.hours.note %}<br>{{ site.hours.note }}{% endif %}</p>
-      <p class="footer-book">{{ bookingCta(site.booking, "Book Online", { class: "btn-primary footer-book-btn", source: "footer" }) }}</p>
+      <p class="footer-book">{{ bookingCta(booking, "Book Online", { class: "btn-primary footer-book-btn", source: "footer" }) }}</p>
     </div>
 
     <div class="footer-col">

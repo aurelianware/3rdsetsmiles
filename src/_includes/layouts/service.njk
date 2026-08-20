@@ -9,10 +9,10 @@ layout: layouts/base.njk
   primary Zocdoc link, tagged for analytics as a service_page booking source.
 #}
 {% set bookingIsZocdoc = not bookingUrl %}
-{% set resolvedBookingUrl = bookingUrl or site.booking.primaryBookingUrl %}
+{% set resolvedBookingUrl = bookingUrl or booking.primaryBookingUrl %}
 {% set resolvedBookingAction = bookingAction or ("zocdoc-booking" if bookingIsZocdoc else "book-online") %}
 {% set resolvedBookingCta = bookingCta or "Book Online" %}
-{% set zocdocAttrs %}{% if bookingIsZocdoc %} rel="noopener" data-booking-scope="{{ site.booking.primaryScope }}" data-booking-source="service_page"{% endif %}{% endset %}
+{% set zocdocAttrs %}{% if bookingIsZocdoc %} rel="noopener" data-booking-scope="{{ booking.primaryScope }}" data-booking-source="service_page"{% endif %}{% endset %}
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb">

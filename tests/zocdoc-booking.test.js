@@ -4,9 +4,12 @@ import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const site = JSON.parse(readFileSync(path.join(root, "src", "_data", "site.json"), "utf8"));
+// The booking config is a computed data file: primaryBookingUrl is DERIVED from
+// primaryScope, so there is one decision point and it can never drift.
+const booking = createRequire(import.meta.url)(path.join(root, "src", "_data", "booking.js"));
 
 const PROVIDER_URL = "https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189";
 const PRACTICE_URL = "https://www.zocdoc.com/booking-link/practice/3rd-set-smiles-137227";
@@ -19,18 +22,25 @@ function page(relative) {
 
 // ── Configuration ──
 test("booking config holds the exact Zocdoc provider and practice URLs", () => {
-  assert.equal(site.booking.primaryProviderBookingUrl, PROVIDER_URL);
-  assert.equal(site.booking.practiceBookingUrl, PRACTICE_URL);
+  assert.equal(booking.primaryProviderBookingUrl, PROVIDER_URL);
+  assert.equal(booking.practiceBookingUrl, PRACTICE_URL);
   // Provider is the primary destination while he is the only provider.
-  assert.equal(site.booking.primaryBookingUrl, PROVIDER_URL);
-  assert.equal(site.booking.primaryScope, "provider");
-  assert.equal(site.booking.bookingProviderName, "Dr. Matthew Phillips");
-  assert.equal(site.booking.bookingProviderType, "Dentist");
-  assert.equal(site.booking.bookingPlatform, "Zocdoc");
+  assert.equal(booking.primaryBookingUrl, PROVIDER_URL);
+  assert.equal(booking.primaryScope, "provider");
+  assert.equal(booking.bookingProviderName, "Dr. Matthew Phillips");
+  assert.equal(booking.bookingProviderType, "Dentist");
+  assert.equal(booking.bookingPlatform, "Zocdoc");
+});
+
+test("primaryBookingUrl is derived from primaryScope and cannot drift", () => {
+  // The resolved primary must always equal the URL implied by primaryScope —
+  // guards against reintroducing a hand-maintained second source of truth.
+  const expected = booking.primaryScope === "practice" ? PRACTICE_URL : PROVIDER_URL;
+  assert.equal(booking.primaryBookingUrl, expected);
 });
 
 test("no placeholder or malformed Zocdoc booking URLs are configured", () => {
-  const urls = [site.booking.primaryProviderBookingUrl, site.booking.practiceBookingUrl, site.booking.primaryBookingUrl];
+  const urls = [booking.primaryProviderBookingUrl, booking.practiceBookingUrl, booking.primaryBookingUrl];
   for (const url of urls) {
     assert.match(url, /^https:\/\/www\.zocdoc\.com\/booking-link\/(dentist|practice)\/[a-z0-9-]+$/);
     assert.doesNotMatch(url, /example|placeholder|TODO|xxxx/i);

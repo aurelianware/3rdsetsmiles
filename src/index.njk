@@ -46,7 +46,7 @@ faq:
           <p class="hero-sub">Dr. Matthew Phillips provides comprehensive dentistry in {{ site.address.locality }} — from routine cleanings and crowns to implants, dentures and full-arch reconstruction when it's needed. One dentist. One dental home.</p>
         </div>
         <div class="fade-in btn-row">
-          {{ bookingCta(site.booking, "Book Online", { source: "hero", aria: "Book online with " + site.booking.bookingProviderName + " on Zocdoc" }) }}
+          {{ bookingCta(booking, "Book Online", { source: "hero", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
           <a href="/special-offers/" class="btn-primary" data-action="new-patient-offer" data-source="homepage-hero">Claim $49 New-Patient Visit</a>
           <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-hero">Call {{ site.phone.display }}</a>
         </div>
@@ -318,7 +318,7 @@ faq:
       <h2>Ready to meet your new dentist?</h2>
       <p>Whether you're looking for a new dental home, considering implants, or need help with something urgent — Dr. Phillips and the team are here for you in {{ site.address.locality }}, {{ site.address.regionName }}.</p>
       <div class="btn-row">
-        {{ bookingCta(site.booking, "Book Online", { source: "homepage", aria: "Book online with " + site.booking.bookingProviderName + " on Zocdoc" }) }}
+        {{ bookingCta(booking, "Book Online", { source: "homepage", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
         <a href="/contact/" class="btn-outline" data-action="request-appointment">Request an Appointment</a>
         <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>
       </div>

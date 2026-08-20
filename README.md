@@ -88,23 +88,26 @@ Link**, so a prospective patient can view available times and book from anywhere
 on the site (header, mobile menu, sticky mobile bar, hero, homepage, provider
 page, contact page, `/book/`, footer, and generic service pages).
 
-Both URLs are configured once, in the `booking` object of
-[`src/_data/site.json`](src/_data/site.json):
+Both URLs are configured once, in the computed data file
+[`src/_data/booking.js`](src/_data/booking.js) (exposed to templates as the
+`booking` global):
 
 | Field | Value | Role |
 | --- | --- | --- |
 | `primaryProviderBookingUrl` | `https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189` | **Primary provider booking** — the destination of every "Book Online" CTA today. |
 | `practiceBookingUrl` | `https://www.zocdoc.com/booking-link/practice/3rd-set-smiles-137227` | **Practice booking** — stored for future multi-provider support; not yet surfaced as a CTA. |
-| `primaryBookingUrl` | (= provider link) | The resolved current primary; used by structured data. |
-| `primaryScope` | `provider` | Which link the default CTA uses. |
+| `primaryScope` | `provider` | Which link is the default destination. **The only field you change to switch.** |
+| `primaryBookingUrl` | _derived_ | Resolved from `primaryScope` in `booking.js`; used by structured data and generic service CTAs. Never set by hand. |
 | `bookingProviderName` / `bookingProviderType` / `bookingPlatform` | `Dr. Matthew Phillips` / `Dentist` / `Zocdoc` | Labels/metadata. |
 
 **Provider vs. practice.** While Dr. Phillips is the only provider, the
 provider-level link is primary because it drops the patient straight onto his
 availability. The practice-level link is kept in config so that adding a second
-provider later is a one-line change — set `primaryScope` to `practice` and point
-`primaryBookingUrl` at `practiceBookingUrl`; no templates need editing. A single
-CTA can also force a scope (e.g. the About page pins `scope: "provider"`).
+provider later is a **one-line change** — set `primaryScope` to `practice` in
+`booking.js`. `primaryBookingUrl` is derived from `primaryScope` (one decision
+point, so CTAs and structured data can never disagree), and no templates need
+editing. A single CTA can also force a scope (e.g. the About page pins
+`scope: "provider"`).
 
 **One component owns the link.** CTAs are rendered by the
 [`src/_includes/partials/booking-cta.njk`](src/_includes/partials/booking-cta.njk)

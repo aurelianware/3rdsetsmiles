@@ -9,16 +9,6 @@
     "telShort": "4803342752"
   },
   "email": "info@3rdsetsmiles.com",
-  "booking": {
-    "comment": "Online booking is handled by Zocdoc. The provider-level link is the PRIMARY destination while Dr. Matthew Phillips is the only provider; the practice-level link is stored for future multi-provider support. To make the practice link the default site-wide later, change primaryScope to \"practice\" and point primaryBookingUrl at practiceBookingUrl — no template edits required. CTAs render via src/_includes/partials/booking-cta.njk. See README 'Booking (Zocdoc)'.",
-    "bookingPlatform": "Zocdoc",
-    "bookingProviderName": "Dr. Matthew Phillips",
-    "bookingProviderType": "Dentist",
-    "primaryScope": "provider",
-    "primaryProviderBookingUrl": "https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189",
-    "practiceBookingUrl": "https://www.zocdoc.com/booking-link/practice/3rd-set-smiles-137227",
-    "primaryBookingUrl": "https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189"
-  },
   "address": {
     "street": "2600 E Southern Ave, Suite B1",
     "streetShort": "2600 E Southern Ave",
