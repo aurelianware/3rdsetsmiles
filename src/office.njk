@@ -18,7 +18,7 @@ breadcrumb:
     <h1>See our office <span>before you visit</span></h1>
     <p class="lede">A calm, modern practice in {{ site.address.locality }}, {{ site.address.regionName }} — easy to find, easy to park. Here's a look inside so your first visit feels familiar.</p>
     <div class="btn-row">
-      {{ bookingCta(booking, "Book Online", { source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
+      {{ bookingCta(booking, "Book Online", { scope: "provider", source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
       <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-office">Call {{ site.phone.display }}</a>
     </div>
   </div>
@@ -77,7 +77,7 @@ breadcrumb:
       <h2>Come see us in person</h2>
       <p>Book your first visit online in a couple of minutes, or call and we'll help you find a time. New patients are always welcome at 3rd Set Smiles.</p>
       <div class="btn-row">
-        {{ bookingCta(booking, "Book Online", { source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
+        {{ bookingCta(booking, "Book Online", { scope: "provider", source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
         <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>
       </div>
     </div>

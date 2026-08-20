@@ -10,7 +10,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const booking = createRequire(import.meta.url)(path.join(root, "src", "_data", "booking.js"));
 const PROVIDER_URL = "https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189";
 const PHONE = "4803342752";
-const OLD_PHONE = /933[-.]?0434/; // retired number must never reappear
+const OLD_PHONE = /933[\s.-]?0434/; // retired number, separator-agnostic (space/dot/hyphen/none)
+
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+// Match an <a> that carries ALL the given attribute snippets, in any order, so
+// a harmless template reformat doesn't break the assertion.
+const anchorWith = (...attrs) =>
+  new RegExp("<a\\b" + attrs.map((a) => `(?=[^>]*${escapeRe(a)})`).join("") + "[^>]*>");
 
 let built = false;
 function page(rel) {
@@ -42,7 +48,7 @@ test("office page uses only real practice photos, lazy-loaded with descriptive a
 
 test("office page has a provider booking CTA and the canonical phone, never the retired one", () => {
   const html = page("office/index.html");
-  assert.match(html, new RegExp(`<a href="${PROVIDER_URL.replace(/[.\/]/g, "\\$&")}"[^>]*data-action="zocdoc-booking"[^>]*data-booking-source="office"`));
+  assert.match(html, anchorWith(`href="${PROVIDER_URL}"`, 'data-action="zocdoc-booking"', 'data-booking-source="office"'));
   assert.match(html, new RegExp(`href="tel:${PHONE}"`));
   assert.doesNotMatch(html, OLD_PHONE);
 });
@@ -52,7 +58,7 @@ test("homepage Meet-the-dentist section books with Dr. Phillips and shows the ca
   const html = page("index.html");
   assert.match(html, /Why Dr\. Phillips\?/);
   assert.equal(booking.primaryProviderBookingUrl, PROVIDER_URL); // config sanity
-  assert.match(html, new RegExp(`<a href="${PROVIDER_URL.replace(/[.\/]/g, "\\$&")}"[^>]*data-booking-source="doctor_section"`));
+  assert.match(html, anchorWith(`href="${PROVIDER_URL}"`, 'data-booking-source="doctor_section"'));
   assert.match(html, new RegExp(`href="tel:${PHONE}"`));
   // Homepage links into the office tour and the full provider story.
   assert.ok(html.includes('href="/office/"'));
