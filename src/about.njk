@@ -7,6 +7,7 @@ breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "About", url: "/about/" }
 ---
+{% from "partials/booking-cta.njk" import bookingCta %}
 
 <section class="page-hero">
   <div class="container">
@@ -88,9 +89,11 @@ breadcrumb:
           <cite>&mdash; Dr. Matthew Phillips, DDS, Founder</cite>
         </div>
 
-        <div class="fade-in" style="margin-top:32px">
-          <a href="/contact/" class="btn-primary" data-action="request-appointment">Request an Appointment with Dr. Phillips</a>
+        <div class="fade-in btn-row" style="margin-top:32px">
+          {{ bookingCta(booking, "Book with Dr. Matthew Phillips", { scope: "provider", source: "provider_profile", aria: "Book online with Dr. Matthew Phillips on Zocdoc" }) }}
+          <a href="/contact/" class="btn-outline btn-outline-dark" data-action="request-appointment">Send an Appointment Request</a>
         </div>
+        <p class="fade-in muted" style="margin-top:12px">View available appointment times and book online with Dr. Matthew Phillips.</p>
         <div class="fade-in" style="margin-top:20px">
           <p>Considering substantial tooth replacement? Learn about <a href="/services/all-on-4/">full-arch dental implant options in Tempe</a> and what an individual evaluation should clarify.</p>
         </div>
@@ -130,6 +133,11 @@ breadcrumb:
     "Cosmetic dentistry",
     "General and family dentistry"
   ],
-  "areaServed": site.areaServed
+  "areaServed": site.areaServed,
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "name": ("Book an appointment with " + drp.name),
+    "target": booking.primaryProviderBookingUrl
+  }
 } | jsonStringify | safe }}
 </script>

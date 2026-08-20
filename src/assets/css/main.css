@@ -128,14 +128,27 @@ p, li, label, span, div { line-height: 1.7; }
   transition: color .2s, border-color .2s;
 }
 .nav-link:hover, .nav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
-.nav-phone {
-  display: inline-flex; align-items: center; gap: 6px;
+/* Book Online is the primary nav CTA (solid gold); the phone sits beside it as
+   a secondary outline pill — a clear Book > Call hierarchy. */
+.nav-book {
+  display: inline-flex; align-items: center;
   background: var(--gold); color: var(--navy);
   font-weight: 700; font-size: 0.8rem;
   padding: 9px 18px; border-radius: 6px;
   text-transform: uppercase; letter-spacing: 0.04em;
   white-space: nowrap;
 }
+.nav-book:hover { filter: brightness(1.08); }
+.nav-phone {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--gold-light);
+  border: 1px solid rgba(201,168,76,0.5);
+  font-weight: 700; font-size: 0.8rem;
+  padding: 8px 16px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.nav-phone:hover { background: rgba(201,168,76,0.1); }
 .nav-mobile-toggle { display: none; background: none; border: none; color: white; cursor: pointer; padding: 4px; }
 .nav-mobile-menu {
   display: none; flex-direction: column; background: var(--navy); padding: 16px 24px 24px;
@@ -146,6 +159,11 @@ p, li, label, span, div { line-height: 1.7; }
   padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .nav-mobile-menu a:hover { color: var(--gold); }
+.nav-mobile-book {
+  margin-top: 14px; background: var(--gold) !important; color: var(--navy) !important;
+  border: 0 !important; border-radius: 6px; text-align: center;
+  padding: 13px !important; font-weight: 700;
+}
 .nav-mobile-call {
   margin-top: 8px; color: var(--gold) !important;
   border: 1px solid rgba(201,168,76,0.4) !important;
@@ -158,29 +176,35 @@ p, li, label, span, div { line-height: 1.7; }
   .nav-mobile-menu.open { display: flex !important; }
 }
 
-/* Sticky mobile tap-to-call bar. Hidden on desktop; the body reserves space so
-   it never covers the footer. */
-.mobile-call-bar { display: none; }
+/* Sticky mobile action bar — Book Online + Call. Hidden on desktop; the body
+   reserves space so it never covers the footer. One sticky element, two equal
+   thumb-friendly targets, no layout shift. */
+.mobile-action-bar { display: none; }
 @media (max-width: 1000px) {
-  .mobile-call-bar {
-    display: flex; align-items: center; justify-content: center; gap: 9px;
+  .mobile-action-bar {
+    display: grid; grid-template-columns: 1.35fr 1fr; gap: 8px;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
-    background: var(--gold); color: var(--navy);
-    font-family: 'Source Sans 3', system-ui, sans-serif;
-    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.01em;
-    padding: 14px 16px; text-decoration: none;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.18);
-    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: var(--navy); box-shadow: 0 -2px 16px rgba(0,0,0,0.2);
   }
-  .mobile-call-bar:active { background: var(--gold-light); }
-  body { padding-bottom: 60px; }
+  .mobile-action-bar a {
+    min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    border-radius: 6px; font-weight: 700; text-align: center; padding: 8px 10px;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 1.02rem; letter-spacing: 0.01em; text-decoration: none;
+  }
+  .mab-book { background: var(--gold); color: var(--navy); }
+  .mab-book:active { background: var(--gold-light); }
+  .mab-call { border: 2px solid var(--gold); color: var(--gold-light); }
+  .mab-call:active { background: rgba(201,168,76,0.12); }
+  body { padding-bottom: 68px; }
 }
 
 /* Emergency-only mobile actions replace the generic call bar with two clear,
    thumb-friendly choices. They remain ordinary links and never trap focus. */
 .emergency-mobile-actions { display: none; }
 @media (max-width: 700px) {
-  .page-emergency-dentistry .mobile-call-bar { display: none; }
+  .page-emergency-dentistry .mobile-action-bar { display: none; }
   .emergency-mobile-actions {
     display: grid; grid-template-columns: 1fr 1fr;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 901;
@@ -694,6 +718,9 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .site-footer a { color: rgba(255,255,255,0.75); }
 .site-footer a:hover { color: var(--gold-light); }
 .footer-hours { margin-top: 10px; }
+.footer-book { margin-top: 16px; }
+.site-footer .footer-book-btn { padding: 11px 22px; font-size: 0.82rem; color: var(--navy); }
+.site-footer .footer-book-btn:hover { color: var(--navy); }
 .footer-social { display: flex; gap: 14px; margin-top: 18px; font-size: 0.85rem; }
 .footer-disclosure {
   padding-top: 24px; font-size: 0.78rem; line-height: 1.5;

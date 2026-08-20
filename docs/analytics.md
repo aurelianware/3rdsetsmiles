@@ -101,6 +101,7 @@ Event names are centralized in `EVENTS` in `analytics.js` and mirrored in
 | `implant_consult_click` | An implant or full-arch consultation CTA opens booking. |
 | `cosmetic_consult_click` | A cosmetic consultation CTA opens booking. |
 | `review_google_click` | A patient opens the centrally configured Google review destination. |
+| `zocdoc_booking_click` | A "Book Online" CTA to Dr. Phillips' Zocdoc Booking Link is clicked (`data-action="zocdoc-booking"`). Carries `booking_scope` (`provider`/`practice`) and `booking_source` (placement, e.g. `hero`, `header`, `footer`, `sticky_mobile`, `provider_profile`, `appointment_page`, `service_page`). No PHI. |
 | `booking_started` | The `/book/` page opens, optionally with controlled source and intent context. |
 | `appointment_type_selected` | A live CDO appointment type is preselected or selected by the patient. |
 | `availability_viewed` | Live CDO availability loads successfully. |
@@ -119,6 +120,10 @@ Booking events may additionally carry enumerated `source` and
 `appointment_intent` values. Arbitrary query-string values are dropped in both
 the browser and collector; neither property may contain patient or clinical
 information.
+
+Zocdoc booking clicks additionally carry enumerated `booking_scope`
+(`provider` or `practice`) and `booking_source` (placement) values. Both are
+allowlisted, bounded, non-PHI, and dropped if not in the enumerated set.
 
 Implant funnel CTA events may also carry an enumerated `cta_position` such as
 `hero`, `education`, `financing`, `resources`, or `bottom`. See

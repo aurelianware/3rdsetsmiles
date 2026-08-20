@@ -1,6 +1,18 @@
 ---
 layout: layouts/base.njk
 ---
+{#
+  Booking destination for this service page. Pages that define a `bookingUrl`
+  in their front matter run a specialized on-site request funnel (implant /
+  cosmetic / emergency consults — carry an appointmentType and feed Cloud Dental
+  Office). Every other (generic) service routes its "Book Online" CTA to the
+  primary Zocdoc link, tagged for analytics as a service_page booking source.
+#}
+{% set bookingIsZocdoc = not bookingUrl %}
+{% set resolvedBookingUrl = bookingUrl or booking.primaryBookingUrl %}
+{% set resolvedBookingAction = bookingAction or ("zocdoc-booking" if bookingIsZocdoc else "book-online") %}
+{% set resolvedBookingCta = bookingCta or "Book Online" %}
+{% set zocdocAttrs %}{% if bookingIsZocdoc %} rel="noopener" data-booking-scope="{{ booking.primaryScope }}" data-booking-source="service_page"{% endif %}{% endset %}
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb">
@@ -17,9 +29,9 @@ layout: layouts/base.njk
     <div class="btn-row">
       {% if callFirst %}
       <a href="tel:{{ site.phone.tel }}" class="btn-primary" data-action="call-hero">Call {{ site.phone.display }}</a>
-      <a href="{{ bookingUrl or '/book/' }}" class="btn-outline" data-action="{{ bookingAction or 'book-online' }}"{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ bookingCta or 'Check Available Appointments' }}</a>
+      <a href="{{ resolvedBookingUrl }}" class="btn-outline" data-action="{{ resolvedBookingAction }}"{{ zocdocAttrs | safe }}{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ resolvedBookingCta }}</a>
       {% else %}
-      <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}"{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ bookingCta or 'Book Online' }}</a>
+      <a href="{{ resolvedBookingUrl }}" class="btn-primary" data-action="{{ resolvedBookingAction }}"{{ zocdocAttrs | safe }}{% if heroBookingPosition %} data-position="{{ heroBookingPosition }}"{% endif %}>{{ resolvedBookingCta }}</a>
       <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="{{ phoneAction or 'call-service' }}">Call {{ site.phone.display }}</a>
       {% endif %}
     </div>
@@ -131,7 +143,7 @@ layout: layouts/base.njk
       <h2>Ready to talk to Dr. Phillips?</h2>
       <p>Schedule a consultation at our Tempe office. We'll listen, examine, and give you honest options &mdash; no pressure.</p>
       <div class="btn-row">
-        <a href="{{ bookingUrl or '/book/' }}" class="btn-primary" data-action="{{ bookingAction or 'book-online' }}"{% if bottomBookingPosition %} data-position="{{ bottomBookingPosition }}"{% endif %}>{{ bookingCta or 'Book Online' }}</a>
+        <a href="{{ resolvedBookingUrl }}" class="btn-primary" data-action="{{ resolvedBookingAction }}"{{ zocdocAttrs | safe }}{% if bottomBookingPosition %} data-position="{{ bottomBookingPosition }}"{% endif %}>{{ resolvedBookingCta }}</a>
         <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="{{ phoneAction or 'call-service' }}">Call {{ site.phone.display }}</a>
       </div>
     </div>

@@ -1,0 +1,35 @@
+{#
+  booking-cta.njk — the single source of truth for a Zocdoc "Book Online" link.
+
+  One place owns the booking URL, the external-link attributes, the analytics
+  hook, and the accessible name, so no page hard-codes a Zocdoc URL. Import it:
+
+    {% from "partials/booking-cta.njk" import bookingCta %}
+    {{ bookingCta(booking, "Book Online", { source: "hero" }) }}
+
+  Args
+    booking  → the `booking` global (src/_data/booking.js): URLs + scope.
+    label    → visible link text (defaults to "Book Online").
+    opts     → optional overrides:
+                 class   CSS classes (default "btn-primary")
+                 source  data-booking-source for analytics (e.g. "hero",
+                         "header", "provider_profile", "footer")
+                 scope   force "provider" or "practice" for this one CTA;
+                         omit to use the site default (booking.primaryScope)
+                 aria    aria-label when the link text alone isn't specific
+
+  URL resolution has ONE decision point. With no scope override the link uses
+  booking.primaryBookingUrl (derived from primaryScope in booking.js), so
+  flipping every default CTA to the practice link later is a one-line change in
+  that data file. An explicit opts.scope picks that exact link for this CTA.
+
+  External-link handling follows the site convention (same tab, rel="noopener"
+  — see the social/directions links), so no new-tab announcement is needed.
+#}
+{%- macro bookingCta(booking, label="Book Online", opts={}) -%}
+  {%- if opts.scope == "practice" -%}{%- set href = booking.practiceBookingUrl -%}
+  {%- elif opts.scope == "provider" -%}{%- set href = booking.primaryProviderBookingUrl -%}
+  {%- else -%}{%- set href = booking.primaryBookingUrl -%}{%- endif -%}
+  {%- set scope = opts.scope or booking.primaryScope or "provider" -%}
+  <a href="{{ href }}" class="{{ opts.class or 'btn-primary' }}" rel="noopener" data-action="zocdoc-booking" data-booking-scope="{{ scope }}"{% if opts.source %} data-booking-source="{{ opts.source }}"{% endif %}{% if opts.aria %} aria-label="{{ opts.aria }}"{% endif %}>{{ label }}</a>
+{%- endmacro -%}

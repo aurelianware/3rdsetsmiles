@@ -20,6 +20,7 @@ faq:
     a: "Yes. New patients are warmly welcomed. Call (480) 334-2752 or request an appointment online to schedule a new-patient exam."
 ---
 
+{% from "partials/booking-cta.njk" import bookingCta %}
 {# ============================================================================
    Homepage is organized around patient intent and conversion, not a catalog
    of procedures. Order: hero → $49 offer → "what brings you in?" intent cards
@@ -45,8 +46,8 @@ faq:
           <p class="hero-sub">Dr. Matthew Phillips provides comprehensive dentistry in {{ site.address.locality }} — from routine cleanings and crowns to implants, dentures and full-arch reconstruction when it's needed. One dentist. One dental home.</p>
         </div>
         <div class="fade-in btn-row">
+          {{ bookingCta(booking, "Book Online", { source: "hero", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
           <a href="/special-offers/" class="btn-primary" data-action="new-patient-offer" data-source="homepage-hero">Claim $49 New-Patient Visit</a>
-          <a href="/book/?appointmentType=implant-consult&amp;source=homepage-hero" class="btn-primary" data-action="implant-booking">Free Full-Arch Consultation</a>
           <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-hero">Call {{ site.phone.display }}</a>
         </div>
         <ul class="fade-in trust-row" aria-label="Why patients choose us">
@@ -317,7 +318,8 @@ faq:
       <h2>Ready to meet your new dentist?</h2>
       <p>Whether you're looking for a new dental home, considering implants, or need help with something urgent — Dr. Phillips and the team are here for you in {{ site.address.locality }}, {{ site.address.regionName }}.</p>
       <div class="btn-row">
-        <a href="/contact/" class="btn-primary" data-action="request-appointment">Request an Appointment</a>
+        {{ bookingCta(booking, "Book Online", { source: "homepage", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
+        <a href="/contact/" class="btn-outline" data-action="request-appointment">Request an Appointment</a>
         <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>
       </div>
       <p class="cta-emergency">Dental emergency after hours? <a href="tel:{{ site.phone.telShort }}" data-action="call-emergency">Call us</a> — after-hours emergency appointments may be available.</p>
