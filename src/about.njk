@@ -91,6 +91,7 @@ breadcrumb:
 
         <div class="fade-in btn-row" style="margin-top:32px">
           {{ bookingCta(booking, "Book with Dr. Matthew Phillips", { scope: "provider", source: "provider_profile", aria: "Book online with Dr. Matthew Phillips on Zocdoc" }) }}
+          <a href="tel:{{ site.phone.telShort }}" class="btn-outline btn-outline-dark" data-action="call-about">Call {{ site.phone.display }}</a>
           <a href="/contact/" class="btn-outline btn-outline-dark" data-action="request-appointment">Send an Appointment Request</a>
         </div>
         <p class="fade-in muted" style="margin-top:12px">View available appointment times and book online with Dr. Matthew Phillips.</p>

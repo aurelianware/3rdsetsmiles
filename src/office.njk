@@ -1,0 +1,85 @@
+---
+layout: layouts/base.njk
+title: "Take a Look Around Our Tempe Dental Office"
+description: "See inside 3rd Set Smiles before you visit — our Tempe, AZ dental office entrance, modern treatment rooms, and private consultation space. Book online with Dr. Matthew Phillips."
+permalink: /office/
+ogType: website
+ogImage: /assets/office/office-exterior.webp
+breadcrumb:
+  - { label: "Home", url: "/" }
+  - { label: "Our Office", url: "/office/" }
+---
+{% from "partials/booking-cta.njk" import bookingCta %}
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Our Office</div>
+    <div class="pill"><span class="pill-text">Take a Look Around</span></div>
+    <h1>See our office <span>before you visit</span></h1>
+    <p class="lede">A calm, modern practice in {{ site.address.locality }}, {{ site.address.regionName }} — easy to find, easy to park. Here's a look inside so your first visit feels familiar.</p>
+    <div class="btn-row">
+      {{ bookingCta(booking, "Book Online", { scope: "provider", source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-office">Call {{ site.phone.display }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="tour-heading">
+  <div class="container">
+    <h2 id="tour-heading" class="center fade-in" style="color:var(--navy);margin-bottom:36px">A look inside 3rd Set Smiles</h2>
+    <div class="office-gallery">
+      <figure class="office-shot fade-in">
+        <img src="/assets/office/office-exterior.webp" alt="Street-level entrance to 3rd Set Smiles in Tempe, Arizona, with the DENTIST sign and Dr. Matthew Phillips, DDS placard" loading="lazy" width="1200" height="864">
+        <figcaption>Our entrance on {{ site.address.streetShort }} — just look for the <strong>DENTIST</strong> sign, with easy parking right outside.</figcaption>
+      </figure>
+      <figure class="office-shot fade-in">
+        <img src="/assets/office/office-operatory.webp" alt="Clean, modern dental treatment room at 3rd Set Smiles with contemporary equipment and fresh spa towels" loading="lazy" width="880" height="1184">
+        <figcaption>Bright, spotless treatment rooms with modern equipment — where your exams and care happen.</figcaption>
+      </figure>
+      <figure class="office-shot fade-in">
+        <img src="/assets/office/office-consult.webp" alt="Private consultation office at 3rd Set Smiles for unhurried, one-on-one treatment planning" loading="lazy" width="1168" height="880">
+        <figcaption>A private consultation room, where Dr. Phillips talks through your options — unhurried, no pressure.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" aria-labelledby="visit-heading">
+  <div class="container-narrow">
+    <div class="fade-in" style="margin-bottom:18px">
+      <div class="section-label">Plan Your Visit</div>
+      <h2 id="visit-heading" style="color:var(--navy)">Finding us in {{ site.address.locality }}</h2>
+    </div>
+    <div class="fade-in">
+      <div class="contact-detail">
+        <div class="contact-detail-label">Address</div>
+        <div class="contact-detail-value">{{ site.address.street }}<br>{{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Hours</div>
+        <div class="contact-detail-value">{{ site.hours.display }}<br><span class="muted">{{ site.hours.weekend }}</span></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Phone</div>
+        <div class="contact-detail-value"><a href="tel:{{ site.phone.telShort }}" data-action="call-office">{{ site.phone.display }}</a></div>
+      </div>
+    </div>
+    <div class="btn-row fade-in" style="margin-top:24px">
+      <a class="btn-primary" href="https://www.google.com/maps/dir/?api=1&destination={{ (site.address.full) | urlencode }}" rel="noopener" data-action="directions">Get Directions</a>
+      <a class="btn-outline btn-outline-dark" href="/contact/">Contact &amp; Map</a>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-banner">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Come see us in person</h2>
+      <p>Book your first visit online in a couple of minutes, or call and we'll help you find a time. New patients are always welcome at 3rd Set Smiles.</p>
+      <div class="btn-row">
+        {{ bookingCta(booking, "Book Online", { scope: "provider", source: "office", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
+        <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-final">Call {{ site.phone.display }}</a>
+      </div>
+    </div>
+  </div>
+</section>
