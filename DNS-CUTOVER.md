@@ -71,12 +71,35 @@ In the Cloudflare **Pages** project (`3rdsetsmiles`) → **Custom domains**:
    `@ CNAME → 3rdsetsmiles.pages.dev` (proxied).
 3. **Delete the old `A @ → 216.150.1.1` (Vercel) record** so it can't conflict.
 
-### Step 3 — Apex → www redirect (per README)
-Cloudflare → the zone → **Rules → Redirect Rules → Create**:
+### Step 3 — Apex → www redirect
+
+**Canonical host: `https://www.3rdsetsmiles.com`.** The apex
+(`3rdsetsmiles.com`) must permanently redirect to the same path + query on www,
+so stale apex-host content is never indexed or served next to the canonical
+site.
+
+**Where the redirect lives (repo, no dashboard step needed).** It is
+implemented in code in [`functions/_middleware.js`](functions/_middleware.js),
+a Cloudflare Pages Function that runs before static assets on every request to
+the Pages deployment. It rewrites host + scheme (and normalizes the trailing
+slash) in a single **301**, preserving path and query string. As long as the
+apex is attached to the Pages project as a **custom domain** (Step 2 above), the
+redirect works with no further configuration — this is the current, live-verified
+state.
+
+**Optional zone-level alternative.** If you ever detach the apex from Pages, the
+same behavior can be expressed as a Cloudflare **Redirect Rule** at the zone:
 - When: `http.host eq "3rdsetsmiles.com"`
 - Then: **Dynamic** 301 to
   `concat("https://www.3rdsetsmiles.com", http.request.uri.path)`
 - **Preserve query string:** on.
+
+Keep only one of these active to avoid a double hop. The Pages middleware is the
+default; the Redirect Rule is a fallback.
+
+**Do not** implement this with a JavaScript/meta-refresh redirect, and do not
+touch MX/SPF/DKIM/DMARC while configuring it — this is HTTP hostname
+canonicalization only, not a mail change.
 
 ### Step 4 — Flip nameservers at GoDaddy
 GoDaddy → domain → **Nameservers → Change → I'll use my own** → enter the two
@@ -91,9 +114,18 @@ Step 1.**
 ```sh
 sh scripts/verify-domain.sh
 ```
+The **"Apex → www canonicalization (REQUIRED)"** section is a hard gate: it
+fails the script if the apex serves a 200 instead of redirecting, if the target
+host/path/query isn't preserved, or if the redirect loops. It checks the
+homepage, a deep path (`/new-patients/`), and query-string preservation. The
+build-time [`tests/canonical-host.test.js`](tests/canonical-host.test.js) is the
+companion guard: it fails if any generated page, the sitemap, robots.txt, or the
+JSON-LD ever emits an apex URL.
+
 Green when: nameservers on Cloudflare, `www` and apex resolve to Cloudflare
-(not `216.150.1.1`, not `server: Vercel`), apex 301s → www, CSP header
-present, and all email records still resolve. Also spot-check by hand:
+(not `216.150.1.1`, not `server: Vercel`), apex 301s → www with path + query
+preserved, CSP header present, and all email records still resolve. Also
+spot-check by hand:
 - <https://www.3rdsetsmiles.com/> loads the new site.
 - <https://3rdsetsmiles.com/> 301-redirects to www.
 - <https://www.3rdsetsmiles.com/does-not-exist> returns a real **404**.
