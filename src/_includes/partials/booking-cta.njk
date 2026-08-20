@@ -1,0 +1,32 @@
+{#
+  booking-cta.njk — the single source of truth for a Zocdoc "Book Online" link.
+
+  One place owns the booking URL, the external-link attributes, the analytics
+  hook, and the accessible name, so no page hard-codes a Zocdoc URL. Import it:
+
+    {% from "partials/booking-cta.njk" import bookingCta %}
+    {{ bookingCta(site.booking, "Book Online", { source: "hero" }) }}
+
+  Args
+    booking  → site.booking config object (URLs + scope).
+    label    → visible link text (defaults to "Book Online").
+    opts     → optional overrides:
+                 class   CSS classes (default "btn-primary")
+                 source  data-booking-source for analytics (e.g. "hero",
+                         "header", "provider_profile", "footer")
+                 scope   "provider" (default, resolved from primaryScope) or
+                         "practice" — forces the practice-level link
+                 aria    aria-label when the link text alone isn't specific
+
+  Scope → URL resolution keeps provider-vs-practice a config decision: default
+  scope comes from booking.primaryScope, so flipping every default CTA to the
+  practice link later is a one-line site.json change, not a template rewrite.
+
+  External-link handling follows the site convention (same tab, rel="noopener"
+  — see the social/directions links), so no new-tab announcement is needed.
+#}
+{%- macro bookingCta(booking, label="Book Online", opts={}) -%}
+  {%- set scope = opts.scope or booking.primaryScope or "provider" -%}
+  {%- set href = booking.practiceBookingUrl if scope == "practice" else booking.primaryProviderBookingUrl -%}
+  <a href="{{ href }}" class="{{ opts.class or 'btn-primary' }}" rel="noopener" data-action="zocdoc-booking" data-booking-scope="{{ scope }}"{% if opts.source %} data-booking-source="{{ opts.source }}"{% endif %}{% if opts.aria %} aria-label="{{ opts.aria }}"{% endif %}>{{ label }}</a>
+{%- endmacro -%}

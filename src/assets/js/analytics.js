@@ -33,6 +33,7 @@
     COSMETIC_CONSULT_CLICK: 'cosmetic_consult_click',
     REVIEW_GOOGLE_CLICK: 'review_google_click',
     BOOKING_STARTED: 'booking_started',
+    ZOCDOC_BOOKING_CLICK: 'zocdoc_booking_click',
     APPOINTMENT_TYPE_SELECTED: 'appointment_type_selected',
     AVAILABILITY_VIEWED: 'availability_viewed',
     FULL_ARCH_PAGE_VIEW: 'full_arch_page_view',
@@ -52,6 +53,7 @@
     'call-emergency': EVENTS.EMERGENCY_PHONE_CLICKED,
     'book-online': EVENTS.BOOKING_CTA_CLICK,
     'booking-cta': EVENTS.BOOKING_CTA_CLICK,
+    'zocdoc-booking': EVENTS.ZOCDOC_BOOKING_CLICK,
     'emergency-booking': EVENTS.EMERGENCY_BOOKING_CLICK,
     'new-patient-offer-booking': EVENTS.NEW_PATIENT_OFFER_BOOKING_CLICK,
     'implant-booking': EVENTS.IMPLANT_CONSULT_CLICK,
@@ -64,11 +66,16 @@
   var SAFE_SOURCES = new Set(['homepage', 'homepage-hero', 'homepage-advanced', 'emergency', 'implants', 'full-arch', 'all-on-4', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'google-business', 'post-visit', 'testimonials']);
   var SAFE_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'patient-selected']);
   var SAFE_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
+  // Zocdoc booking metadata. booking_scope = which Zocdoc link (provider vs the
+  // practice-level link kept for future multi-provider use). booking_source =
+  // where on the site the click came from. Both are low-cardinality, non-PHI.
+  var SAFE_BOOKING_SCOPES = new Set(['provider', 'practice']);
+  var SAFE_BOOKING_SOURCES = new Set(['hero', 'header', 'mobile_nav', 'sticky_mobile', 'provider_profile', 'appointment_page', 'contact', 'footer', 'service_page', 'homepage']);
 
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   // The only caller-supplied prop keys track() will forward. Everything else is
   // dropped client-side (the collector allowlists again server-side).
-  var PROP_ALLOW = { action: true, form: true, source: true, appointment_intent: true, cta_position: true };
+  var PROP_ALLOW = { action: true, form: true, source: true, appointment_intent: true, cta_position: true, booking_scope: true, booking_source: true };
   var STORE_ATTR = '3ss_attribution';   // sessionStorage: UTM + landing + referrer
   var STORE_ID = '3ss_aid';             // localStorage: durable attributionId
 
@@ -149,6 +156,8 @@
         if (p === 'source' && !SAFE_SOURCES.has(val)) continue;
         if (p === 'appointment_intent' && !SAFE_INTENTS.has(val)) continue;
         if (p === 'cta_position' && !SAFE_POSITIONS.has(val)) continue;
+        if (p === 'booking_scope' && !SAFE_BOOKING_SCOPES.has(val)) continue;
+        if (p === 'booking_source' && !SAFE_BOOKING_SOURCES.has(val)) continue;
         if (t === 'string') payload[p] = val.slice(0, 200);
         else if (t === 'boolean' || (t === 'number' && isFinite(val))) payload[p] = val;
       }
@@ -188,6 +197,8 @@
           source: payload.source,
           appointment_intent: payload.appointment_intent,
           cta_position: payload.cta_position,
+          booking_scope: payload.booking_scope,
+          booking_source: payload.booking_source,
           attribution_id: payload.attribution_id
         });
       });
@@ -241,6 +252,10 @@
       if (SAFE_SOURCES.has(declaredSource)) props.source = declaredSource;
       var position = el.getAttribute('data-position');
       if (SAFE_POSITIONS.has(position)) props.cta_position = position;
+      var bookingScope = el.getAttribute('data-booking-scope');
+      if (SAFE_BOOKING_SCOPES.has(bookingScope)) props.booking_scope = bookingScope;
+      var bookingSource = el.getAttribute('data-booking-source');
+      if (SAFE_BOOKING_SOURCES.has(bookingSource)) props.booking_source = bookingSource;
       // Review outreach source belongs to the current review-page URL, not the
       // external Google destination.
       if (action === 'google-review') {

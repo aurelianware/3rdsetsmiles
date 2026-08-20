@@ -80,6 +80,56 @@ cause builds to fail with `Error: Output directory "_site" not found.`
 Cloudflare picks them up automatically. `src/robots.txt` is published at
 `/robots.txt`. The sitemap is published at `/sitemap.xml`.
 
+## Booking (Zocdoc)
+
+**Zocdoc is the primary online-booking destination.** All patient-facing
+"Book Online" calls to action route to Dr. Matthew Phillips' Zocdoc **Booking
+Link**, so a prospective patient can view available times and book from anywhere
+on the site (header, mobile menu, sticky mobile bar, hero, homepage, provider
+page, contact page, `/book/`, footer, and generic service pages).
+
+Both URLs are configured once, in the `booking` object of
+[`src/_data/site.json`](src/_data/site.json):
+
+| Field | Value | Role |
+| --- | --- | --- |
+| `primaryProviderBookingUrl` | `https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189` | **Primary provider booking** — the destination of every "Book Online" CTA today. |
+| `practiceBookingUrl` | `https://www.zocdoc.com/booking-link/practice/3rd-set-smiles-137227` | **Practice booking** — stored for future multi-provider support; not yet surfaced as a CTA. |
+| `primaryBookingUrl` | (= provider link) | The resolved current primary; used by structured data. |
+| `primaryScope` | `provider` | Which link the default CTA uses. |
+| `bookingProviderName` / `bookingProviderType` / `bookingPlatform` | `Dr. Matthew Phillips` / `Dentist` / `Zocdoc` | Labels/metadata. |
+
+**Provider vs. practice.** While Dr. Phillips is the only provider, the
+provider-level link is primary because it drops the patient straight onto his
+availability. The practice-level link is kept in config so that adding a second
+provider later is a one-line change — set `primaryScope` to `practice` and point
+`primaryBookingUrl` at `practiceBookingUrl`; no templates need editing. A single
+CTA can also force a scope (e.g. the About page pins `scope: "provider"`).
+
+**One component owns the link.** CTAs are rendered by the
+[`src/_includes/partials/booking-cta.njk`](src/_includes/partials/booking-cta.njk)
+macro, which centralizes the URL, the safe external-link attributes
+(`rel="noopener"`, same-tab per the site convention), the accessible name, and
+the analytics hook. Do not hard-code a Zocdoc URL in a page.
+
+**Structured data.** The `ReserveAction.target` on the practice `Dentist` node
+([`base.njk`](src/_includes/layouts/base.njk)) and on Dr. Phillips' `Person`
+node ([`about.njk`](src/about.njk)) point at the Zocdoc booking URL. The
+canonical site URL and primary-entity `url` are unchanged.
+
+**Analytics.** Booking-link clicks emit the `zocdoc_booking_click` event through
+the existing first-party layer ([`analytics.js`](src/assets/js/analytics.js))
+with non-PHI metadata only: `booking_scope` (`provider`/`practice`),
+`booking_source` (placement, e.g. `hero`, `header`, `footer`), the page path,
+and the CTA action. No names, contact details, or health information are ever sent.
+
+**What stays on the on-site request flow.** The specialized free-consultation
+funnels — implant, full-arch, cosmetic, emergency, and the $49 new-patient offer
+— keep posting to the `/book/` request form below, because they carry an
+`appointmentType`, feed Cloud Dental Office, and are lead-capture rather than
+self-scheduling. The `/book/` page now leads with the Zocdoc "Book Online" CTA
+and keeps that request form as the secondary path.
+
 ## Online booking & Cloud Dental Office integration
 
 The `/book/` page ([`src/book.njk`](src/book.njk)) lets visitors submit an

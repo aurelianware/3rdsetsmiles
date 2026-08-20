@@ -7,12 +7,17 @@ breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "Book Online", url: "/book/" }
 ---
+{% from "partials/booking-cta.njk" import bookingCta %}
 
 <section class="page-hero">
   <div class="container">
     <div class="breadcrumb"><a href="/">Home</a><span class="sep">›</span>Book Online</div>
     <h1>Book an <span>Appointment</span></h1>
-    <p class="lede">Pick a preferred date and time and we'll confirm within one business day. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)" data-action="call-book">{{ site.phone.display }}</a>.</p>
+    <p class="lede">View available appointment times and book online with {{ site.booking.bookingProviderName }}. Prefer to talk? Call <a href="tel:{{ site.phone.telShort }}" style="color:var(--gold)" data-action="call-book">{{ site.phone.display }}</a>.</p>
+    <div class="btn-row">
+      {{ bookingCta(site.booking, "Book Online with Zocdoc", { source: "appointment_page", aria: "Book online with " + site.booking.bookingProviderName + " on Zocdoc" }) }}
+      <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-book">Call {{ site.phone.display }}</a>
+    </div>
   </div>
 </section>
 
@@ -22,8 +27,9 @@ breadcrumb:
 
       <div class="contact-info">
         <div class="fade-in">
-          <h2>Online Booking</h2>
-          <p>Choose the day and time that work best for you. Because Dr. Phillips runs a single-doctor practice, every request is reviewed by our team — we'll reach out to confirm your exact appointment time.</p>
+          <h2>Two ways to schedule</h2>
+          <p><strong>Fastest:</strong> <a href="{{ site.booking.primaryProviderBookingUrl }}" rel="noopener" data-action="zocdoc-booking" data-booking-scope="provider" data-booking-source="appointment_page" style="color:var(--gold-light)">book online with {{ site.booking.bookingProviderName }} on Zocdoc</a> to view available appointment times and reserve yours.</p>
+          <p>Prefer we reach out? Use the request form below. Because Dr. Phillips runs a single-doctor practice, every request is reviewed by our team — we'll confirm your exact appointment time by phone or email.</p>
         </div>
         <div class="fade-in">
           <div class="contact-detail">

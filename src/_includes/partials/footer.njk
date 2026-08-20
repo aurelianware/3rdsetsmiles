@@ -1,4 +1,5 @@
 {# footer.njk — Shared footer. NAP data comes from /src/_data/site.json #}
+{% from "partials/booking-cta.njk" import bookingCta %}
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-col">
@@ -18,6 +19,7 @@
         {{ site.address.locality }}, {{ site.address.region }} {{ site.address.postalCode }}
       </address>
       <p class="footer-hours">{{ site.hours.display }}<br>{{ site.hours.weekend }}{% if site.hours.note %}<br>{{ site.hours.note }}{% endif %}</p>
+      <p class="footer-book">{{ bookingCta(site.booking, "Book Online", { class: "btn-primary footer-book-btn", source: "footer" }) }}</p>
     </div>
 
     <div class="footer-col">
