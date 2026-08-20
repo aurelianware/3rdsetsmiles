@@ -4,9 +4,12 @@ import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import booking from "../src/_data/booking.js";
+import { createRequire } from "node:module";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+// booking.js is a CommonJS computed-data module; load it the same way as
+// tests/zocdoc-booking.test.js to avoid ESM/CJS interop edge-cases.
+const booking = createRequire(import.meta.url)(path.join(root, "src", "_data", "booking.js"));
 const PROVIDER_URL = "https://www.zocdoc.com/booking-link/dentist/matthew-phillips-dds-617189";
 const PRACTICE_URL = "https://www.zocdoc.com/booking-link/practice/3rd-set-smiles-137227";
 const PHONE = "4803342752";
