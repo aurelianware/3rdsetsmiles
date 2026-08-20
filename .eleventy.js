@@ -7,7 +7,6 @@ module.exports = function (eleventyConfig) {
   // Passthrough copy: files that should land in the output root verbatim.
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
-  eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
   // Filters

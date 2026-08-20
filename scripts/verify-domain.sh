@@ -87,13 +87,52 @@ for host in "$WWW" "$APEX"; do
   fi
 done
 
-# Apex should 301 -> www (canonical). Follow one hop.
-APEX_LOC="$(curl -sSI --max-time 20 "https://$APEX" 2>/dev/null | tr -d '\r' | awk -F': ' 'tolower($1)=="location"{print $2}')"
-if printf '%s' "$APEX_LOC" | grep -qi "$WWW"; then
-  ok "Apex redirects to www ($APEX_LOC)"
-else
-  note "Apex does not redirect to www (location: ${APEX_LOC:-none}); confirm the apex->www redirect rule"
-fi
+head "Apex -> www canonicalization (REQUIRED)"
+# www.3rdsetsmiles.com is the single canonical host. Every apex request MUST
+# permanently redirect to the SAME path (and query) on www. These are hard
+# failures: a 200 at the apex means stale apex-host content can be indexed and
+# served alongside the canonical site. Path + query preservation is checked so
+# deep links stay deep links.
+
+# apex_redirect <path> -> prints "<http_code> <location>" for a single hop.
+# HEAD (-I) is enough for the status line + Location; no body is fetched.
+apex_redirect() {
+  curl -sS -I -o /dev/null --max-time 20 -w '%{http_code} %{redirect_url}' "https://$APEX$1" 2>/dev/null
+}
+
+check_apex() { # <path> <expected full www url>
+  _path="$1"; _expect="$2"
+  _res="$(apex_redirect "$_path")"
+  _code="${_res%% *}"; _loc="${_res#* }"
+  if [ "$_code" != "301" ] && [ "$_code" != "308" ]; then
+    bad "apex ${_path} returned HTTP ${_code:-none} — must be a 301/308 redirect, not a 200 page"
+  elif [ "$_loc" != "$_expect" ]; then
+    bad "apex ${_path} redirected to '${_loc:-none}' — expected '${_expect}' (host/path/query must be preserved)"
+  else
+    ok "apex ${_path} -> ${_loc}"
+  fi
+}
+
+# Homepage, a known deep path, and query-string preservation.
+check_apex "/"                        "https://$WWW/"
+check_apex "/new-patients/"           "https://$WWW/new-patients/"
+check_apex "/new-patients/?vd=canary" "https://$WWW/new-patients/?vd=canary"
+
+# Following the redirect must land on www with a 200 and no loop.
+LOOP="$(curl -sSI -L -o /dev/null --max-time 20 --max-redirs 5 \
+  -w '%{url_effective} %{http_code}' "https://$APEX/new-patients/" 2>/dev/null)"
+LOOP_URL="${LOOP% *}"; LOOP_CODE="${LOOP##* }"
+case "$LOOP_URL" in
+  "https://$WWW/new-patients/"*)
+    if [ "$LOOP_CODE" = "200" ]; then
+      ok "apex deep link resolves to www 200 with no redirect loop"
+    else
+      bad "apex deep link ended at $LOOP_URL with HTTP ${LOOP_CODE:-none} (possible loop)"
+    fi ;;
+  *)
+    bad "apex deep link did not resolve to www (ended at ${LOOP_URL:-none}, HTTP ${LOOP_CODE:-none}) — redirect loop or wrong target"
+    ;;
+esac
 
 # Security header sanity (from src/_headers)
 CSP="$(curl -sSI --max-time 20 "https://$WWW" 2>/dev/null | tr -d '\r' | grep -i 'content-security-policy')"
