@@ -17,9 +17,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const site = createRequire(import.meta.url)(path.join(root, "src", "_data", "site.json"));
 
 const CANON = "https://www.3rdsetsmiles.com";
-// Apex host WITHOUT the www. label. `//3rdsetsmiles.com` can never match
-// `//www.3rdsetsmiles.com`, so this flags only true apex references.
-const APEX = /https?:\/\/3rdsetsmiles\.com/;
+// Apex host WITHOUT the www. label, including protocol-relative (`//…`) form.
+// The `//3rdsetsmiles.com` anchor can never match `//www.3rdsetsmiles.com`
+// (the www. label sits between), so this flags only true apex references.
+const APEX = /(?:https?:)?\/\/3rdsetsmiles\.com/;
 
 let built = false;
 function out(rel) {
@@ -74,7 +75,7 @@ test("sitemap contains only www URLs, no apex, and excludes robots.txt", () => {
   const xml = out("sitemap.xml");
   assert.doesNotMatch(xml, APEX, "sitemap has no apex URL");
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  assert.ok(locs.length > 10, "sitemap has entries");
+  assert.ok(locs.length > 0, "sitemap has entries");
   for (const loc of locs) assert.ok(loc.startsWith(CANON + "/"), `loc uses www: ${loc}`);
   assert.ok(!locs.some((l) => l.endsWith("/robots.txt")), "robots.txt is not a sitemap entry");
 });

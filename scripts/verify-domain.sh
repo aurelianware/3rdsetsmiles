@@ -94,9 +94,10 @@ head "Apex -> www canonicalization (REQUIRED)"
 # served alongside the canonical site. Path + query preservation is checked so
 # deep links stay deep links.
 
-# apex_redirect <path> -> prints "<http_code> <location>" for a single hop
+# apex_redirect <path> -> prints "<http_code> <location>" for a single hop.
+# HEAD (-I) is enough for the status line + Location; no body is fetched.
 apex_redirect() {
-  curl -sS -o /dev/null --max-time 20 -w '%{http_code} %{redirect_url}' "https://$APEX$1" 2>/dev/null
+  curl -sS -I -o /dev/null --max-time 20 -w '%{http_code} %{redirect_url}' "https://$APEX$1" 2>/dev/null
 }
 
 check_apex() { # <path> <expected full www url>
@@ -118,7 +119,7 @@ check_apex "/new-patients/"           "https://$WWW/new-patients/"
 check_apex "/new-patients/?vd=canary" "https://$WWW/new-patients/?vd=canary"
 
 # Following the redirect must land on www with a 200 and no loop.
-LOOP="$(curl -sSL -o /dev/null --max-time 20 --max-redirs 5 \
+LOOP="$(curl -sSI -L -o /dev/null --max-time 20 --max-redirs 5 \
   -w '%{url_effective} %{http_code}' "https://$APEX/new-patients/" 2>/dev/null)"
 LOOP_URL="${LOOP% *}"; LOOP_CODE="${LOOP##* }"
 case "$LOOP_URL" in
