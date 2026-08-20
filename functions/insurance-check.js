@@ -236,7 +236,11 @@ export async function onRequestPost(context) {
   });
 }
 
-// A direct GET to the handler just sends people back to the insurance-check page.
-export async function onRequestGet() {
-  return Response.redirect("https://www.3rdsetsmiles.com/insurance-check/", 302);
+// This function shares the /insurance-check route with the static
+// /insurance-check/ page, so a GET must fall through to that page's HTML.
+// Redirecting to /insurance-check/ here would loop forever, because this same
+// GET handler also serves /insurance-check/. context.next() hands the request
+// to the static asset pipeline instead.
+export async function onRequestGet(context) {
+  return context.next();
 }

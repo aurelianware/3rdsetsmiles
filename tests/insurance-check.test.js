@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { onRequestPost } from "../functions/insurance-check.js";
+import { onRequestPost, onRequestGet } from "../functions/insurance-check.js";
 
 function request(extra = {}) {
   const form = new FormData();
@@ -79,6 +79,23 @@ test("honeypot is silently accepted and nothing is sent", async () => {
     assert.equal(res.status, 200);
     assert.equal(called, false);
   } finally { globalThis.fetch = originalFetch; }
+});
+
+test("GET serves the page (context.next) instead of redirecting to itself", async () => {
+  // The function shares the /insurance-check route with the static
+  // /insurance-check/ page. A GET must fall through to the asset pipeline;
+  // redirecting to /insurance-check/ would loop because this same handler
+  // also serves that path. Guard against the loop regressing.
+  let nextCalled = false;
+  const context = {
+    request: new Request("https://example.test/insurance-check/"),
+    next: async () => { nextCalled = true; return new Response("page", { status: 200 }); },
+  };
+  const res = await onRequestGet(context);
+  assert.equal(nextCalled, true);
+  assert.equal(res.status, 200);
+  // Never a redirect back onto the shared route.
+  assert.ok(res.status < 300 || res.status >= 400, "GET must not 3xx-redirect (would loop)");
 });
 
 test("emails the practice as a fallback when the eligibility seam fails", async () => {
