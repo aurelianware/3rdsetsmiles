@@ -113,7 +113,8 @@ p, li, label, span, div { line-height: 1.7; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 24px; height: 72px;
 }
-.nav-logo { display: inline-flex; align-items: center; gap: 10px; }
+.nav-logo { display: inline-flex; align-items: center; gap: 12px; }
+.nav-logo-mark { display: block; width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; }
 .nav-logo-text {
   font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
   color: white; letter-spacing: 0.02em;
@@ -168,6 +169,15 @@ p, li, label, span, div { line-height: 1.7; }
   margin-top: 8px; color: var(--gold) !important;
   border: 1px solid rgba(201,168,76,0.4) !important;
   border-radius: 6px; text-align: center; padding: 12px !important;
+}
+
+/* Desktop nav is space-tight (many links + Book + phone). The circular logo
+   mark carries the brand there; the wordmark text would crowd the links, so
+   it shows only at the mobile breakpoint, where the nav is just logo + menu.
+   The nav-logo anchor keeps its aria-label, so the accessible name is intact. */
+@media (min-width: 1001px) {
+  .nav-logo-text { display: none; }
+  .nav-logo { margin-right: 18px; }
 }
 
 @media (max-width: 1000px) {
@@ -700,6 +710,7 @@ main { padding-top: calc(72px + var(--banner-h)); }
   gap: 36px; padding-bottom: 36px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+.footer-logo-mark { display: block; width: 56px; height: 56px; border-radius: 50%; margin-bottom: 14px; }
 .footer-brand {
   font-family: 'Playfair Display', serif;
   color: white; font-size: 1.3rem; font-weight: 700;
