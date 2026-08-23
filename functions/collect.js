@@ -32,7 +32,10 @@ const EVENTS = new Set([
   'availability_viewed', 'full_arch_page_view', 'implant_phone_click',
   'implant_financing_click', 'implant_candidate_article_click'
 ]);
-const SOURCES = new Set(['homepage', 'emergency', 'implants', 'full-arch', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'wisdom-teeth-offer', 'google-business', 'post-visit', 'testimonials']);
+// Keep this in sync with SAFE_SOURCES in src/assets/js/analytics.js — the
+// client only sends allowlisted sources, and the collector must accept the same
+// set or it silently drops their attribution.
+const SOURCES = new Set(['homepage', 'homepage-hero', 'homepage-advanced', 'emergency', 'implants', 'full-arch', 'all-on-4', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'wisdom-teeth-offer', 'back-to-school-offer', 'google-business', 'post-visit', 'testimonials']);
 const APPOINTMENT_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'wisdom-teeth-consult', 'patient-selected']);
 const CTA_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
 
