@@ -380,8 +380,10 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .offer-card h3 { color: white; font-size: 1.16rem; line-height: 1.25; margin-bottom: 14px; }
 .offer-card .offer-list { flex-direction: column; gap: 9px; margin: 0 0 22px; }
 .offer-card .offer-list li { font-size: 0.92rem; }
-.offer-card .btn-primary { margin-top: auto; align-self: stretch; justify-content: center; text-align: center; }
+.offer-card .btn-primary { margin-top: auto; align-self: stretch; text-align: center; }
 @media (max-width: 700px) { .offers-grid { grid-template-columns: 1fr; } }
+.offer-terms { list-style: disc; padding-left: 22px; margin: 14px auto 0; max-width: 640px; text-align: left; font-size: 0.82rem; line-height: 1.6; }
+.offer-terms li { margin: 6px 0; }
 
 /* ── "What brings you in?" intent cards ── */
 .intent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
