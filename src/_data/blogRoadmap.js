@@ -79,4 +79,12 @@ module.exports = [
     stage: "Drafted",
     patientQuestion: "How do I lower dry socket risk and what warning signs should I watch for?",
   },
+  {
+    title: "Wisdom Teeth Removal in Tempe: Cost, Recovery, and When You Actually Need It",
+    slug: "wisdom-teeth-removal",
+    category: "extractions-oral-surgery",
+    priority: "High",
+    stage: "Drafted",
+    patientQuestion: "Do my wisdom teeth actually need to come out, and what does recovery involve?",
+  },
 ];
