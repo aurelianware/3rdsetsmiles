@@ -85,7 +85,7 @@ Our office sits right on the **Southern Avenue corridor in Tempe**, minutes from
 
 ## What About Cost?
 
-Price depends on how many teeth are involved and whether the removals are simple or surgical, plus any sedation. The honest answer is that it's best quoted after a quick exam and X-ray, so you see real numbers, not a range. We'll lay out what's included and walk through [insurance and financing](/insurance-financing/) so there are no surprises.
+Price depends on how many teeth are involved and whether the removals are simple or surgical, plus any sedation. The honest answer is that it's best quoted after a quick exam and X-ray, so you see real numbers, not a range. That's exactly why we offer a [**free wisdom teeth consultation and panoramic X-ray**](/special-offers/) — you get a clear picture and a written quote before you commit to anything, and students save 15% on treatment with a valid ID. We'll also walk through [insurance and financing](/insurance-financing/) so there are no surprises.
 
 ## Bottom Line
 
