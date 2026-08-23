@@ -362,6 +362,29 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .offer-price-num { display: block; font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 700; color: var(--gold); line-height: 1; }
 .offer-price-label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.55); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
 
+/* ── Offers grid (special-offers page) — scannable cards ── */
+.offers-section { background: linear-gradient(135deg, var(--navy-deep), var(--navy)); color: white; padding: 56px 0; }
+.offers-head { text-align: center; margin-bottom: 34px; }
+.offers-head h2 { color: white; }
+.offers-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.offer-card {
+  display: flex; flex-direction: column;
+  background: rgba(255,255,255,0.045); border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 16px; padding: 24px 24px 22px;
+  transition: border-color .2s, transform .2s;
+}
+.offer-card:hover, .offer-card:focus-within { border-color: rgba(201,168,76,0.55); transform: translateY(-3px); }
+.offer-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.offer-card-top .section-label { margin: 0; color: var(--gold-light); }
+.offer-badge { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.7rem; color: var(--gold); line-height: 1; white-space: nowrap; }
+.offer-card h3 { color: white; font-size: 1.16rem; line-height: 1.25; margin-bottom: 14px; }
+.offer-card .offer-list { flex-direction: column; gap: 9px; margin: 0 0 22px; }
+.offer-card .offer-list li { font-size: 0.92rem; }
+.offer-card .btn-primary { margin-top: auto; align-self: stretch; text-align: center; }
+@media (max-width: 700px) { .offers-grid { grid-template-columns: 1fr; } }
+.offer-terms { list-style: disc; padding-left: 22px; margin: 14px auto 0; max-width: 640px; text-align: left; font-size: 0.82rem; line-height: 1.6; }
+.offer-terms li { margin: 6px 0; }
+
 /* ── "What brings you in?" intent cards ── */
 .intent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
 .intent-card {
