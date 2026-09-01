@@ -758,11 +758,11 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .site-footer .footer-book-btn:hover { color: var(--navy); }
 .footer-social { display: flex; gap: 14px; margin-top: 18px; font-size: 0.85rem; }
 .footer-disclosure {
-  padding-top: 24px; font-size: 0.78rem; line-height: 1.5;
-  color: rgba(255,255,255,0.5);
+  padding-top: 24px; font-size: 0.82rem; line-height: 1.55;
+  color: rgba(255,255,255,0.82);
 }
 .footer-disclosure p { margin: 0; }
-.footer-disclosure a { color: rgba(255,255,255,0.6); text-decoration: underline; }
+.footer-disclosure a { color: rgba(255,255,255,0.92); text-decoration: underline; }
 .footer-disclosure a:hover { color: var(--gold-light); }
 .footer-bottom {
   display: flex; flex-wrap: wrap; justify-content: space-between;
