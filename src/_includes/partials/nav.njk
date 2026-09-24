@@ -34,6 +34,7 @@
       <a href="{{ item.url }}">{{ item.label }}</a>
     {% endfor %}
     {{ bookingCta(booking, "Book Online", { class: "nav-mobile-book", source: "mobile_nav" }) }}
+    <a href="/book/" class="nav-mobile-call" data-action="request-appointment" data-booking-source="mobile_nav">Request an Appointment</a>
     <a href="tel:{{ site.phone.telShort }}" class="nav-mobile-call" data-action="call-header">Call {{ site.phone.display }}</a>
   </nav>
 </header>

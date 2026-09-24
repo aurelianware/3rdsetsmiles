@@ -28,6 +28,15 @@
     "name": "Dr. Matthew Phillips",
     "credential": "DDS"
   },
+  "priceRange": "$$",
+  "paymentAccepted": "Dental Insurance (PPO), Cherry Financing, In-house Payment Plans",
+  "currenciesAccepted": "USD",
+  "newPatientOffer": {
+    "name": "$49 New Patient Exam & X-rays",
+    "description": "Comprehensive exam, oral-cancer screening and full-mouth digital X-rays for new patients without insurance. Add a standard cleaning for $50 ($99 total).",
+    "price": "49.00",
+    "url": "/special-offers/"
+  },
   "areaServed": ["Tempe", "Mesa", "Chandler", "Scottsdale", "Gilbert", "Ahwatukee", "Phoenix"],
   "hours": {
     "display": "Mon–Fri 10:00am – 6:00pm",

@@ -20,7 +20,7 @@
   --max: 1140px;
   --banner-h: 40px;
 }
-@media (max-width: 600px) { :root { --banner-h: 38px; } }
+@media (max-width: 600px) { :root { --banner-h: 44px; } } /* full 44px tap target for the call banner */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -68,7 +68,7 @@ p, li, label, span, div { line-height: 1.7; }
 
 /* ── Buttons ── */
 .btn-primary, .btn-outline {
-  display: inline-block;
+  display: inline-block; min-height: 44px;
   font-family: 'Source Sans 3', sans-serif;
   font-weight: 700; font-size: 1rem;
   padding: 14px 30px; border-radius: 6px;
@@ -150,7 +150,10 @@ p, li, label, span, div { line-height: 1.7; }
   white-space: nowrap;
 }
 .nav-phone:hover { background: rgba(201,168,76,0.1); }
-.nav-mobile-toggle { display: none; background: none; border: none; color: white; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle {
+  display: none; background: none; border: none; color: white; cursor: pointer;
+  min-width: 44px; min-height: 44px; padding: 9px; /* 44×44 touch target */
+}
 .nav-mobile-menu {
   display: none; flex-direction: column; background: var(--navy); padding: 16px 24px 24px;
   border-top: 1px solid rgba(201,168,76,0.15);
@@ -158,7 +161,9 @@ p, li, label, span, div { line-height: 1.7; }
 .nav-mobile-menu a {
   font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.85);
   padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  min-height: 44px; display: flex; align-items: center; justify-content: flex-start;
 }
+.nav-mobile-menu a.nav-mobile-book, .nav-mobile-menu a.nav-mobile-call { justify-content: center; }
 .nav-mobile-menu a:hover { color: var(--gold); }
 .nav-mobile-book {
   margin-top: 14px; background: var(--gold) !important; color: var(--navy) !important;
@@ -357,7 +362,7 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .offer-list li { position: relative; padding-left: 24px; color: rgba(255,255,255,0.88); font-weight: 600; font-size: 0.95rem; }
 .offer-list li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
 .offer-fine { font-size: 0.78rem; color: rgba(255,255,255,0.5); max-width: 560px; line-height: 1.6; }
-.offer-cta { flex: 0 0 auto; text-align: center; }
+.offer-cta { flex: 0 1 auto; min-width: 0; max-width: 100%; text-align: center; } /* may shrink: its long link must wrap, not widen the page on phones */
 .offer-price { margin-bottom: 16px; }
 .offer-price-num { display: block; font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 700; color: var(--gold); line-height: 1; }
 .offer-price-label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.55); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
