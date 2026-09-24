@@ -29,7 +29,7 @@
     "credential": "DDS"
   },
   "priceRange": "$$",
-  "paymentAccepted": "Cash, Credit Card, Debit Card, Dental Insurance (PPO), Cherry Financing, In-house Payment Plans",
+  "paymentAccepted": "Dental Insurance (PPO), Cherry Financing, In-house Payment Plans",
   "currenciesAccepted": "USD",
   "newPatientOffer": {
     "name": "$49 New Patient Exam & X-rays",

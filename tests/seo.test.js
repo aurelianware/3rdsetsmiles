@@ -111,3 +111,12 @@ test("responses send HSTS so browsers stop requesting http://", () => {
   const headers = readFileSync(path.join(root, "src", "_headers"), "utf8");
   assert.match(headers, /Strict-Transport-Security: max-age=\d{7,}/);
 });
+
+test("/book/ $49 section repeats the offer's limitations and uses allowlisted analytics sources", () => {
+  const html = page("book/index.html");
+  const section = html.slice(html.indexOf('id="new-patient-special"'), html.indexOf("</section>", html.indexOf('id="new-patient-special"')));
+  for (const term of ["Excludes deep (periodontal) cleanings", "Cannot be combined with insurance benefits", "Subject to change"])
+    assert.ok(section.includes(term), `offer terms include: ${term}`);
+  assert.ok(section.includes("source=new-patient-offer"), "offer link reuses the new-patient-offer source");
+  assert.doesNotMatch(section, /data-source="(?!new-patient-offer")/, "no un-allowlisted data-source");
+});
