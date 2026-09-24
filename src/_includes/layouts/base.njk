@@ -35,7 +35,7 @@
 
   {# Twitter Card #}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title }} | {{ site.name }}">
+  <meta name="twitter:title" content="{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}">
   <meta name="twitter:description" content="{{ description }}">
   <meta name="twitter:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
 
@@ -73,6 +73,9 @@
     "url": {{ (site.domain + "/") | dump | safe }},
     "telephone": {{ site.phone.tel | dump | safe }},
     "email": {{ site.email | dump | safe }},
+    "priceRange": {{ site.priceRange | dump | safe }},
+    "paymentAccepted": {{ site.paymentAccepted | dump | safe }},
+    "currenciesAccepted": {{ site.currenciesAccepted | dump | safe }},
     "logo": {{ (site.domain + "/assets/logo.png") | dump | safe }},
     "founder": {
       "@type": "Person",
@@ -113,6 +116,14 @@
       "opens": "10:00",
       "closes": "18:00"
     }],
+    "makesOffer": {
+      "@type": "Offer",
+      "name": {{ site.newPatientOffer.name | dump | safe }},
+      "description": {{ site.newPatientOffer.description | dump | safe }},
+      "price": {{ site.newPatientOffer.price | dump | safe }},
+      "priceCurrency": "USD",
+      "url": {{ (site.newPatientOffer.url | absUrl(site.domain)) | dump | safe }}
+    },
     "sameAs": [
       {{ site.social.google | dump | safe }},
       {{ site.social.yelp | dump | safe }},

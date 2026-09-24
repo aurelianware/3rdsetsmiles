@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 title: "Book an Appointment Online"
-description: "Book your dental appointment at 3rd Set Smiles in Tempe, AZ. Pick a preferred date and time online and we'll confirm within one business day. Or call (480) 334-2752."
+description: "Book a dental appointment at 3rd Set Smiles in Tempe, AZ. New patients: $49 exam & X-rays special. Request a time online or call (480) 334-2752."
 permalink: /book/
 breadcrumb:
   - { label: "Home", url: "/" }
@@ -17,6 +17,23 @@ breadcrumb:
     <div class="btn-row">
       {{ bookingCta(booking, "Book Online with Zocdoc", { source: "appointment_page", aria: "Book online with " + booking.bookingProviderName + " on Zocdoc" }) }}
       <a href="tel:{{ site.phone.telShort }}" class="btn-outline" data-action="call-book">Call {{ site.phone.display }}</a>
+    </div>
+  </div>
+</section>
+
+{# $49 new-patient offer — kept in on-page copy (not just the meta description)
+   so "$49 new patient special tempe" searches land on a page that answers them.
+   Terms must stay in sync with /special-offers/. #}
+<section class="section" aria-labelledby="new-patient-special">
+  <div class="container">
+    <div class="fade-in" style="max-width:760px">
+      <div class="section-label">New patients</div>
+      <h2 id="new-patient-special">$49 New Patient Special in {{ site.address.locality }}, {{ site.address.region }}</h2>
+      <p>New to 3rd Set Smiles and without insurance? Your first visit includes a comprehensive exam, oral-cancer screening and full-mouth digital X-rays for just $49. Add a standard cleaning for $50 ($99 total).</p>
+      <div class="btn-row">
+        <a href="/book/?appointmentType=new-patient&amp;source=book-page-offer#book" class="btn-primary" data-action="new-patient-offer-booking">Request Your $49 Visit</a>
+        <a href="/special-offers/" class="btn-outline-dark btn-outline" data-action="new-patient-offer" data-source="book-page">See All Specials</a>
+      </div>
     </div>
   </div>
 </section>
