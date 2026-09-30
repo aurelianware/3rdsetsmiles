@@ -82,6 +82,21 @@ test("demo content has no generated production page or redirect", () => {
   assert.throws(() => readFileSync(path.join(root, "_site", "hero-demo", "variation-10", "index.html")));
 });
 
+test("retired hero-demo URLs answer 410 Gone in one response, never a redirect", async () => {
+  for (const url of [
+    "https://www.3rdsetsmiles.com/hero-demo/variation-8",
+    "https://www.3rdsetsmiles.com/hero-demo/variation-11/",
+    "http://3rdsetsmiles.com/hero-demo/variation-12",
+    "https://www.3rdsetsmiles.com/hero-demo",
+  ]) {
+    const response = await redirected(url);
+    assert.equal(response.status, 410, url);
+    assert.equal(response.headers.get("location"), null, url);
+  }
+  // A real page whose slug merely starts with the same letters is untouched.
+  assert.equal((await redirected("https://www.3rdsetsmiles.com/hero-demos-not-retired/")).status, 200);
+});
+
 test("booking intent is matched only against live appointment types", () => {
   const script = page("assets/js/booking.js");
   assert.ok(script.includes('get("appointmentType")'));
