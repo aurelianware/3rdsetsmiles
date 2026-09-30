@@ -2,7 +2,7 @@
   "name": "3rdsetsmiles",
   "version": "1.0.0",
   "private": true,
-  "description": "Static site for 3rd Set Smiles (Tempe, AZ). Eleventy + Nunjucks → Cloudflare Pages.",
+  "description": "Static site for 3rd Set Smiles (Tempe, AZ). Eleventy + Nunjucks \u2192 Cloudflare Pages.",
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve --port=8080",
@@ -11,7 +11,8 @@
     "clean": "rm -rf _site",
     "gen:assets": "node scripts/gen-assets.js",
     "verify:domain": "sh scripts/verify-domain.sh",
-    "test": "node --test --test-concurrency=1 tests/*.test.js"
+    "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "audit:seo": "node scripts/seo-audit.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"

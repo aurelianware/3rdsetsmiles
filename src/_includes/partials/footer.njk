@@ -34,6 +34,15 @@
     </div>
 
     <div class="footer-col">
+      <h5>Popular Services</h5>
+      <ul>
+        {% for item in nav.servicesHighlight %}
+          <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="footer-col">
       <h5>Resources</h5>
       <ul>
         {% for item in nav.footer %}

@@ -15,8 +15,11 @@
      `localizeTitle` (set once for the whole services/ folder via its directory
      data file) appends the city/region to the <title> for local-search intent,
      e.g. "Dental Implants in Tempe, AZ | 3rd Set Smiles" — without touching the
-     visible H1, breadcrumb, or FAQ heading, which keep the clean service name. #}
-  <title>{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}</title>
+     visible H1, breadcrumb, or FAQ heading, which keep the clean service name.
+     `metaTitle`, when set, is the complete <title> verbatim (no suffix added),
+     for pages whose search title should differ from their visible `title`. #}
+  {%- set fullTitle = metaTitle if metaTitle else (title + ((" in " + site.address.locality + ", " + site.address.region) if localizeTitle else "") + " | " + site.name) %}
+  <title>{{ fullTitle }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ page.url | absUrl(site.domain) }}">
 
@@ -27,7 +30,7 @@
   {# Open Graph #}
   <meta property="og:type" content="{{ ogType or 'website' }}">
   <meta property="og:site_name" content="{{ site.name }}">
-  <meta property="og:title" content="{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}">
+  <meta property="og:title" content="{{ fullTitle }}">
   <meta property="og:description" content="{{ description }}">
   <meta property="og:url" content="{{ page.url | absUrl(site.domain) }}">
   <meta property="og:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
@@ -35,7 +38,7 @@
 
   {# Twitter Card #}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title }}{% if localizeTitle %} in {{ site.address.locality }}, {{ site.address.region }}{% endif %} | {{ site.name }}">
+  <meta name="twitter:title" content="{{ fullTitle }}">
   <meta name="twitter:description" content="{{ description }}">
   <meta name="twitter:image" content="{{ (ogImage or site.ogImage) | absUrl(site.domain) }}">
 
@@ -63,7 +66,11 @@
      by `| dump` into &quot; and make the JSON unparsable (Google:
      "Unparsable structured data"). `| dump` already JSON-encodes each string
      safely, so `| safe` only prevents the redundant HTML escaping. #}
-  {# Centralized Dentist JSON-LD — identical on every page #}
+  {# Centralized Dentist JSON-LD — identical on every page.
+     TODO(mark): `sameAs` lists only profiles recorded in site.json. Send the
+     practice's public Zocdoc profile URL (the repo only has booking links),
+     Healthgrades URL if any, and the Google Business Profile Maps URL
+     (maps.google.com/?cid=…) to replace the google.com/search link. #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

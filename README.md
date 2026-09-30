@@ -310,8 +310,10 @@ this build do not (and cannot) do them:
 ```
 
 `/patient-resources` is 301-redirected to `/new-patients/`. `/hero-demo` and
-`/hero-demo/*` have no production route and return the site's real 404 response;
-they are not redirected to the homepage or included in the sitemap.
+`/hero-demo/*` (test pages from the previous site) have no production route.
+`functions/_middleware.js` answers them with **410 Gone** (the 404 page as the
+body, plus `X-Robots-Tag: noindex`) so Google drops them quickly. They are not
+redirected to the homepage and are not in the sitemap.
 
 ## Editing content
 

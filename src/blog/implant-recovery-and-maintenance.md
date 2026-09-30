@@ -1,10 +1,13 @@
 ---
 layout: layouts/blog-post.njk
 title: "Dental Implant Recovery Timeline and Long-Term Maintenance"
-description: "What healing after dental implant surgery actually looks like week by week, plus how to care for and maintain implants long term so they last for decades."
+metaTitle: "Dental Implant Recovery & Maintenance | Tempe Implant Dentist"
+description: "Week-by-week implant recovery and a long-term care routine from Tempe implant dentist Dr. Matthew Phillips. Due for an implant checkup? Book online."
+# `lede` keeps the visible intro line unchanged while the meta description targets local intent.
+lede: "What healing after dental implant surgery actually looks like week by week, plus how to care for and maintain implants long term so they last for decades."
 permalink: /blog/implant-recovery-and-maintenance/
 date: 2026-08-18T10:30:00-07:00
-dateUpdated: 2026-08-18T10:30:00-07:00
+dateUpdated: 2026-09-30T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -82,3 +85,7 @@ With good hygiene and routine care, dental implants can last many years — ofte
 Normal implant recovery is a predictable arc: a few days of swelling and soreness, a couple of weeks back to routine, and a few quiet months of integration before the final teeth. What determines success over the long run is not the surgery alone — it is consistent daily cleaning and regular professional maintenance.
 
 If you have questions about what to expect for your specific case, or you are due for an implant maintenance visit, we are happy to help.
+
+## Implant Care in Tempe
+
+Dr. Matthew Phillips places and restores dental implants at 3rd Set Smiles in Tempe, and sees patients for implant checkups and maintenance visits. If you're considering an implant, start with our [dental implants in Tempe](/services/dental-implants/) page. If you already have implants and are due for maintenance, or something doesn't feel right, [request an appointment online](/book/) or call [{{ site.phone.display }}](tel:{{ site.phone.telShort }}).

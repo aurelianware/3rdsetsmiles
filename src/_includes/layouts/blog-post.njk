@@ -13,11 +13,11 @@ ogType: article
       </div>
       <div class="pill"><span class="pill-text">Patient Education</span></div>
       <h1>{{ title }}</h1>
-      <p class="lede">{{ description }}</p>
+      <p class="lede">{{ lede or description }}</p>
       <div class="blog-meta">
         <p>
           By
-          <a href="{{ author.bioUrl }}">{{ author.name }}</a>
+          <a href="{{ author.bioUrl }}" rel="author">{{ author.name }}</a>
           {% if author.credential %}&middot; {{ author.credential }}{% endif %}
         </p>
         <p>Published {{ page.date | humanDate }}{% if dateUpdated %} &middot; Updated {{ dateUpdated | humanDate }}{% endif %}</p>
@@ -87,13 +87,15 @@ ogType: article
   "dateModified": (dateUpdated or page.date) | isoDateTime,
   "author": {
     "@type": "Person",
+    "@id": site.domain + "/#dr-phillips",
     "name": author.name,
     "url": author.bioUrl | absUrl(site.domain)
   },
   "publisher": {
     "@type": "Dentist",
+    "@id": site.domain + "/#dentist",
     "name": site.name,
-    "url": site.domain
+    "url": site.domain + "/"
   },
   "image": (ogImage or site.ogImage) | absUrl(site.domain)
 } | jsonStringify | safe }}

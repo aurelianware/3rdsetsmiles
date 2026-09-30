@@ -15,8 +15,8 @@ guarantee of ranking changes.
    `https://3rdsetsmiles.com/special-offers`.
 2. Confirm `/special-offers` redirects once to `/special-offers/` and that the
    final page returns `200`.
-3. Confirm `/hero-demo/variation-10` and `/hero-demo/variation-12` return a real
-   `404` and do not redirect to the homepage.
+3. Confirm `/hero-demo/variation-8`, `/hero-demo/variation-11` and
+   `/hero-demo/variation-12` return `410 Gone` in one response and do not redirect to the homepage.
 4. Open `/sitemap.xml`; verify every entry uses the canonical host and trailing
    slash, and that no demo, API, redirect, or duplicate URL is present.
 
@@ -31,7 +31,7 @@ user-declared canonical equals the inspected URL for:
 - `https://www.3rdsetsmiles.com/services/cosmetic-dentistry/`
 - `https://www.3rdsetsmiles.com/services/dental-implants/`
 
-For the former demo URLs, confirm Google sees `404`, then use **Validate Fix**
+For the former demo URLs, confirm Google sees `410`, then use **Validate Fix**
 for the applicable indexing issue. Do not block those URLs in `robots.txt`;
 Google must be able to crawl the removal response.
 

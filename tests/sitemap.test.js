@@ -68,3 +68,25 @@ test("sitemap <lastmod> values are not all the build date (mtime regression guar
     "every <lastmod> is today's build date — lastmod fell back to mtime"
   );
 });
+
+test("sitemap lists the Tempe dentures and dental-implants pages with git-based lastmod", () => {
+  ensureBuild();
+  const xml = readSitemap();
+  for (const [url, file] of [["/services/dentures/", "src/services/dentures.njk"],
+    ["/services/dental-implants/", "src/services/dental-implants.njk"]])
+    assert.equal(lastmodFor(xml, url), gitLastCommitDate(file), url);
+  assert.ok(!xml.includes("/review/"), "noindex /review/ is excluded");
+  assert.ok(!xml.includes("404"), "404 page is excluded");
+});
+
+test("robots.txt references the sitemap and blocks no assets or indexable pages", () => {
+  ensureBuild();
+  const robots = readFileSync(path.join(repoRoot, "_site", "robots.txt"), "utf8");
+  assert.match(robots, /^Sitemap: https:\/\/www\.3rdsetsmiles\.com\/sitemap\.xml$/m);
+  const disallowed = [...robots.matchAll(/^Disallow:\s*(\S+)/gm)].map((m) => m[1]);
+  const locs = [...readSitemap().matchAll(/<loc>https:\/\/www\.3rdsetsmiles\.com([^<]+)<\/loc>/g)].map((m) => m[1]);
+  for (const rule of disallowed) {
+    assert.ok(!"/assets/css/main.css".startsWith(rule) && !"/assets/js/main.js".startsWith(rule), `robots blocks assets: ${rule}`);
+    for (const loc of locs) assert.ok(!loc.startsWith(rule), `robots blocks indexable ${loc}`);
+  }
+});
