@@ -93,7 +93,7 @@ ogType: article
   "publisher": {
     "@type": "Dentist",
     "name": site.name,
-    "url": site.domain
+    "url": site.domain + "/"
   },
   "image": (ogImage or site.ogImage) | absUrl(site.domain)
 } | jsonStringify | safe }}

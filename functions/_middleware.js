@@ -25,5 +25,15 @@ export async function onRequest(context) {
     return Response.redirect(target.toString(), 301);
   }
 
-  return context.next();
+  const response = await context.next();
+
+  // The *.pages.dev hosts (production alias and branch previews) serve the same
+  // pages as www. The canonical tag already points at www, but a noindex header
+  // keeps those duplicates out of the index outright. Local dev is left alone.
+  if (incoming.hostname.endsWith(".pages.dev")) {
+    const tagged = new Response(response.body, response);
+    tagged.headers.set("X-Robots-Tag", "noindex");
+    return tagged;
+  }
+  return response;
 }

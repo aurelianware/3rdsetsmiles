@@ -28,6 +28,21 @@ test("canonical middleware leaves canonical pages and function endpoints alone",
   assert.equal((await redirected("https://www.3rdsetsmiles.com/booking-availability?from=x")).status, 200);
 });
 
+test("canonical middleware adds no redirect hop for an already-canonical URL with a query", async () => {
+  const response = await redirected("https://www.3rdsetsmiles.com/contact/?utm_source=test");
+  assert.equal(response.status, 200);
+});
+
+test("pages.dev hosts are served with X-Robots-Tag: noindex; production and local are not", async () => {
+  for (const host of ["3rdsetsmiles.pages.dev", "abc123.3rdsetsmiles.pages.dev"]) {
+    const response = await redirected(`https://${host}/services/`);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("x-robots-tag"), "noindex", host);
+  }
+  assert.equal((await redirected("https://www.3rdsetsmiles.com/services/")).headers.get("x-robots-tag"), null);
+  assert.equal((await redirected("http://localhost:8788/services/")).headers.get("x-robots-tag"), null);
+});
+
 const priorities = [
   ["special-offers/index.html", "$49 New Patient Dental Special in Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
   ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ", "Emergency Dentist in", "/book/?appointmentType=emergency&amp;source=emergency"],

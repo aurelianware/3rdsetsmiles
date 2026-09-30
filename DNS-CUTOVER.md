@@ -97,6 +97,36 @@ same behavior can be expressed as a Cloudflare **Redirect Rule** at the zone:
 Keep only one of these active to avoid a double hop. The Pages middleware is the
 default; the Redirect Rule is a fallback.
 
+**Observed live (2026-09-30): a zone rule is pre-empting the middleware.**
+`https://3rdsetsmiles.com/services/emergency-dentistry` 301s to
+`https://www.3rdsetsmiles.com/services/emergency-dentistry` (no slash), which the
+middleware then 301s again to add the slash. `http://3rdsetsmiles.com/special-offers`
+takes **three** hops (http→https, apex→www, slash). The middleware alone would do
+host + scheme + slash in one hop, so a zone-level redirect is running first. Fix,
+in the Cloudflare dashboard for the `3rdsetsmiles.com` zone:
+
+1. **Workers & Pages → 3rdsetsmiles → Custom domains:** confirm both
+   `www.3rdsetsmiles.com` and `3rdsetsmiles.com` show **Active**.
+2. **Rules → Redirect Rules** (also check **Bulk Redirects** and **Page Rules**):
+   delete or disable the apex → www rule. The middleware then answers the apex
+   in a single 301 that also adds the trailing slash.
+3. If you would rather keep a zone rule (e.g. the apex is *not* attached to
+   Pages), replace it with two rules so it adds the slash itself, first match wins:
+   - When `http.host eq "3rdsetsmiles.com" and (ends_with(http.request.uri.path, "/") or http.request.uri.path contains ".")`
+     → Dynamic 301 `concat("https://www.3rdsetsmiles.com", http.request.uri.path)`, preserve query string.
+   - When `http.host eq "3rdsetsmiles.com"`
+     → Dynamic 301 `concat("https://www.3rdsetsmiles.com", http.request.uri.path, "/")`, preserve query string.
+4. **SSL/TLS → Edge Certificates → Always Use HTTPS** can stay on. It adds one
+   hop only for `http://` requests, and HSTS (`src/_headers`) removes that hop
+   for returning browsers.
+
+Re-run `sh scripts/verify-domain.sh` afterwards. `curl -sIL http://3rdsetsmiles.com/special-offers`
+should show at most two 301s (Always Use HTTPS, then one to the final URL).
+
+The production alias `3rdsetsmiles.pages.dev` and branch previews also serve the
+full site. The middleware adds `X-Robots-Tag: noindex` on any `*.pages.dev`
+host so those copies stay out of the index.
+
 **Do not** implement this with a JavaScript/meta-refresh redirect, and do not
 touch MX/SPF/DKIM/DMARC while configuring it — this is HTTP hostname
 canonicalization only, not a mail change.
