@@ -68,9 +68,10 @@ test("About and author pages describe the same Person, work for the Dentist, and
   assert.ok(person.jobTitle);
   assert.equal(person.alumniOf.name, "New York University College of Dentistry");
   assert.equal(person.hasCredential.recognizedBy.name, person.alumniOf.name);
-  assert.doesNotMatch(about, /B\.S\.[^<]*Arizona State|degree at Arizona State/, "ASU was coursework, not a degree");
+  assert.doesNotMatch(about, /B\.S\.[^<]*(Arizona State|Brigham Young)|degree (at|from) (Arizona State|Brigham Young)/, "BYU/ASU were coursework, not degrees");
+  assert.ok(about.includes("coursework at Brigham Young University and Arizona State University"));
   assert.ok(about.includes("MBA candidate &mdash; W. P. Carey School of Business"), "in-progress MBA is labelled as such");
-  assert.ok(!JSON.stringify(person).includes("Arizona State"), "unconferred MBA is not in the markup");
+  assert.doesNotMatch(JSON.stringify(person), /Arizona State|Brigham Young/, "only conferred degrees are in the markup");
   assert.ok(about.includes('href="/blog/authors/dr-matthew-phillips/"'), "About links to author page");
   assert.ok(author.includes('href="/about/"'), "author page links to About");
 });
