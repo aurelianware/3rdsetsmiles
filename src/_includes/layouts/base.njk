@@ -66,7 +66,11 @@
      by `| dump` into &quot; and make the JSON unparsable (Google:
      "Unparsable structured data"). `| dump` already JSON-encodes each string
      safely, so `| safe` only prevents the redundant HTML escaping. #}
-  {# Centralized Dentist JSON-LD — identical on every page #}
+  {# Centralized Dentist JSON-LD — identical on every page.
+     TODO(mark): `sameAs` lists only profiles recorded in site.json. Send the
+     practice's public Zocdoc profile URL (the repo only has booking links),
+     Healthgrades URL if any, and the Google Business Profile Maps URL
+     (maps.google.com/?cid=…) to replace the google.com/search link. #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

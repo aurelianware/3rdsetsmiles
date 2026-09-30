@@ -96,6 +96,7 @@ breadcrumb:
         </div>
         <p class="fade-in muted" style="margin-top:12px">View available appointment times and book online with Dr. Matthew Phillips.</p>
         <div class="fade-in" style="margin-top:20px">
+          <p>Dr. Phillips also writes and reviews our patient guides. <a href="/blog/authors/dr-matthew-phillips/">Read his articles on the 3rd Set Smiles blog</a>.</p>
           <p>Considering substantial tooth replacement? Learn about <a href="/services/all-on-4/">full-arch dental implant options in Tempe</a> and what an individual evaluation should clarify.</p>
         </div>
       </div>
@@ -108,7 +109,11 @@ breadcrumb:
    with the founder node in base.njk and the author ProfilePage, so search
    engines resolve them to a single provider. worksFor links him to the
    practice's Dentist node (…/#dentist). Only verified, non-CONFIRM facts are
-   marked up here — no unconfirmed awards, dates, or memberships. #}
+   marked up here — no unconfirmed awards, dates, or memberships.
+   TODO(mark): once the NYU College of Dentistry (DDS, 2004) and Arizona State
+   University degrees above are confirmed and their CONFIRM comments removed,
+   add "alumniOf" for both schools here. Also send Dr. Phillips' public Zocdoc
+   provider profile URL (not the booking link) to add as "sameAs". #}
 {% set drp = authors['dr-matthew-phillips'] %}
 <script type="application/ld+json">
 {{ {

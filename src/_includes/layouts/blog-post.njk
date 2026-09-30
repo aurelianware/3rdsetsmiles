@@ -17,7 +17,7 @@ ogType: article
       <div class="blog-meta">
         <p>
           By
-          <a href="{{ author.bioUrl }}">{{ author.name }}</a>
+          <a href="{{ author.bioUrl }}" rel="author">{{ author.name }}</a>
           {% if author.credential %}&middot; {{ author.credential }}{% endif %}
         </p>
         <p>Published {{ page.date | humanDate }}{% if dateUpdated %} &middot; Updated {{ dateUpdated | humanDate }}{% endif %}</p>
@@ -87,11 +87,13 @@ ogType: article
   "dateModified": (dateUpdated or page.date) | isoDateTime,
   "author": {
     "@type": "Person",
+    "@id": site.domain + "/#dr-phillips",
     "name": author.name,
     "url": author.bioUrl | absUrl(site.domain)
   },
   "publisher": {
     "@type": "Dentist",
+    "@id": site.domain + "/#dentist",
     "name": site.name,
     "url": site.domain + "/"
   },

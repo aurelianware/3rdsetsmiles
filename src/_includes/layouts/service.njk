@@ -91,6 +91,20 @@ layout: layouts/base.njk
 }
 </script>
 
+{# BreadcrumbList mirroring the visible Home › Services › {title} trail. Service
+   pages don't set `breadcrumb` front matter, so the base layout emits none. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ ("/" | absUrl(site.domain)) | dump | safe }} },
+    { "@type": "ListItem", "position": 2, "name": "Services", "item": {{ ("/services/" | absUrl(site.domain)) | dump | safe }} },
+    { "@type": "ListItem", "position": 3, "name": {{ title | dump | safe }}, "item": {{ (page.url | absUrl(site.domain)) | dump | safe }} }
+  ]
+}
+</script>
+
 {# Related treatments — same-category siblings, excluding this page. Driven by
    serviceMeta.category so it stays in sync with the services hub. Strengthens
    internal linking and topical clustering for SEO. Hidden if there are none. #}
