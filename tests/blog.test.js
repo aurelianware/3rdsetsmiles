@@ -53,3 +53,18 @@ test("sitemap includes blog index and first article", () => {
   assert.match(xml, /<loc>https:\/\/www\.3rdsetsmiles\.com\/blog\/all-on-4-candidacy\/<\/loc>/);
   assert.match(xml, /<loc>https:\/\/www\.3rdsetsmiles\.com\/blog\/all-on-4-vs-implant-supported-dentures\/<\/loc>/);
 });
+
+test("implant recovery post targets local intent without restructuring the ranking content", () => {
+  ensureBuild();
+  const html = readSite("blog/implant-recovery-and-maintenance/index.html");
+  assert.ok(html.includes("<title>Dental Implant Recovery &amp; Maintenance | Tempe Implant Dentist</title>"));
+  assert.match(html, /<meta name="description" content="[^"]*Tempe[^"]*Book online\.">/);
+  // Visible H1 and intro line are unchanged.
+  assert.ok(html.includes("<h1>Dental Implant Recovery Timeline and Long-Term Maintenance</h1>"));
+  assert.ok(html.includes('<p class="lede">What healing after dental implant surgery actually looks like week by week'));
+  for (const h2 of ["The First 24–72 Hours", "The First Two Weeks", "Osseointegration: The Quiet, Important Phase",
+    "Signs Worth a Call", "Long-Term Maintenance: What Keeps Implants Lasting", "Bottom Line", "Implant Care in Tempe"])
+    assert.ok(html.includes(`>${h2}</h2>`), h2);
+  const closing = html.slice(html.indexOf(">Implant Care in Tempe</h2>"));
+  assert.ok(closing.includes('href="/services/dental-implants/"') && closing.includes('href="/book/"'));
+});
