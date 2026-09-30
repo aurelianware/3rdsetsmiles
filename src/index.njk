@@ -16,6 +16,8 @@ faq:
     a: "Monday through Friday, 10:00am to 6:00pm, with other hours as needed. We are closed on Saturday and Sunday."
   - q: "Do you take dental insurance?"
     a: "Yes — we work with most major PPO plans and will help you understand your benefits. We also offer financing through Cherry, plus in-house payment plans."
+  - q: "Why is the practice called 3rd Set Smiles?"
+    a: "Dr. Phillips loves tennis, and in a best-of-three match the third set decides it. He worked a dental meaning in too: after baby teeth and adult teeth, dental implants and All-on-4 can give patients a third set, and a second chance at a confident smile."
   - q: "Do you see new patients?"
     a: "Yes. New patients are warmly welcomed. Call (480) 334-2752 or request an appointment online to schedule a new-patient exam."
 ---
@@ -317,6 +319,28 @@ faq:
       <h2 style="color:var(--navy)">Proud to Care for Our Veterans</h2>
       <p class="muted" style="margin:14px 0 24px">Founded by Dr. Phillips — an Army dentist for 10 years — 3rd Set Smiles delivers honest, compassionate dentistry to those who have worn the uniform. We also offer special discounts for Veterans without dental insurance.</p>
       <a href="/veterans/" class="btn-outline btn-outline-dark">Learn More for Veterans</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ — renders the same `faq` front matter that feeds the FAQPage JSON-LD,
+     so the structured data always matches visible content. -->
+<section class="section" style="background:white" aria-labelledby="faq-heading">
+  <div class="container-narrow">
+    <div class="fade-in">
+      <div class="section-label">Common Questions</div>
+      <h2 id="faq-heading" style="color:var(--navy);margin-bottom:24px">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-block">
+      {% for item in faq %}
+      <div class="faq-item fade-in">
+        <button class="faq-btn" type="button" aria-expanded="false">
+          <span>{{ item.q }}</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>{{ item.a }}</p></div>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </section>

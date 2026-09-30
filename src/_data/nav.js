@@ -28,6 +28,7 @@ module.exports = {
     { label: "Dentures", url: "/services/dentures/" },
     { label: "Family Dentistry", url: "/services/family-dentistry/" },
     { label: "Cosmetic Dentistry", url: "/services/cosmetic-dentistry/" },
-    { label: "Emergency Dentistry", url: "/services/emergency-dentistry/" }
+    { label: "Emergency Dentistry", url: "/services/emergency-dentistry/" },
+    { label: "Wisdom Teeth Removal", url: "/services/wisdom-teeth-removal/" }
   ]
 };

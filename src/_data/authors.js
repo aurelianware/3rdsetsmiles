@@ -7,12 +7,8 @@ module.exports = {
     image: "/assets/dr-phillips.jpg",
     profileSummary:
       "Dr. Matthew Phillips, DDS is the founder of 3rd Set Smiles in Tempe, Arizona. He provides general, cosmetic, extraction, implant, and full-arch treatment planning in a single-doctor private practice.",
-    trustSignals: [
-      "Practice founder at 3rd Set Smiles in Tempe, AZ",
-      "DDS credential listed across site materials",
-      "Veteran-owned practice with military dental background noted on About page",
-      "In-house treatment planning across general dentistry, extractions, implants, and full-arch care",
-    ],
+    // Internal checklist, NOT rendered on the site. TODO(mark): confirm each
+    // item before it is stated publicly anywhere.
     verificationItems: [
       "Arizona dental license number and current public status",
       "Exact military service timeline and assignments",

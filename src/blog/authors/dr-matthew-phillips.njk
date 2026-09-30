@@ -31,22 +31,17 @@ breadcrumb:
       </figure>
 
       <div class="about-content prose">
-        <h2>Trust Signals Visible on This Site</h2>
-        <ul>
-          {% for item in author.trustSignals %}
-          <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
+        <h2>About Dr. Phillips</h2>
+        <p>Dr. Matthew Phillips grew up in Mesa and earned his Doctorate of Dental Surgery from the New York University College of Dentistry in 2004. He founded 3rd Set Smiles in Tempe, a veteran-owned practice where he provides general, cosmetic, extraction, implant and full-arch care himself.</p>
 
-        <h2>Clinical Content Review Policy</h2>
-        <p>Clinical blog drafts are AI-assisted for structure and readability, then reviewed by Dr. Phillips before publication. Drafts include explicit review-status labels and required clinical confirmation items.</p>
+        <h2>How These Articles Are Written</h2>
+        <p>Articles on this blog may be drafted with the help of writing tools. Every article is reviewed and approved by Dr. Phillips for clinical accuracy before it is published, and each one shows its review status. The articles are general education, not a diagnosis; treatment decisions need an in-person exam.</p>
 
-        <h2>Information Requiring Confirmation</h2>
-        <p>The following profile details must be verified against practice records before being treated as finalized public credentials:</p>
+        <h2>Articles by Dr. Phillips</h2>
         <ul>
-          {% for item in author.verificationItems %}
-          <li>{{ item }}</li>
-          {% endfor %}
+          {%- for post in collections.blog %}{% if post.data.authorId == 'dr-matthew-phillips' %}
+          <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+          {%- endif %}{% endfor %}
         </ul>
 
         <p><a class="btn-primary" href="/about/">View full practice biography</a></p>
