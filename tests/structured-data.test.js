@@ -68,6 +68,7 @@ test("About and author pages describe the same Person, work for the Dentist, and
   assert.ok(person.jobTitle);
   assert.equal(person.alumniOf.name, "New York University College of Dentistry");
   assert.equal(person.hasCredential.recognizedBy.name, person.alumniOf.name);
+  assert.doesNotMatch(about, /Arizona State University/, "no ASU degree claim");
   assert.ok(about.includes('href="/blog/authors/dr-matthew-phillips/"'), "About links to author page");
   assert.ok(author.includes('href="/about/"'), "author page links to About");
 });
