@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { onRequest as canonicalize } from "../functions/_middleware.js";
@@ -44,7 +44,7 @@ test("pages.dev hosts are served with X-Robots-Tag: noindex; production and loca
 });
 
 const priorities = [
-  ["special-offers/index.html", "$49 New Patient Dental Special in Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
+  ["special-offers/index.html", "$49 New Patient Exam &amp; X-Rays – Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
   ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ", "Emergency Dentist in", "/book/?appointmentType=emergency&amp;source=emergency"],
   ["services/cosmetic-dentistry/index.html", "Cosmetic Dentist in Tempe, AZ", "Cosmetic Dentistry", "/book/?appointmentType=cosmetic-consult&amp;source=cosmetic"],
   ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ", "Dental Implants", "/book/?appointmentType=implant-consult&amp;source=implants"],
@@ -149,4 +149,21 @@ test("/book/ $49 section repeats the offer's limitations and uses allowlisted an
     assert.ok(section.includes(term), `offer terms include: ${term}`);
   assert.ok(section.includes("source=new-patient-offer"), "offer link reuses the new-patient-offer source");
   assert.doesNotMatch(section, /data-source="(?!new-patient-offer")/, "no un-allowlisted data-source");
+});
+
+test("key landing pages keep search-length titles and descriptions that name Tempe", () => {
+  const files = ["index.html", "about/index.html", "blog/authors/dr-matthew-phillips/index.html",
+    "special-offers/index.html", "new-patients/index.html", "book/index.html", "contact/index.html",
+    "veterans/index.html", "insurance-financing/index.html", "services/index.html",
+    ...readdirSync(path.join(root, "src", "services")).filter((f) => f.endsWith(".njk") && f !== "index.njk")
+      .map((f) => `services/${f.replace(/\.njk$/, "")}/index.html`)];
+  const decode = (s) => s.replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  for (const file of files) {
+    const html = page(file);
+    const title = decode(html.match(/<title>([^<]+)<\/title>/)[1]);
+    const description = decode(html.match(/<meta name="description" content="([^"]+)">/)[1]);
+    assert.ok(title.length <= 62, `${file} title is ${title.length} chars: ${title}`);
+    assert.ok(description.length <= 158, `${file} description is ${description.length} chars`);
+    assert.match(title + description, /Tempe/, `${file} names Tempe`);
+  }
 });
