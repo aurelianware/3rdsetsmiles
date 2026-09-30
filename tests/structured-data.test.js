@@ -72,6 +72,10 @@ test("About and author pages describe the same Person, work for the Dentist, and
   assert.doesNotMatch(about.replace(/<!--[\s\S]*?-->/g, ""), /Brigham Young|coursework/i, "coursework is not listed on the site");
   assert.doesNotMatch(about.replace(/<!--[\s\S]*?-->/g, ""), /MBA/, "unfinished MBA is not listed");
   assert.ok(about.includes("Mountain View High School in 1994"), "local high school is in the bio");
+  const visible = about.replace(/<!--[\s\S]*?-->/g, "");
+  assert.equal((visible.match(/Mountain View/g) || []).length, 1, "only his own graduation names the school, never where his children attend");
+  assert.ok(visible.includes("raising his own family here in Mesa"));
+  assert.doesNotMatch(visible, /daughter|\bson\b|his (kids|children) (go|attend)/i, "no details about his children");
   assert.doesNotMatch(JSON.stringify(person), /Arizona State|Brigham Young/, "only conferred degrees are in the markup");
   assert.ok(about.includes('href="/blog/authors/dr-matthew-phillips/"'), "About links to author page");
   assert.ok(author.includes('href="/about/"'), "author page links to About");
