@@ -20,7 +20,8 @@ breadcrumb:
   - { label: "Blog", url: "/blog/" }
   - { label: "Same-Day Extractions and Implants", url: "/blog/same-day-extractions-and-implants/" }
 relatedServiceLinks:
-  - { label: "Dental implants", url: "/services/dental-implants/" }
+  - { label: "Dental implants in Tempe", url: "/services/dental-implants/" }
+  - { label: "Dentures in Tempe", url: "/services/dentures/" }
   - { label: "All-on-4 / All-on-X service overview", url: "/services/all-on-4/" }
   - { label: "Tooth extractions", url: "/services/tooth-extractions/" }
 ---

@@ -15,6 +15,7 @@ tags:
   - dental-implants
   - full-arch
   - implant-supported-dentures
+  - dentures
 breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "Blog", url: "/blog/" }
@@ -22,6 +23,8 @@ breadcrumb:
 relatedServiceLinks:
   - { label: "All-on-4 / All-on-X service overview", url: "/services/all-on-4/" }
   - { label: "Implant-supported dentures", url: "/services/implant-supported-dentures/" }
+  - { label: "Dental implants in Tempe", url: "/services/dental-implants/" }
+  - { label: "Dentures in Tempe", url: "/services/dentures/" }
   - { label: "Tooth extractions", url: "/services/tooth-extractions/" }
 ---
 

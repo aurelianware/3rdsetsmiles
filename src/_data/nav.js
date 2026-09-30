@@ -25,6 +25,7 @@ module.exports = {
     { label: "Dental Implants", url: "/services/dental-implants/" },
     { label: "All-on-4 / All-on-X", url: "/services/all-on-4/" },
     { label: "Implant-Supported Dentures", url: "/services/implant-supported-dentures/" },
+    { label: "Dentures", url: "/services/dentures/" },
     { label: "Family Dentistry", url: "/services/family-dentistry/" },
     { label: "Cosmetic Dentistry", url: "/services/cosmetic-dentistry/" },
     { label: "Emergency Dentistry", url: "/services/emergency-dentistry/" }
