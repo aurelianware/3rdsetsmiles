@@ -111,6 +111,29 @@ breadcrumb:
   </div>
 </section>
 
+{# Meet the Team — driven by src/_data/team.js; renders nothing while empty. #}
+{% if team and team.length %}
+<section class="section section-cream" aria-labelledby="team-heading">
+  <div class="container">
+    <div class="fade-in" style="margin-bottom:28px">
+      <div class="section-label">Our Team</div>
+      <h2 id="team-heading" style="color:var(--navy)">Meet the Team</h2>
+      <p class="muted">The people you'll see at every visit, alongside Dr. Phillips.</p>
+    </div>
+    <div class="team-grid">
+      {% for member in team %}
+      <article class="team-card fade-in">
+        {% if member.photo %}<img src="{{ member.photo }}" alt="{{ member.name }}, {{ member.role }} at {{ site.name }}" width="320" height="320" loading="lazy">{% endif %}
+        <h3>{{ member.name }}{% if member.credential %}, {{ member.credential }}{% endif %}</h3>
+        <p class="team-role">{{ member.role }}</p>
+        <p>{{ member.bio }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {# Canonical Person entity for Dr. Phillips. Shares one @id (…/#dr-phillips)
    with the founder node in base.njk and the author ProfilePage, so search
    engines resolve them to a single provider. worksFor links him to the

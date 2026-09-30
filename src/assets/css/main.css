@@ -945,3 +945,11 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
   .implant-trust img { max-width: 280px; }
   .implant-inline-cta .btn-primary, .implant-inline-cta .btn-outline { width: 100%; text-align: center; }
 }
+
+/* ── Meet the Team (about page; renders only when src/_data/team.js has entries) ── */
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+.team-card { background: white; border: 1px solid rgba(11,29,58,0.08); border-radius: 12px; padding: 20px; }
+.team-card img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 8px; margin-bottom: 14px; }
+.team-card h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
+.team-card .team-role { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; }
+.team-card p { font-size: 0.95rem; }

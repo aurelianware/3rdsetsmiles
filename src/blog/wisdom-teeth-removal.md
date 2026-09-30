@@ -13,6 +13,7 @@ tags:
   - blog
   - extractions-oral-surgery
   - wisdom-teeth
+  - wisdom-teeth-removal
   - tooth-extractions
   - oral-surgery
 breadcrumb:
@@ -20,6 +21,7 @@ breadcrumb:
   - { label: "Blog", url: "/blog/" }
   - { label: "Wisdom Teeth Removal in Tempe", url: "/blog/wisdom-teeth-removal/" }
 relatedServiceLinks:
+  - { label: "Wisdom teeth removal in Tempe", url: "/services/wisdom-teeth-removal/" }
   - { label: "Tooth extractions", url: "/services/tooth-extractions/" }
   - { label: "Sedation dentistry", url: "/services/sedation-dentistry/" }
   - { label: "Emergency dentistry", url: "/services/emergency-dentistry/" }
