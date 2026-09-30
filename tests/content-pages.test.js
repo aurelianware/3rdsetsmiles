@@ -68,3 +68,13 @@ test("Meet the Team renders nothing until team.js has entries", () => {
   if (team.length === 0) assert.ok(!html.includes("team-grid"));
   else for (const m of team) assert.ok(html.includes(m.name), `team member ${m.name} shown`);
 });
+
+test("after-hours emergency contact (call, text, email) and same-day extractions are stated", () => {
+  const emergency = page("services/emergency-dentistry/index.html");
+  assert.ok(emergency.includes('href="sms:+14803342752"'), "text link");
+  assert.ok(emergency.includes('href="mailto:info@3rdsetsmiles.com"'), "email link");
+  assert.match(emergency, /usually see urgent patients quickly/);
+  const extractions = page("services/tooth-extractions/index.html");
+  assert.match(extractions, /Same-day extractions are available/);
+  assert.doesNotMatch(emergency + extractions, /TODO\(mark\): confirm (the after-hours|whether same-day)/);
+});
