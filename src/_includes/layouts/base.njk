@@ -69,9 +69,8 @@
   {# Centralized Dentist JSON-LD — identical on every page.
      `site.social.google` is the Google Business Profile's stable Maps CID URL
      (listing /g/11jszpn8g7), confirmed by Mark 2026-10-07.
-     TODO(mark): `sameAs` lists only profiles recorded in site.json. Send the
-     practice's public Zocdoc profile URL (the repo only has booking links)
-     and Healthgrades URL if any. #}
+     `site.social.zocdoc` is the practice's public Zocdoc profile (not the
+     booking link). Add a Healthgrades URL to site.json + sameAs if one exists. #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -135,7 +134,8 @@
     "sameAs": [
       {{ site.social.google | dump | safe }},
       {{ site.social.yelp | dump | safe }},
-      {{ site.social.facebook | dump | safe }}
+      {{ site.social.facebook | dump | safe }},
+      {{ site.social.zocdoc | dump | safe }}
     ],
     "potentialAction": {
       "@type": "ReserveAction",
