@@ -1,0 +1,70 @@
+# Build, test and deploy the site to Cloudflare Pages.
+#
+# Pull requests: build + tests + SEO audit (no deploy).
+# Push to main:  the same checks, then a production deploy with wrangler.
+#
+# Full git history (fetch-depth: 0) is required: the sitemap's <lastmod> comes
+# from each source file's last commit, and a shallow clone would make those
+# dates unknowable (see `sitemapLastmod` in .eleventy.js).
+#
+# Deploying needs two repository secrets (Settings → Secrets and variables →
+# Actions): CLOUDFLARE_API_TOKEN (a token with the "Cloudflare Pages: Edit"
+# permission) and CLOUDFLARE_ACCOUNT_ID. Until both are set the deploy step is
+# skipped with a notice, so checks still run green. Once this workflow deploys,
+# turn off automatic deployments for the Pages project's Git integration so the
+# site isn't deployed twice.
+name: Build, test & deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.event_name == 'push' && 'deploy-production' || format('pr-{0}', github.ref) }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # The tests build the site themselves; the audit checks the built output.
+      - run: npm test
+      - run: npm run audit:seo
+
+      - name: Check deploy credentials
+        id: creds
+        if: github.event_name == 'push'
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$TOKEN" ] && [ -n "$ACCOUNT" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID not set; skipping deploy."
+          fi
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.creds.outputs.ready == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Project name and output dir (_site) come from wrangler.toml; the
+          # functions/ directory is picked up from the repo root.
+          command: pages deploy --branch=main --commit-hash=${{ github.sha }}
