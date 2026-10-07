@@ -67,10 +67,11 @@
      "Unparsable structured data"). `| dump` already JSON-encodes each string
      safely, so `| safe` only prevents the redundant HTML escaping. #}
   {# Centralized Dentist JSON-LD — identical on every page.
+     `site.social.google` is the Google Business Profile's stable Maps CID URL
+     (listing /g/11jszpn8g7), confirmed by Mark 2026-10-07.
      TODO(mark): `sameAs` lists only profiles recorded in site.json. Send the
-     practice's public Zocdoc profile URL (the repo only has booking links),
-     Healthgrades URL if any, and the Google Business Profile Maps URL
-     (maps.google.com/?cid=…) to replace the google.com/search link. #}
+     practice's public Zocdoc profile URL (the repo only has booking links)
+     and Healthgrades URL if any. #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -97,7 +98,7 @@
       {{ area | dump | safe }}{% if not loop.last %},{% endif %}
       {%- endfor %}
     ],
-    "hasMap": {{ ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) | dump | safe }},
+    "hasMap": {{ site.social.google | dump | safe }},
     "image": [
       {{ (site.ogImage | absUrl(site.domain)) | dump | safe }},
       {{ ("/assets/office/office-exterior.webp" | absUrl(site.domain)) | dump | safe }},
