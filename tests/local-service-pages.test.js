@@ -22,7 +22,7 @@ const bodyWords = (html) => {
 
 const PAGES = [
   ["services/dentures/index.html", "Dentures in Tempe, AZ | 3rd Set Smiles", /<h1>Dentures in <span>Tempe, AZ<\/span><\/h1>/],
-  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ | 3rd Set Smiles", /<h1>Dental Implants <span>in Tempe<\/span><\/h1>/],
+  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ | 3rd Set Smiles", /<h1>Dental Implants <span>in Tempe, AZ<\/span><\/h1>/],
 ];
 
 test("dentures and dental-implants pages have local titles, H1s, 400-700 words and conversion links", () => {

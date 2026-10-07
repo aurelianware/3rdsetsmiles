@@ -1,10 +1,13 @@
 ---
 layout: layouts/blog-post.njk
 title: "Same-Day Extractions and Implants: When It's Possible — and When It Isn't"
-description: "Can failing teeth be removed and dental implants placed in a single visit? An honest look at what makes same-day (immediate) implants possible, when staged treatment is safer, and what to ask at your consultation."
+metaTitle: "Same-Day Tooth Extraction & Implant in Tempe: When It Works"
+description: "Can a tooth be pulled and an implant placed the same day? When same-day extraction and implant works, when staging is safer, and how to find out in Tempe."
+# `lede` keeps the visible intro line unchanged while the meta description targets search wording.
+lede: "Can failing teeth be removed and dental implants placed in a single visit? An honest look at what makes same-day (immediate) implants possible, when staged treatment is safer, and what to ask at your consultation."
 permalink: /blog/same-day-extractions-and-implants/
 date: 2026-08-18T10:00:00-07:00
-dateUpdated: 2026-08-18T10:00:00-07:00
+dateUpdated: 2026-10-07T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -83,3 +86,10 @@ Same-day extractions and implants are a real, well-established option — for th
 The best plan is not automatically the fastest one; it is the one your anatomy can support. A thorough consultation with 3D imaging is the only way to know which applies to you, and you should leave with a clear, written timeline either way.
 
 If you are weighing your options, we are glad to evaluate your case and give you an honest answer about what is possible in a single visit.
+
+## Same-Day Extraction and Implant Consultations in Tempe
+
+Dr. Matthew Phillips places and restores dental implants in-house at 3rd Set Smiles in Tempe, and same-day tooth extractions are available. At an implant consultation, an exam and a 3D (CBCT) scan show whether your tooth extraction and implant can happen the same day or whether a short healing phase first is the safer plan, and you leave with a clear timeline either way.
+<!-- TODO(mark): confirm Dr. Phillips offers immediate implant placement (implant placed at the extraction visit). If he only stages implants after healing, reword this section and the closing paragraph above. -->
+
+Learn more about [dental implants in Tempe](/services/dental-implants/), or [request an implant consultation online](/book/?appointmentType=implant-consult&source=implants). You can also call [{{ site.phone.display }}](tel:{{ site.phone.telShort }}).

@@ -44,17 +44,17 @@ test("pages.dev hosts are served with X-Robots-Tag: noindex; production and loca
 });
 
 const priorities = [
-  ["special-offers/index.html", "$49 New Patient Exam &amp; X-Rays – Tempe, AZ", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
-  ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ", "Emergency Dentist in", "/book/?appointmentType=emergency&amp;source=emergency"],
-  ["services/cosmetic-dentistry/index.html", "Cosmetic Dentist in Tempe, AZ", "Cosmetic Dentistry", "/book/?appointmentType=cosmetic-consult&amp;source=cosmetic"],
-  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ", "Dental Implants", "/book/?appointmentType=implant-consult&amp;source=implants"],
+  ["special-offers/index.html", "$49 New Patient Special in Tempe, AZ – Exam &amp; X-Rays", "$49 New Patient Dental", "/book/?appointmentType=new-patient&amp;source=new-patient-offer"],
+  ["services/emergency-dentistry/index.html", "Emergency Dentist in Tempe, AZ | 3rd Set Smiles", "Emergency Dentist in <span>Tempe, AZ</span>", "/book/?appointmentType=emergency&amp;source=emergency"],
+  ["services/cosmetic-dentistry/index.html", "Cosmetic Dentist in Tempe, AZ | 3rd Set Smiles", "Cosmetic Dentistry <span>in Tempe, AZ</span>", "/book/?appointmentType=cosmetic-consult&amp;source=cosmetic"],
+  ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ | 3rd Set Smiles", "Dental Implants <span>in Tempe, AZ</span>", "/book/?appointmentType=implant-consult&amp;source=implants"],
 ];
 
 test("priority pages have unique intent metadata, self-canonicals, one H1, and booking CTAs", () => {
   const titles = new Set();
   for (const [file, title, h1, booking] of priorities) {
     const html = page(file);
-    assert.ok(html.includes(`<title>${title} | 3rd Set Smiles</title>`));
+    assert.ok(html.includes(`<title>${title}</title>`), `${file} title`);
     assert.match(html, /<meta name="description" content="[^"]+">/);
     assert.equal((html.match(/<h1[ >]/g) || []).length, 1);
     assert.ok(html.includes(h1));
