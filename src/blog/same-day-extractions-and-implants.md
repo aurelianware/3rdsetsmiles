@@ -89,7 +89,7 @@ If you are weighing your options, we are glad to evaluate your case and give you
 
 ## Same-Day Extraction and Implant Consultations in Tempe
 
-Dr. Matthew Phillips places and restores dental implants in-house at 3rd Set Smiles in Tempe, and same-day tooth extractions are available. At an implant consultation, an exam and a 3D (CBCT) scan show whether your tooth extraction and implant can happen the same day or whether a short healing phase first is the safer plan, and you leave with a clear timeline either way.
-<!-- TODO(mark): confirm Dr. Phillips offers immediate implant placement (implant placed at the extraction visit). If he only stages implants after healing, reword this section and the closing paragraph above. -->
+Dr. Matthew Phillips places and restores dental implants in-house at 3rd Set Smiles in Tempe, and when a case allows, he can remove a tooth and place the implant in the same visit. Not every case qualifies: some need lab work, a healing phase, or other steps first. At an implant consultation, an exam and a 3D (CBCT) scan show whether your tooth extraction and implant can happen the same day or whether a staged plan is safer, and you leave with a clear timeline either way.
+<!-- Confirmed by Mark 2026-10-07: Dr. Phillips does same-visit extraction + implant placement depending on the case; some cases need lab work, healing, or other steps first. -->
 
 Learn more about [dental implants in Tempe](/services/dental-implants/), or [request an implant consultation online](/book/?appointmentType=implant-consult&source=implants). You can also call [{{ site.phone.display }}](tel:{{ site.phone.telShort }}).
