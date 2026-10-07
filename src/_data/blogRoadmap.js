@@ -80,7 +80,7 @@ module.exports = [
     patientQuestion: "How do I lower dry socket risk and what warning signs should I watch for?",
   },
   {
-    title: "Wisdom Teeth Removal in Tempe: Cost, Recovery, and When You Actually Need It",
+    title: "Wisdom Teeth Removal: What to Expect, Recovery, and When You Actually Need It",
     slug: "wisdom-teeth-removal",
     category: "extractions-oral-surgery",
     priority: "High",

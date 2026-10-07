@@ -44,6 +44,16 @@ layout: layouts/base.njk
   </div>
 </section>
 
+{# Emergency-only sticky mobile bar. Rendered here, outside the .fade-in
+   wrapper: that wrapper's opacity/transform would hide this position:fixed
+   bar and pin it to the wrapper until the visitor scrolled down to it. #}
+{% if emergencyMobileActions %}
+<nav class="emergency-mobile-actions" aria-label="Emergency dental actions">
+  <a href="tel:{{ site.phone.tel }}" data-action="call-emergency" aria-label="Call {{ site.name }} now">Call Now</a>
+  <a href="{{ resolvedBookingUrl }}" data-action="{{ resolvedBookingAction }}">Book Online</a>
+</nav>
+{% endif %}
+
 {% if faq %}
 <section class="section section-cream">
   <div class="container-narrow">

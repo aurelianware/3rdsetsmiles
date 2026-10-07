@@ -60,29 +60,74 @@ module.exports = function (eleventyConfig) {
     return out;
   });
 
-  // Sitemap <lastmod>: honest, stable per-file date from the last git commit
-  // that touched the source file (YYYY-MM-DD). File mtime is unreliable — a
-  // fresh CI clone stamps every file with the checkout time, so mtime-based
-  // lastmods flip to "build day" on each deploy and train Google to ignore the
-  // signal. The git commit date only moves when the page's content actually
-  // changes, which is exactly what lastmod should report. Falls back to the
-  // page's Eleventy date if git is unavailable or the file is uncommitted.
-  const gitDateCache = new Map();
-  eleventyConfig.addFilter("gitLastmod", function (inputPath, fallback) {
-    const fb = (fallback ? new Date(fallback) : new Date()).toISOString().slice(0, 10);
-    if (!inputPath) return fb;
-    if (gitDateCache.has(inputPath)) return gitDateCache.get(inputPath);
-    let out = fb;
+  // Sitemap <lastmod>: an honest per-page date, or none at all. Google ignores
+  // lastmod once it sees the same value repeated across a site, so a made-up
+  // date is worse than an omitted one. Order of preference:
+  //   1. `lastModified` front matter (any page) — an explicit editorial date.
+  //   2. `dateUpdated` front matter (blog posts) — the "Updated" date shown on
+  //      the page, so the sitemap and the visible byline agree.
+  //   3. The last git commit that touched the source file. File mtime is never
+  //      used: a fresh CI clone stamps every file with the checkout time.
+  // In a SHALLOW clone (Cloudflare Pages and many CIs clone shallow), every file
+  // older than the clone depth is attributed to the boundary commit, which
+  // stamps them all with that one date — the bug that made every URL report
+  // 2026-09-30. A date that resolves to a shallow-boundary commit is therefore
+  // treated as unknown and lastmod is omitted (returns "").
+  const toYmd = (v) => {
+    if (!v) return "";
+    if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0, 10);
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? "" : d.toISOString().slice(0, 10);
+  };
+  let shallowBoundaries;
+  const getShallowBoundaries = () => {
+    if (shallowBoundaries) return shallowBoundaries;
+    shallowBoundaries = new Set();
     try {
-      const d = execFileSync("git", ["log", "-1", "--format=%cs", "--", inputPath], {
-        encoding: "utf8",
-      }).trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) out = d;
+      const file = execFileSync("git", ["rev-parse", "--git-path", "shallow"], { encoding: "utf8" }).trim();
+      if (fs.existsSync(file)) {
+        fs.readFileSync(file, "utf8").split(/\s+/).filter(Boolean).forEach((h) => shallowBoundaries.add(h));
+      }
     } catch (e) {
-      // git unavailable (e.g. non-git build context) — keep the fallback.
+      // Not a git checkout — no boundaries to worry about.
+    }
+    return shallowBoundaries;
+  };
+  const gitDateCache = new Map();
+  const gitLastmod = (inputPath) => {
+    if (!inputPath) return "";
+    if (gitDateCache.has(inputPath)) return gitDateCache.get(inputPath);
+    let out = "";
+    try {
+      const [hash, d] = execFileSync("git", ["log", "-1", "--format=%H %cs", "--", inputPath], {
+        encoding: "utf8",
+      }).trim().split(" ");
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d || "") && !getShallowBoundaries().has(hash)) out = d;
+    } catch (e) {
+      // git unavailable (e.g. non-git build context) — no reliable date.
     }
     gitDateCache.set(inputPath, out);
     return out;
+  };
+  eleventyConfig.addFilter("sitemapLastmod", function (p) {
+    if (!p || !p.data) return "";
+    return toYmd(p.data.lastModified) || toYmd(p.data.dateUpdated) || gitLastmod(p.inputPath);
+  });
+
+  // Pages that must never appear in the sitemap even if someone forgets to set
+  // `noindex`: demo/test/preview/draft routes (e.g. the retired /hero-demo/
+  // pages, which now answer 410 from functions/_middleware.js).
+  const NON_PUBLIC_ROUTE = /^\/(?:hero-demo|demo|demos|test|tests|preview|previews|draft|drafts|staging)(?:[-/]|$)/i;
+  eleventyConfig.addFilter("sitemapPages", function (pages) {
+    return (pages || []).filter((p) =>
+      p.url &&
+      p.url !== "/404.html" &&
+      !NON_PUBLIC_ROUTE.test(p.url) &&
+      !p.data.noindex &&
+      !p.data.draft &&
+      !p.data.sitemapExclude &&
+      !p.data.eleventyExcludeFromCollections
+    );
   });
 
   eleventyConfig.addFilter("isoDateTime", function (value) {

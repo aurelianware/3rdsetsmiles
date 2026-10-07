@@ -54,6 +54,18 @@ production build:
 npx http-server _site -p 8000
 ```
 
+## Deploys (GitHub Actions)
+
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs the tests
+and the SEO audit on every pull request, and on every push to `main` it also
+deploys `_site/` (plus `functions/`) to Cloudflare Pages with
+`wrangler pages deploy`. It checks out full git history so the sitemap's
+`<lastmod>` dates are real. Deploying needs the repository secrets
+`CLOUDFLARE_API_TOKEN` (Cloudflare Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`;
+without them the deploy step is skipped. Once the workflow deploys, turn off
+automatic deployments in the Pages project's Git integration so the site isn't
+deployed twice.
+
 ## Cloudflare Pages settings
 
 The build output directory is set in [`wrangler.toml`](wrangler.toml)

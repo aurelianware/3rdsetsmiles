@@ -142,8 +142,8 @@ breadcrumb:
    alumniOf lists NYU College of Dentistry, his only degree (DDS 2004, confirmed
    by Mark 2026-09-30). His in-progress W. P. Carey (ASU) MBA is intentionally
    not listed; add it to the page and alumniOf/hasCredential once conferred.
-   TODO(mark): send Dr. Phillips' public Zocdoc provider profile URL (not the
-   booking link) to add as "sameAs". #}
+   sameAs lists his public profile pages from src/_data/authors.js (Zocdoc
+   provider profile; not the booking link). #}
 {% set drp = authors['dr-matthew-phillips'] %}
 <script type="application/ld+json">
 {{ {
@@ -166,6 +166,7 @@ breadcrumb:
   },
   "description": drp.profileSummary,
   "url": (site.domain + "/about/"),
+  "sameAs": drp.sameAs,
   "mainEntityOfPage": (page.url | absUrl(site.domain)),
   "image": (drp.image | absUrl(site.domain)),
   "worksFor": {

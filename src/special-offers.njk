@@ -1,12 +1,18 @@
 ---
 layout: layouts/base.njk
-# TODO(mark): confirm the $49 new-patient offer is still current and that it
-# includes exactly: comprehensive exam + oral-cancer screening + full-mouth
-# digital X-rays, for patients without insurance, with a standard cleaning as
-# a $50 add-on ($99 total). The title, description, page body and the
-# Dentist JSON-LD offer (src/_data/site.json -> newPatientOffer) all say this.
+# Confirmed by Mark 2026-10-07: the $49 new-patient offer is current and covers
+# the exam + X-rays; with a cleaning it is $99 total.
+# Confirmed by Cindy Phillips (office manager) via Mark 2026-10-07: the offer
+# is for patients WITHOUT insurance only (insured patients' exams are usually
+# covered by their plan, and billing insurance at this price isn't viable).
+# TODO(mark): confirm the exam includes an oral-cancer screening. The title,
+# description, page body and the Dentist JSON-LD offer
+# (src/_data/site.json -> newPatientOffer) all say it does.
 title: "$49 New Patient Exam & X-Rays – Tempe, AZ"
-description: "New patient without insurance? Get a comprehensive exam, oral-cancer screening and full-mouth X-rays for $49 in Tempe, AZ. Add a cleaning for $50. Book now."
+# Search title leads with the query Google already ranks this page for
+# ("$49 new patient special tempe"); the visible H1/breadcrumb are unchanged.
+metaTitle: "$49 New Patient Special in Tempe, AZ – Exam & X-Rays"
+description: "$49 new patient special in Tempe, AZ: comprehensive exam, oral-cancer screening and full-mouth X-rays for uninsured patients. Add a cleaning for $50."
 permalink: /special-offers/
 breadcrumb:
   - { label: "Home", url: "/" }

@@ -31,22 +31,37 @@ function lastmodFor(xml, urlPath) {
   return m[1];
 }
 
-function gitLastCommitDate(relFile) {
-  return execFileSync("git", ["log", "-1", "--format=%cs", "--", relFile], {
-    cwd: repoRoot,
-    encoding: "utf8",
-  }).trim();
+function lastmodOrNull(xml, urlPath) {
+  const block = xml
+    .split(/<url>/)
+    .find((b) => b.includes(`<loc>https://www.3rdsetsmiles.com${urlPath}</loc>`));
+  assert.ok(block, `sitemap has no <url> block for ${urlPath}`);
+  const m = block.match(/<lastmod>(.*?)<\/lastmod>/);
+  return m ? m[1] : null;
 }
 
-// Guards the sitemap <lastmod> fix: dates must come from each file's last git
-// commit, not filesystem mtime. mtime-based dates collapse to the build/deploy
-// day on a fresh CI checkout, which is the regression these tests catch.
-test("sitemap <lastmod> matches the source file's last git commit date", () => {
+const git = (...args) => execFileSync("git", args, { cwd: repoRoot, encoding: "utf8" }).trim();
+
+// The date the sitemap should report for a git-dated file, or null when the
+// file's last commit is a shallow-clone boundary (date unknowable, so the
+// sitemap must omit <lastmod> rather than repeat the boundary date).
+function gitLastCommitDate(relFile) {
+  const [hash, date] = git("log", "-1", "--format=%H %cs", "--", relFile).split(" ");
+  const shallowFile = path.resolve(repoRoot, git("rev-parse", "--git-path", "shallow"));
+  let boundaries = "";
+  try { boundaries = readFileSync(shallowFile, "utf8"); } catch (e) { /* full clone */ }
+  return boundaries.includes(hash) ? null : date;
+}
+
+// Guards the sitemap <lastmod> rules: an explicit front-matter date wins
+// (blog posts carry `dateUpdated`), otherwise the file's last git commit, never
+// filesystem mtime — mtime collapses to the build day on a fresh CI checkout.
+test("blog post <lastmod> is its dateUpdated front matter", () => {
   ensureBuild();
   const xml = readSitemap();
-  const expected = gitLastCommitDate("src/blog/all-on-4-candidacy.md");
-  assert.match(expected, /^\d{4}-\d{2}-\d{2}$/);
-  assert.equal(lastmodFor(xml, "/blog/all-on-4-candidacy/"), expected);
+  const src = readFileSync(path.join(repoRoot, "src/blog/all-on-4-candidacy.md"), "utf8");
+  const updated = src.match(/^dateUpdated: (\d{4}-\d{2}-\d{2})/m)[1];
+  assert.equal(lastmodFor(xml, "/blog/all-on-4-candidacy/"), updated);
 });
 
 test("sitemap <lastmod> values are not all the build date (mtime regression guard)", () => {
@@ -74,7 +89,7 @@ test("sitemap lists the Tempe dentures and dental-implants pages with git-based 
   const xml = readSitemap();
   for (const [url, file] of [["/services/dentures/", "src/services/dentures.njk"],
     ["/services/dental-implants/", "src/services/dental-implants.njk"]])
-    assert.equal(lastmodFor(xml, url), gitLastCommitDate(file), url);
+    assert.equal(lastmodOrNull(xml, url), gitLastCommitDate(file), url);
   assert.ok(!xml.includes("/review/"), "noindex /review/ is excluded");
   assert.ok(!xml.includes("404"), "404 page is excluded");
 });
@@ -89,4 +104,11 @@ test("robots.txt references the sitemap and blocks no assets or indexable pages"
     assert.ok(!"/assets/css/main.css".startsWith(rule) && !"/assets/js/main.js".startsWith(rule), `robots blocks assets: ${rule}`);
     for (const loc of locs) assert.ok(!loc.startsWith(rule), `robots blocks indexable ${loc}`);
   }
+});
+
+test("sitemap never lists demo, test or preview routes", () => {
+  ensureBuild();
+  const locs = [...readSitemap().matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+  for (const loc of locs)
+    assert.doesNotMatch(loc, /^\/(?:hero-demo|demos?|tests?|previews?|drafts?|staging)(?:[-/]|$)/i, loc);
 });
