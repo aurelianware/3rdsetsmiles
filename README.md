@@ -273,8 +273,9 @@ this build do not (and cannot) do them:
    apex host, HTTP requests, and slashless page routes directly to their final
    `https://www.3rdsetsmiles.com/path/` URL while preserving the query string.
    Keep both the apex and `www` custom domains attached to the Pages project so
-   requests reach that middleware; an equivalent zone rule may remain as
-   defense in depth, but must target the same final URL to avoid a chain.
+   requests reach that middleware. Do not add a zone-level apex → www Redirect
+   Rule: it runs first and adds a hop (the old **ApaxRedirect** rule is
+   disabled for this reason; see DNS-CUTOVER.md, Step 3).
 3. **Google Business Profile:** confirm phone is **(480) 334-2752**, remove any
    "VA Community Care Provider" or veteran-specific language, confirm hours
    Mon–Fri 10am–6pm (matching `src/_data/site.json`).

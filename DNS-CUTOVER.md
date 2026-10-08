@@ -116,12 +116,24 @@ in the Cloudflare dashboard for the `3rdsetsmiles.com` zone:
      → Dynamic 301 `concat("https://www.3rdsetsmiles.com", http.request.uri.path)`, preserve query string.
    - When `http.host eq "3rdsetsmiles.com"`
      → Dynamic 301 `concat("https://www.3rdsetsmiles.com", http.request.uri.path, "/")`, preserve query string.
-4. **SSL/TLS → Edge Certificates → Always Use HTTPS** can stay on. It adds one
-   hop only for `http://` requests, and HSTS (`src/_headers`) removes that hop
-   for returning browsers.
+4. **SSL/TLS → Edge Certificates → Always Use HTTPS:** leave it on. Turning it
+   off does not remove the `http://` hop: Cloudflare Pages upgrades http to
+   https on custom domains itself, before the middleware runs (verified
+   2026-10-08). HSTS (`src/_headers`) removes that hop for returning browsers.
 
 Re-run `sh scripts/verify-domain.sh` afterwards. `curl -sIL http://3rdsetsmiles.com/special-offers`
-should show at most two 301s (Always Use HTTPS, then one to the final URL).
+should show at most two 301s (http→https, then one to the final URL).
+
+**Resolved 2026-10-08.** The zone Redirect Rule **ApaxRedirect**
+(`https://3rdsetsmiles.com/*` → www, no slash) was the pre-empting rule. It is
+now **disabled** (kept, not deleted). Both custom domains are attached to the
+Pages project, and live checks confirm:
+- every `https://` apex, no-slash or query-string URL reaches its final
+  `https://www.3rdsetsmiles.com/…/` URL in **one** 301, query preserved;
+- `http://` apex URLs take two (Pages' https upgrade, then the middleware);
+- `/hero-demo/*` answers 410 on both hosts.
+
+Do not re-enable ApaxRedirect; it brings the double hop back.
 
 The production alias `3rdsetsmiles.pages.dev` and branch previews also serve the
 full site. The middleware adds `X-Robots-Tag: noindex` on any `*.pages.dev`
