@@ -54,6 +54,18 @@ production build:
 npx http-server _site -p 8000
 ```
 
+## Deploys (GitHub Actions)
+
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs the tests
+and the SEO audit on every pull request, and on every push to `main` it also
+deploys `_site/` (plus `functions/`) to Cloudflare Pages with
+`wrangler pages deploy`. It checks out full git history so the sitemap's
+`<lastmod>` dates are real. Deploying needs the repository secrets
+`CLOUDFLARE_API_TOKEN` (Cloudflare Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`;
+without them the deploy step is skipped. Once the workflow deploys, turn off
+automatic deployments in the Pages project's Git integration so the site isn't
+deployed twice.
+
 ## Cloudflare Pages settings
 
 The build output directory is set in [`wrangler.toml`](wrangler.toml)
@@ -237,11 +249,11 @@ Office outage after step 4 still can't break the page — see **Resilience** abo
 
 ## DNS cutover (pointing the real domain at this site)
 
-The domain `3rdsetsmiles.com` currently resolves to the **old Vercel** site.
-To bring this Cloudflare Pages build online at the real domain, follow
-[`DNS-CUTOVER.md`](DNS-CUTOVER.md) — it inventories the live GoDaddy zone
-(including the email records that must be preserved) and gives the exact
-step-by-step. After each stage, check progress with:
+The cutover is done: `3rdsetsmiles.com` and `www.3rdsetsmiles.com` are served
+by this Cloudflare Pages project (both attached as custom domains; verified
+2026-10-08). [`DNS-CUTOVER.md`](DNS-CUTOVER.md) keeps the zone inventory
+(including the email records that must be preserved), the step-by-step that was
+followed, and the current redirect setup. Re-verify the domain at any time with:
 
 ```bash
 npm run verify:domain   # scripts/verify-domain.sh
@@ -257,12 +269,16 @@ this build do not (and cannot) do them:
    `404.html`, Cloudflare should return a true 404 for unknown paths. Verify
    after deploy by visiting a fake URL such as
    `https://www.3rdsetsmiles.com/does-not-exist` and confirming a 404 status.
-2. **Canonical redirect verification:** root Pages middleware now redirects the
-   apex host, HTTP requests, and slashless page routes directly to their final
-   `https://www.3rdsetsmiles.com/path/` URL while preserving the query string.
+2. **Canonical redirect verification:** root Pages middleware redirects the
+   apex host and slashless page routes to their final
+   `https://www.3rdsetsmiles.com/path/` URL in a single 301, preserving the query
+   string. `http://` requests take one extra hop first: Cloudflare Pages
+   upgrades http to https itself before the middleware runs, so leave
+   **Always Use HTTPS** on.
    Keep both the apex and `www` custom domains attached to the Pages project so
-   requests reach that middleware; an equivalent zone rule may remain as
-   defense in depth, but must target the same final URL to avoid a chain.
+   requests reach that middleware. Do not add a zone-level apex → www Redirect
+   Rule: it runs first and adds a hop (the old **ApaxRedirect** rule is
+   disabled for this reason; see DNS-CUTOVER.md, Step 3).
 3. **Google Business Profile:** confirm phone is **(480) 334-2752**, remove any
    "VA Community Care Provider" or veteran-specific language, confirm hours
    Mon–Fri 10am–6pm (matching `src/_data/site.json`).

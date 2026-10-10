@@ -1,7 +1,10 @@
 ---
 layout: layouts/blog-post.njk
 title: "Dental Infection and Facial Swelling: Red Flags You Shouldn't Ignore"
-description: "How to tell a manageable dental infection from a dangerous one. The facial-swelling warning signs that mean you need urgent medical care now, and what to do while you get it."
+metaTitle: "Tooth Infection & Facial Swelling: When It's an Emergency"
+description: "Facial swelling from a tooth infection? The signs that mean ER now, like trouble breathing or swelling near the eye or neck, and what to do next."
+# `lede` keeps the visible intro line unchanged while the meta description is search-length.
+lede: "How to tell a manageable dental infection from a dangerous one. The facial-swelling warning signs that mean you need urgent medical care now, and what to do while you get it."
 permalink: /blog/dental-infections-and-swelling/
 date: 2026-08-18T11:30:00-07:00
 dateUpdated: 2026-08-18T11:30:00-07:00

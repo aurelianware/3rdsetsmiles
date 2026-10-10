@@ -1,10 +1,11 @@
 ---
 layout: layouts/blog-post.njk
-title: "Wisdom Teeth Removal in Tempe: Cost, Recovery, and When You Actually Need It"
-description: "A calm, practical guide to wisdom teeth removal in Tempe, AZ — how to tell if yours need to come out, what recovery really looks like, sedation options, and how students plan it around school."
+title: "Wisdom Teeth Removal: What to Expect, Recovery, and When You Actually Need It"
+metaTitle: "Wisdom Teeth Removal Recovery & What to Expect | Tempe Guide"
+description: "What to expect from wisdom teeth removal: signs they need to come out, simple vs. surgical removal, sedation, and a realistic recovery timeline."
 permalink: /blog/wisdom-teeth-removal/
 date: 2026-08-23T09:00:00-07:00
-dateUpdated: 2026-08-23T09:00:00-07:00
+dateUpdated: 2026-10-07T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -19,7 +20,7 @@ tags:
 breadcrumb:
   - { label: "Home", url: "/" }
   - { label: "Blog", url: "/blog/" }
-  - { label: "Wisdom Teeth Removal in Tempe", url: "/blog/wisdom-teeth-removal/" }
+  - { label: "Wisdom Teeth Removal: What to Expect", url: "/blog/wisdom-teeth-removal/" }
 relatedServiceLinks:
   - { label: "Wisdom teeth removal in Tempe", url: "/services/wisdom-teeth-removal/" }
   - { label: "Tooth extractions", url: "/services/tooth-extractions/" }
@@ -93,4 +94,4 @@ Price depends on how many teeth are involved and whether the removals are simple
 
 Not every wisdom tooth has to go — but when one is impacted, crowding its neighbor, or causing repeat infections, removing it is a routine, well-tolerated procedure that's far easier with a little planning. If yours are acting up, or you just want to know where you stand, we're glad to take a look, show you the X-ray, and explain exactly what (if anything) yours need.
 
-Booking a consult is the simplest next step — we'll give you a clear picture and a straightforward plan.
+Booking a consult is the simplest next step — we'll give you a clear picture and a straightforward plan. For details on our consultations, pricing, and scheduling, see [wisdom teeth removal in Tempe](/services/wisdom-teeth-removal/).

@@ -4,6 +4,8 @@ title: "Emergency Dentist"
 description: "Tooth pain, a broken tooth or swelling? Get urgent dental care in Tempe, AZ, with same-day visits when available. Call us or check open times online."
 permalink: /services/emergency-dentistry/
 callFirst: true
+# Renders the sticky mobile Call Now / Book Online bar (see service.njk).
+emergencyMobileActions: true
 bookingUrl: "/book/?appointmentType=emergency&source=emergency"
 bookingCta: "Check Emergency Appointment Times"
 bookingAction: "emergency-booking"
@@ -12,8 +14,8 @@ serviceMeta:
   category: "specialized"
   order: 72
   shortBlurb: "Urgent care for tooth pain, broken teeth, and dental injuries."
-heroHeadline: 'Emergency Dentist in <span>Tempe, Arizona</span>'
-heroSub: "Tooth pain doesn't wait. Call us and we'll offer the earliest available urgent visit."
+heroHeadline: 'Emergency Dentist in <span>Tempe, AZ</span>'
+heroSub: "Tooth pain doesn't wait. Call our Tempe office and we'll offer the earliest available urgent visit."
 faq:
   - q: "What counts as a dental emergency?"
     a: "Anything that's bleeding, badly broken, knocked out, or causing significant pain. Also: swelling in your face or jaw, which can be a sign of infection that needs to be treated quickly."
@@ -26,7 +28,7 @@ faq:
   - q: "How much is an emergency dental visit without insurance?"
     a: "Our $59 emergency visit covers a focused exam and the X-ray we need to diagnose the problem. Any treatment is quoted separately before we start, and financing is available."
   - q: "Do you see emergency patients from Mesa, Chandler or Scottsdale?"
-    a: "Yes. Our office at 2600 E Southern Ave in Tempe is a short drive from Mesa, Chandler, Scottsdale, Gilbert and Ahwatukee, and we see urgent patients from across the East Valley."
+    a: "Yes. Our office at 2600 E Southern Ave in Tempe is a short drive from Mesa, Chandler, Scottsdale, Gilbert and Ahwatukee, and we welcome urgent patients from across the East Valley."
 ---
 
 <h2>Call us first</h2>
@@ -63,8 +65,3 @@ faq:
 
 <h2>An emergency dentist near Mesa, Chandler and Scottsdale</h2>
 <p>Our office on E Southern Ave in Tempe is a short drive for urgent dental care from Mesa, Chandler, Scottsdale, Gilbert, Ahwatukee and Phoenix. Call ahead so we can have a chair ready when you arrive.</p>
-
-<nav class="emergency-mobile-actions" aria-label="Emergency dental actions">
-  <a href="tel:{{ site.phone.tel }}" data-action="call-emergency" aria-label="Call 3rd Set Smiles now">Call Now</a>
-  <a href="/book/?appointmentType=emergency&amp;source=emergency" data-action="emergency-booking">Book Online</a>
-</nav>

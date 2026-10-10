@@ -2,16 +2,20 @@
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
+{#- `sitemapPages` drops noindex, draft, 404 and demo/test/preview routes;
+    `sitemapLastmod` returns a real per-page date or "" (lastmod omitted
+    rather than faked). Both live in .eleventy.js. -#}
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{%- for p in collections.all %}
-  {%- if p.url and not p.data.noindex and not p.data.eleventyExcludeFromCollections and p.url != '/404.html' %}
+{%- for p in collections.all | sitemapPages %}
+  {%- set lastmod = p | sitemapLastmod %}
   <url>
     <loc>{{ site.domain }}{{ p.url }}</loc>
-    <lastmod>{{ p.inputPath | gitLastmod(p.date) }}</lastmod>
+    {%- if lastmod %}
+    <lastmod>{{ lastmod }}</lastmod>
+    {%- endif %}
     <changefreq>{% if p.url == '/' %}weekly{% else %}monthly{% endif %}</changefreq>
     <priority>{% if p.url == '/' %}1.0{% elif p.url.startsWith('/services/') %}0.8{% else %}0.6{% endif %}</priority>
   </url>
-  {%- endif %}
 {%- endfor %}
 </urlset>

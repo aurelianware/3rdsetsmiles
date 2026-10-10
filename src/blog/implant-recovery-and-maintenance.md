@@ -1,13 +1,13 @@
 ---
 layout: layouts/blog-post.njk
 title: "Dental Implant Recovery Timeline and Long-Term Maintenance"
-metaTitle: "Dental Implant Recovery & Maintenance | Tempe Implant Dentist"
-description: "Week-by-week implant recovery and a long-term care routine from Tempe implant dentist Dr. Matthew Phillips. Due for an implant checkup? Book online."
+metaTitle: "Dental Implant Maintenance Routine & Week-by-Week Recovery | Tempe"
+description: "Your dental implant maintenance routine: daily cleaning plus abutment, bone and bite checks at recall visits, and week-by-week recovery. Tempe implant care."
 # `lede` keeps the visible intro line unchanged while the meta description targets local intent.
 lede: "What healing after dental implant surgery actually looks like week by week, plus how to care for and maintain implants long term so they last for decades."
 permalink: /blog/implant-recovery-and-maintenance/
 date: 2026-08-18T10:30:00-07:00
-dateUpdated: 2026-09-30T09:00:00-07:00
+dateUpdated: 2026-10-07T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -69,7 +69,7 @@ Contact your dentist if you notice:
 
 Most of these are uncommon, but catching them early is always easier than waiting.
 
-## Long-Term Maintenance: What Keeps Implants Lasting
+## Your Implant Maintenance Routine
 
 Implants do not get cavities, but the **gum and bone around them** can still develop disease (peri-implantitis) if plaque is allowed to build up. Long-term success comes down to a few consistent habits:
 
@@ -79,6 +79,17 @@ Implants do not get cavities, but the **gum and bone around them** can still dev
 - **Don't skip the recall schedule.** Small issues caught early are simple to manage.
 
 With good hygiene and routine care, dental implants can last many years — often decades.
+
+## What Gets Checked at Implant Recall Visits
+
+Your at-home routine is half of implant maintenance; the other half happens at your regular check-ups. Your dentist or hygienist will typically look at:
+
+- **The gums and bone around the implant.** The tissue is checked for bleeding, swelling, or deepening pockets — early signs of inflammation that are much easier to treat when caught early. X-rays taken at intervals your dentist recommends show the bone level around the implant over time: stable levels are reassuring, while bone loss can be an early sign of a problem. X-rays can't show the bond between bone and implant (**osseointegration**) directly, so your dentist pairs them with an exam that includes checking the implant itself is stable.
+- **The abutment and restoration.** The abutment is the connector between the implant and your crown, bridge, or full-arch teeth. It is checked for any looseness or movement, and the crown or prosthesis is checked for chips, wear, or a loose screw. A loose abutment is usually simple to address when found early.
+- **Your bite.** Implants do not have the slight cushioning that natural teeth do, so your dentist checks how your teeth meet. Bite changes, new crowns elsewhere, or grinding can concentrate force on an implant, and small adjustments — or a night guard — help protect it.
+- **Professional cleaning.** Plaque and tartar around implants are removed with instruments chosen to avoid scratching the implant or restoration. Full-arch prostheses may occasionally need to be removed by the dentist for a more thorough cleaning.
+
+How often you are seen depends on your gum health and the type of restoration you have; your dentist will recommend the right interval for you.
 
 ## Bottom Line
 
