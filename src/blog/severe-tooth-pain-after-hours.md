@@ -1,7 +1,7 @@
 ---
 layout: layouts/blog-post.njk
 title: "Severe Tooth Pain After Hours: What to Do First"
-description: "Practical, safe steps for managing severe tooth pain at night or on the weekend until you can be seen — what helps, what to avoid, and the warning signs that mean you shouldn't wait."
+description: "Severe tooth pain at night or on a weekend? Safe steps to ease it until you're seen, what to avoid, and the warning signs that mean you shouldn't wait."
 permalink: /blog/severe-tooth-pain-after-hours/
 date: 2026-08-18T11:00:00-07:00
 dateUpdated: 2026-08-18T11:00:00-07:00
