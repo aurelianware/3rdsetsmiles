@@ -69,7 +69,7 @@ The sooner the tooth is back in place, the better the chance of saving it.
 
 ## Managing Pain Until You Are Seen
 
-While you arrange care, general comfort measures include over-the-counter pain relief used as directed on the label, a cold compress on the outside of the cheek for swelling, and avoiding very hot, cold, or hard foods on that side. Do not place aspirin directly on the gum, and do not ignore swelling that is getting worse.
+While you arrange care, general comfort measures include over-the-counter pain relief used as directed on the label, a cold compress on the outside of the cheek for swelling, and avoiding very hot, cold, or hard foods on that side. Do not place aspirin directly on the gum, and do not ignore swelling that is getting worse. For step-by-step comfort measures at night or on a weekend, see [what to do for severe tooth pain after hours](/blog/severe-tooth-pain-after-hours/).
 
 This is general guidance, not a prescription — follow the label and your own medical circumstances, and ask a professional if you are unsure.
 

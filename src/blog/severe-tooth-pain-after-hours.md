@@ -1,10 +1,12 @@
 ---
 layout: layouts/blog-post.njk
 title: "Severe Tooth Pain After Hours: What to Do First"
+# Search title matches how people search ("toothache after hours"); avg position ~9 (GSC, Sep–Oct 2026).
+metaTitle: "Toothache After Hours? What to Do First | Tempe Dentist"
 description: "Severe tooth pain at night or on a weekend? Safe steps to ease it until you're seen, what to avoid, and the warning signs that mean you shouldn't wait."
 permalink: /blog/severe-tooth-pain-after-hours/
 date: 2026-08-18T11:00:00-07:00
-dateUpdated: 2026-08-18T11:00:00-07:00
+dateUpdated: 2026-10-16T12:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -29,6 +31,9 @@ Severe tooth pain almost always seems to arrive at the worst time — late at ni
 
 This is general comfort guidance, not a prescription. Always follow medication labels and your own medical circumstances, and call a professional if you are unsure.
 
+**In the Tempe area?** You don't have to wait for office hours to reach us. Call or text [{{ site.phone.display }}](tel:{{ site.phone.telShort }}), or email [{{ site.email }}](mailto:{{ site.email }}), as early as you can. Dr. Phillips can usually see urgent patients quickly, and same-day extractions are available when a tooth can't be saved.
+<!-- After-hours contact wording mirrors the emergency dentistry page (confirmed by Mark 2026-09-30). -->
+
 ## First, Rule Out an Emergency
 
 Before focusing on comfort, check for red flags that need urgent medical care rather than a wait-and-see approach:
@@ -39,7 +44,7 @@ Before focusing on comfort, check for red flags that need urgent medical care ra
 
 If any of these are present, go to the nearest emergency room or call 911. Otherwise, the steps below can help you get through until a dental visit.
 
-## Steps That Usually Help
+## What to Do for Tooth Pain After Hours
 
 **1. Rinse gently with warm salt water.** A teaspoon of salt in a cup of warm water, swished and spit, can soothe irritated tissue and dislodge trapped debris.
 
@@ -64,12 +69,12 @@ If any of these are present, go to the nearest emergency room or call 911. Other
 
 Severe, lingering tooth pain often signals an infection or an inflamed nerve that will not resolve on its own. Home measures buy comfort and time — they do not treat the cause. The sooner you are evaluated, the more options you usually have, and the lower the chance of the problem spreading.
 
-## When Morning Comes
+## Getting Seen
 
-Call a dentist as early as you can. Describe your symptoms honestly — when the pain started, what makes it better or worse, and any swelling — so the office can prioritize you appropriately. Many practices, including ours, keep time open for urgent problems.
+Contact a dentist as early as you can — some offices, including ours, can be reached by phone or text outside office hours. Describe your symptoms honestly — when the pain started, what makes it better or worse, and any swelling — so the office can prioritize you appropriately. Many practices, including ours, keep time open for urgent problems.
 
 ## Bottom Line
 
 For after-hours tooth pain without emergency red flags: rinse with salt water, use OTC pain relief per the label, apply cold to the cheek, elevate your head, and avoid the things that make it worse. Then get seen promptly. If swelling threatens breathing or swallowing, or you have a high fever, treat it as a medical emergency and go to the ER.
 
-If you're in the Tempe area, [reach out to us](/services/emergency-dentistry/) as soon as we're open — we'll help you get relief and address the underlying cause.
+If you're in the Tempe area, call or text [{{ site.phone.display }}](tel:{{ site.phone.telShort }}) — even after hours — and we'll help you get relief and address the underlying cause. See our [emergency dentistry](/services/emergency-dentistry/) page for what we treat.

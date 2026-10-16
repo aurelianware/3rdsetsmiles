@@ -68,6 +68,8 @@ While you arrange care for a non-emergency infection:
 - **Do not** try to pop or squeeze a gum boil, and **do not** place aspirin on the gum.
 - **Do not** start leftover antibiotics on your own; the right treatment depends on the diagnosis, and antibiotics alone rarely resolve a dental abscess without treating the tooth.
 
+If the pain is keeping you up at night, our guide to [severe tooth pain after hours](/blog/severe-tooth-pain-after-hours/) covers more ways to stay comfortable until you're seen.
+
 ## The Real Fix Is Treating the Source
 
 Antibiotics may be part of care, but they manage the infection temporarily — they don't cure the cause. Lasting resolution usually means treating the tooth itself: a root canal to save it, or an extraction if it can't be saved, plus drainage of the abscess. That's why prompt dental evaluation matters even when medication brings short-term relief.

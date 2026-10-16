@@ -21,7 +21,7 @@ const bodyWords = (html) => {
 };
 
 const PAGES = [
-  ["services/dentures/index.html", "Dentures in Tempe, AZ | 3rd Set Smiles", /<h1>Dentures in <span>Tempe, AZ<\/span><\/h1>/],
+  ["services/dentures/index.html", "Dentures &amp; Partial Dentures in Tempe, AZ | 3rd Set Smiles", /<h1>Dentures in <span>Tempe, AZ<\/span><\/h1>/],
   ["services/dental-implants/index.html", "Dental Implants in Tempe, AZ | 3rd Set Smiles", /<h1>Dental Implants <span>in Tempe, AZ<\/span><\/h1>/],
 ];
 
