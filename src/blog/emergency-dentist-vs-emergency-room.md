@@ -1,7 +1,9 @@
 ---
 layout: layouts/blog-post.njk
 title: "Emergency Dentist vs. Emergency Room: Where Should You Go?"
-description: "A clear guide to deciding between an emergency dentist and the ER for dental pain, swelling, broken teeth, and injuries — including the red-flag symptoms that mean you should seek emergency medical care now."
+# Full title (75 chars) truncates in results; shorter search title keeps the question.
+metaTitle: "Emergency Dentist vs. ER: Where Should You Go? | Tempe, AZ"
+description: "Dental pain, swelling, a broken or knocked-out tooth: when to see an emergency dentist and the red-flag symptoms that mean go to the ER now."
 permalink: /blog/emergency-dentist-vs-emergency-room/
 date: 2026-08-18T09:30:00-07:00
 dateUpdated: 2026-08-18T09:30:00-07:00

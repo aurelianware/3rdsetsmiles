@@ -1,6 +1,8 @@
 ---
 layout: layouts/blog-post.njk
 title: "Am I a Candidate for All-on-4? What a Tempe Implant Consultation Should Clarify"
+# The full title (96 chars) truncates in results; keep the question intact.
+metaTitle: "Am I a Candidate for All-on-4? What Decides It | Tempe, AZ"
 description: "A patient-first guide to All-on-4 candidacy: bone support, health factors, treatment goals, and what to ask during a full-arch consultation in Arizona."
 permalink: /blog/all-on-4-candidacy/
 date: 2026-08-10T09:00:00-07:00

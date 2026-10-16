@@ -51,11 +51,11 @@ test("uses the current office number and never the retired one", () => {
 // ── SEO metadata ──
 test("has unique title, meta description, canonical, and OpenGraph", () => {
   const html = np();
-  assert.ok(html.includes("<title>New Patients Welcome — Dentist in Tempe, AZ | 3rd Set Smiles</title>"));
+  assert.ok(html.includes("<title>Dentist Accepting New Patients in Tempe, AZ | 3rd Set Smiles</title>"));
   assert.match(html, /<meta name="description" content="Accepting new dental patients in Tempe[^"]+">/);
   assert.ok(html.includes('<link rel="canonical" href="https://www.3rdsetsmiles.com/new-patients/">'));
   assert.ok(html.includes('<meta property="og:url" content="https://www.3rdsetsmiles.com/new-patients/">'));
-  assert.match(html, /<meta property="og:title" content="New Patients Welcome[^"]+">/);
+  assert.match(html, /<meta property="og:title" content="Dentist Accepting New Patients in Tempe[^"]+">/);
 });
 
 // ── Structured data: FAQPage from the existing base.njk architecture ──
