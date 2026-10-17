@@ -953,3 +953,9 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
 .team-card h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
 .team-card .team-role { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; }
 .team-card p { font-size: 0.95rem; }
+
+/* Full-mouth price table (partials/full-mouth-pricing.njk) */
+.price-table-wrap { margin: 18px 0 8px; }
+.price-table { min-width: 0; }
+.price-table caption { text-align: left; padding: 12px 14px 0; font-weight: 600; color: var(--navy); }
+.price-table .price-cell { white-space: nowrap; font-weight: 700; color: var(--navy); }

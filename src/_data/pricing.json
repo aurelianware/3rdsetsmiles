@@ -1,0 +1,34 @@
+{
+  "comment": "Full-mouth (upper AND lower) package prices from Dr. Matthew Phillips, relayed by Mark 2026-10-17. Every package includes all extractions and IV sedation. Per-arch prices are not published yet. Change prices here only; every page reads this file.",
+  "includesAll": "all extractions and IV sedation",
+  "fullMouth": [
+    {
+      "id": "immediate-dentures",
+      "name": "Immediate dentures (no implants)",
+      "detail": "Upper and lower dentures placed the same day your teeth are removed. Includes 2 in-office relines (1 soft, 1 hard).",
+      "price": 9999,
+      "url": "/services/dentures/"
+    },
+    {
+      "id": "snap-in-lower",
+      "name": "Snap-in lower denture on 2 implants",
+      "detail": "A regular upper denture plus a lower denture that snaps onto 2 implants.",
+      "price": 12000,
+      "url": "/services/implant-supported-dentures/"
+    },
+    {
+      "id": "snap-in-both",
+      "name": "Snap-in upper and lower dentures (4 implants each)",
+      "detail": "Removable upper and lower dentures that each snap onto 4 implants.",
+      "price": 18000,
+      "url": "/services/implant-supported-dentures/"
+    },
+    {
+      "id": "all-on-4",
+      "name": "All-on-4 fixed teeth, upper and lower",
+      "detail": "Fixed full-arch teeth on implants that only the dentist removes.",
+      "price": 35000,
+      "url": "/services/all-on-4/"
+    }
+  ]
+}

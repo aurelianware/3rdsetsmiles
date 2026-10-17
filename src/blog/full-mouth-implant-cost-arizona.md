@@ -4,7 +4,7 @@ title: "Full-Mouth Implant Cost in Arizona: What Actually Changes the Price"
 description: "Why full-arch and full-mouth dental implant quotes vary so much in Arizona — the surgical, material, and planning factors that move the price, and how to compare estimates fairly."
 permalink: /blog/full-mouth-implant-cost-arizona/
 date: 2026-08-18T09:00:00-07:00
-dateUpdated: 2026-08-18T09:00:00-07:00
+dateUpdated: 2026-10-17T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -78,6 +78,12 @@ If two estimates differ, the answer is almost always in this list.
 Most dental insurance was not designed around full-arch implant treatment, though some plans contribute toward extractions, a portion of the prosthesis, or a standard denture benefit. It is worth verifying your specific benefits rather than assuming.
 
 For the balance, options such as third-party financing (for example, Cherry) or phased treatment can make care more manageable. See our [insurance & financing page](/insurance-financing/) for how we approach this, and ask any office to show you the total investment across all phases — not just the first payment.
+
+## What Full-Mouth Treatment Costs at 3rd Set Smiles
+
+To make comparing easier, here are our typical prices for full-mouth treatment in Tempe. Each covers both the upper and lower arches and includes all extractions and IV sedation, two of the items most often billed separately elsewhere.
+
+{% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %}
 
 ## Questions Worth Asking Before You Decide on Price
 
