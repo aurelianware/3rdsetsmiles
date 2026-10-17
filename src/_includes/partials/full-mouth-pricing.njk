@@ -1,0 +1,17 @@
+{#- Full-mouth package prices. Data lives in src/_data/pricing.json.
+    Usage: {% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %} -#}
+<div class="roadmap-table-wrap price-table-wrap">
+<table class="roadmap-table price-table">
+  <caption>Full-mouth prices: upper and lower arches, {{ pricing.includesAll }} included</caption>
+  <thead><tr><th scope="col">Option</th><th scope="col">Price (both arches)</th></tr></thead>
+  <tbody>
+  {%- for p in pricing.fullMouth %}
+    <tr>
+      <td><strong>{% if priceLinks and p.url != page.url %}<a href="{{ p.url }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</strong><br>{{ p.detail }}</td>
+      <td class="price-cell">${{ p.price | priceFormat }}</td>
+    </tr>
+  {%- endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted">Your exact price is confirmed in a written quote after your exam. Prices are subject to change.</p>

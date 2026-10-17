@@ -1,7 +1,7 @@
 ---
 layout: layouts/service.njk
 title: "Full-Arch Dental Implants"
-description: "Replace a full arch of failing or missing teeth with All-on-4 / All-on-X implants in Tempe, AZ. See if you're a candidate and book a free implant consult."
+description: "All-on-4 fixed teeth in Tempe, AZ: $35,000 for upper and lower, including all extractions and IV sedation. See if you're a candidate at a free consult."
 permalink: /services/all-on-4/
 bookingUrl: "/book/?appointmentType=implant-consult&source=all-on-4"
 bookingCta: "Request a Full-Arch Consultation"
@@ -32,7 +32,7 @@ faq:
   - q: "Are full-arch implants removable?"
     a: "A fixed full-arch restoration is removed only by the dental team for service when needed. An implant-supported overdenture is removed by the patient for daily cleaning. Your consultation should explain which design is being discussed."
   - q: "How much does full-arch treatment cost?"
-    a: "There is no single accurate price without a treatment plan. Cost varies with the number of arches and implants, extractions or grafting, sedation, provisional and final restoration design, materials, and individual treatment needs. Written options are reviewed at the consultation."
+    a: "Our typical price for All-on-4 fixed teeth on both upper and lower arches is $35,000, including all extractions and IV sedation. Your exact price comes from a written treatment plan after your consultation and 3D scan, and can change with grafting, staged treatment or restoration materials."
   - q: "Does dental insurance cover implants?"
     a: "Coverage varies by plan. Some benefits may apply to parts of treatment, while others may not. The practice can help review available benefits, but coverage is not guaranteed."
   - q: "How do I start?"
@@ -91,12 +91,14 @@ faq:
 </div>
 
 <h2>How much do full-arch dental implants cost?</h2>
-<p>A responsible estimate starts with a defined treatment plan. Cost may change based on:</p>
+<p>Our typical price for All-on-4 fixed teeth on both upper and lower arches is <strong>${{ pricing.fullMouth[3].price | priceFormat }}</strong>, including all extractions and IV sedation. Here is how it compares with our other full-mouth options:</p>
+{% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %}
+<p>Your exact price comes from a written treatment plan. It can change based on:</p>
 <ul class="checklist">
   <li>One arch or both upper and lower arches</li>
   <li>The planned number and type of implants</li>
-  <li>Extractions, bone grafting, or staged treatment</li>
-  <li>Imaging, sedation, and surgical complexity</li>
+  <li>Bone grafting or staged treatment</li>
+  <li>Surgical complexity</li>
   <li>Provisional and final restoration design and materials</li>
   <li>Individual maintenance and follow-up needs</li>
 </ul>

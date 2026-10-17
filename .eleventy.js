@@ -160,6 +160,11 @@ module.exports = function (eleventyConfig) {
     return months[d.getMonth()] + " " + d.getFullYear();
   });
 
+  // 9999 -> "9,999" for published prices (src/_data/pricing.json).
+  eleventyConfig.addFilter("priceFormat", function (value) {
+    return Number(value).toLocaleString("en-US");
+  });
+
   eleventyConfig.addFilter("humanDate", function (value) {
     const d = value ? new Date(value) : new Date();
     return d.toLocaleDateString("en-US", {
