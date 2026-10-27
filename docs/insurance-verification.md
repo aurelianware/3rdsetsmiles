@@ -74,6 +74,18 @@ The handler sets `status: "Received"`. A future eligibility service advances it:
 | `AdditionalInformationNeeded` | Missing/mismatched details; staff follow up. |
 | `UnableToVerify` | Could not verify automatically; staff handle manually. |
 
+## Cloud Dental Office
+
+When `CLOUDDENTAL_API_BASE` and `CLOUDDENTAL_API_KEY` are set (the same values the
+`/book` form uses), the handler posts the request to Cloud Dental Office's IntakeService
+at `CLOUDDENTAL_INSURANCE_CHECK_PATH` (default `/api/public/insurance-checks`) with the
+request ID as `Idempotency-Key`. Staff see it on **Insurance to Verify → From the website**,
+match the visitor to a patient and email them a secure link that collects the member ID
+and plan holder. Coverage is then checked with the payer in Cloud Dental Office; the
+website still never shows a coverage result. If Cloud Dental Office doesn't accept the
+request, the handler falls through to the eligibility seam below and the practice email.
+The practice email copy is still sent when Resend is configured.
+
 ## Integration contract (future)
 
 Set these in the Cloudflare Pages dashboard when a service is reachable:

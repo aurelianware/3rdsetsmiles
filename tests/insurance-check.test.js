@@ -115,3 +115,59 @@ test("emails the practice as a fallback when the eligibility seam fails", async 
     assert.doesNotMatch(emailBody.text, /coverage found/i);
   } finally { globalThis.fetch = originalFetch; }
 });
+
+const cloudDentalEnv = { CLOUDDENTAL_API_BASE: "https://book-api.example.test/", CLOUDDENTAL_API_KEY: "site-key" };
+
+test("sends the request to Cloud Dental Office for staff when it is configured", async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url: String(url), init });
+    return new Response(JSON.stringify({ status: "received" }), { status: 202, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    const res = await onRequestPost({ request: request({ phone: "480-555-0100" }), env: cloudDentalEnv });
+    assert.equal(res.status, 200);
+    assert.match(await res.text(), /received your insurance details/i);
+  } finally { globalThis.fetch = originalFetch; }
+
+  assert.equal(calls.length, 1);
+  const [{ url, init }] = calls;
+  assert.equal(url, "https://book-api.example.test/api/public/insurance-checks");
+  assert.equal(init.headers.Authorization, "Bearer site-key");
+  const body = JSON.parse(init.body);
+  assert.equal(init.headers["Idempotency-Key"], body.requestId);
+  assert.equal(body.name, "Sam Example");
+  assert.equal(body.carrier, "Delta Dental");
+  assert.equal(body.plan, "Delta Dental PPO");
+  assert.equal(body.phone, "480-555-0100");
+  assert.equal(body.requestingAppointment, "Yes");
+  assert.equal(body.attribution.attribution_id, "aid-xyz-789");
+  assert.equal(body.memberId, undefined);
+  assert.equal(body.status, undefined);
+});
+
+test("falls back to emailing the practice when Cloud Dental Office is unavailable", async () => {
+  const originalFetch = globalThis.fetch;
+  let emailed = false;
+  globalThis.fetch = async (url) => {
+    if (String(url).includes("api.resend.com")) { emailed = true; return new Response("{}", { status: 200 }); }
+    return new Response("{}", { status: 503 });
+  };
+  try {
+    const res = await onRequestPost({ request: request(), env: {
+      ...cloudDentalEnv, RESEND_API_KEY: "resend", CONTACT_TO_EMAIL: "office@example.test", CONTACT_FROM_EMAIL: "web@example.test",
+    } });
+    assert.equal(res.status, 200);
+    assert.equal(emailed, true);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test("says the request didn't go through when Cloud Dental Office is the only path and fails", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response("{}", { status: 404 });
+  try {
+    const res = await onRequestPost({ request: request(), env: cloudDentalEnv });
+    assert.equal(res.status, 502);
+  } finally { globalThis.fetch = originalFetch; }
+});
