@@ -874,6 +874,18 @@ hr.divider { border: 0; border-top: 1px solid var(--light-gray); margin: 32px 0;
   background: #fff7f4;
 }
 
+.blog-urgent-cta {
+  background: var(--navy);
+  color: white;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 0 0 24px;
+}
+.blog-urgent-cta p { color: rgba(255,255,255,0.9); margin: 0 0 12px; }
+.blog-urgent-cta a { color: var(--gold); }
+.blog-urgent-cta .blog-urgent-links { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 0; }
+.blog-urgent-cta .btn-primary { color: var(--navy); }
+
 .blog-review-list {
   margin-top: 30px;
   border-top: 1px solid var(--light-gray);
