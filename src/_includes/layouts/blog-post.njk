@@ -38,6 +38,10 @@ ogType: article
       <aside class="blog-note blog-note-warn" aria-label="Emergency disclaimer">
         <strong>Emergency warning:</strong> If there is facial swelling affecting breathing, uncontrolled bleeding, high fever, trauma, or any life-threatening symptoms, call 911 or go to the nearest emergency room.
       </aside>
+      <aside class="blog-urgent-cta" aria-label="Get seen in Tempe">
+        <p><strong>In pain near Tempe?</strong> Call or text <a href="tel:{{ site.phone.tel }}" data-action="call-emergency">{{ site.phone.display }}</a>, even after hours. Our $59 emergency visit includes a focused exam and X-ray, and we see you the same day when a slot is available.</p>
+        <p class="blog-urgent-links"><a href="tel:{{ site.phone.tel }}" class="btn-primary" data-action="call-emergency">Call {{ site.phone.display }}</a> <a href="/services/emergency-dentistry/">Emergency dentistry &rarr;</a></p>
+      </aside>
       {% endif %}
 
       {{ content | safe }}
