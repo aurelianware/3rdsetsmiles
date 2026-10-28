@@ -14,6 +14,12 @@
 // Only "Received" is used today. A message like "Coverage information found…"
 // must NOT be shown until supported by real eligibility data.
 //
+// Cloud Dental Office (preferred): when CLOUDDENTAL_API_BASE and CLOUDDENTAL_API_KEY
+// are set (the same values /book uses), the request is posted to IntakeService at
+// CLOUDDENTAL_INSURANCE_CHECK_PATH (default /api/public/insurance-checks). Staff
+// then see it under Insurance to Verify and email the patient a secure link for
+// their member ID. Any failure falls through to the paths below.
+//
 // Configure in the Cloudflare Pages dashboard when a service is reachable:
 //   CLOUDHEALTH_ELIGIBILITY_API_BASE — base URL of the eligibility service.
 //   CLOUDHEALTH_ELIGIBILITY_API_KEY  — sent as `Authorization: Bearer …`.
@@ -29,6 +35,7 @@ const ESCAPE = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#
 const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ESCAPE[c]);
 
 const DEFAULT_ELIGIBILITY_PATH = "/api/public/eligibility-requests";
+const DEFAULT_INSURANCE_CHECK_PATH = "/api/public/insurance-checks";
 
 function page({ title, heading, body, status = 200 }) {
   const html = `<!DOCTYPE html>
@@ -74,6 +81,42 @@ async function createEligibilityRequest(env, verification) {
       throw new Error(`Eligibility service responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
     }
     return res.json().catch(() => ({}));
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function createInCloudDental(env, verification) {
+  const base = env.CLOUDDENTAL_API_BASE.replace(/\/+$/, "");
+  const path = env.CLOUDDENTAL_INSURANCE_CHECK_PATH || DEFAULT_INSURANCE_CHECK_PATH;
+  const controller = new AbortController();
+  const timeoutMs = Number(env.CLOUDDENTAL_TIMEOUT_MS) || 8000;
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(`${base}${path.startsWith("/") ? "" : "/"}${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.CLOUDDENTAL_API_KEY}`,
+        // One key per submission, so a retried POST is still one request in CDO.
+        "Idempotency-Key": verification.requestId,
+      },
+      body: JSON.stringify({
+        requestId: verification.requestId,
+        name: verification.name,
+        phone: verification.phone,
+        email: verification.email,
+        carrier: verification.carrier,
+        plan: verification.plan,
+        requestingAppointment: verification.requestingAppointment,
+        source: verification.source,
+        campaign: verification.campaign,
+        createdAt: verification.createdAt,
+        attribution: verification.attribution,
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`Cloud Dental Office responded ${res.status}`);
   } finally {
     clearTimeout(timer);
   }
@@ -172,11 +215,12 @@ export async function onRequestPost(context) {
     attribution.attribution_id ? `Attribution ID: ${attribution.attribution_id}` : null,
   ].filter(Boolean).join("\n");
 
+  const hasCloudDental = Boolean(env.CLOUDDENTAL_API_BASE && env.CLOUDDENTAL_API_KEY);
   const hasEligibility = Boolean(env.CLOUDHEALTH_ELIGIBILITY_API_BASE && env.CLOUDHEALTH_ELIGIBILITY_API_KEY);
   const hasEmail = Boolean(env.RESEND_API_KEY && env.CONTACT_TO_EMAIL && env.CONTACT_FROM_EMAIL);
 
-  // Neither path configured — be honest rather than dropping the request.
-  if (!hasEligibility && !hasEmail) {
+  // No path configured — be honest rather than dropping the request.
+  if (!hasCloudDental && !hasEligibility && !hasEmail) {
     return page({
       title: "Please call us",
       heading: "Let's check by phone",
@@ -187,10 +231,20 @@ export async function onRequestPost(context) {
 
   let recorded = false;
 
+  // Cloud Dental Office lists it for staff, who email the patient a secure link.
+  if (hasCloudDental) {
+    try {
+      await createInCloudDental(env, verification);
+      recorded = true;
+    } catch (e) {
+      // Fall through to the other paths.
+    }
+  }
+
   // Record the request in the eligibility service when configured. Note: we do
   // NOT surface any coverage result to the visitor, even if the service returns
   // one — benefits are confirmed by staff before the visit.
-  if (hasEligibility) {
+  if (hasEligibility && !recorded) {
     try {
       await createEligibilityRequest(env, verification);
       recorded = true;
