@@ -68,7 +68,8 @@ layout: layouts/base.njk
           <span>{{ item.q }}</span>
           <svg class="faq-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-answer"><p>{{ item.a }}</p></div>
+        {#- Answers are authored in page front matter and may contain links. -#}
+        <div class="faq-answer"><p>{{ item.a | safe }}</p></div>
       </div>
       {% endfor %}
     </div>

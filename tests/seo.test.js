@@ -167,3 +167,14 @@ test("key landing pages keep search-length titles and descriptions that name Tem
     assert.match(title + description, /Tempe/, `${file} names Tempe`);
   }
 });
+
+test("no page shows escaped HTML (e.g. a link inside an FAQ answer printed as text)", () => {
+  const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? walk(path.join(dir, e.name)) : e.name.endsWith(".html") ? [path.join(dir, e.name)] : []);
+  for (const file of walk(path.join(root, "_site"))) {
+    const html = readFileSync(file, "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
+    assert.doesNotMatch(html, /&lt;\/?(a|strong|em|br)\b/, `${path.relative(root, file)} shows escaped HTML`);
+  }
+  const dentures = page("services/dentures/index.html");
+  assert.match(dentures, /<div class="faq-answer"><p>[^<]*<a href='\/insurance-financing\/'>insurance &amp; financing<\/a>/);
+});
