@@ -1,10 +1,12 @@
 ---
 layout: layouts/blog-post.njk
 title: "Full-Mouth Implant Cost in Arizona: What Actually Changes the Price"
-description: "Why full-arch and full-mouth dental implant quotes vary so much in Arizona — the surgical, material, and planning factors that move the price, and how to compare estimates fairly."
+# Search title matches "full mouth dental implants cost" (176 impressions, position ~23, GSC Oct 23–Nov 19 2026).
+metaTitle: "Full Mouth Dental Implants Cost in Arizona: Real 2026 Prices"
+description: "Full mouth dental implants in Tempe, AZ: $12,000 to $35,000 for both arches, extractions and IV sedation included. What changes a quote, and insurance."
 permalink: /blog/full-mouth-implant-cost-arizona/
 date: 2026-08-18T09:00:00-07:00
-dateUpdated: 2026-10-17T09:00:00-07:00
+dateUpdated: 2026-11-21T09:00:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -27,7 +29,17 @@ relatedServiceLinks:
 
 If you have gathered two or three quotes for full-mouth or full-arch dental implants, you have probably noticed the numbers can differ by thousands of dollars. That is not necessarily a sign that one office is overcharging or another is cutting corners — it usually means the plans are not the same treatment.
 
-This guide explains what genuinely changes the price of full-arch implant treatment so you can compare estimates like for like, rather than by the bottom-line number alone.
+This guide starts with our own prices, then explains what genuinely changes the price of full-arch implant treatment so you can compare estimates like for like, rather than by the bottom-line number alone.
+
+## How Much Do Full Mouth Dental Implants Cost?
+
+At 3rd Set Smiles in Tempe, full-mouth implant treatment for both arches ranges from **${{ pricing.fullMouth[1].price | priceFormat }}** (a regular upper denture with a lower denture that snaps onto 2 implants) to **${{ pricing.fullMouth[3].price | priceFormat }}** (fixed All-on-4 teeth, upper and lower). Every price below covers both the upper and lower arches and includes all extractions and IV sedation, two of the items most often billed separately elsewhere.
+
+{% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %}
+
+For comparison, immediate dentures with no implants are ${{ pricing.fullMouth[0].price | priceFormat }} for both arches, also including extractions and IV sedation.
+
+**Is that per arch?** No. Each price is for upper and lower together. If you only need one arch, ask for a single-arch quote at your consultation.
 
 ## "Full-Mouth Implants" Can Mean Several Different Treatments
 
@@ -73,17 +85,11 @@ A quote you can actually compare should make clear:
 
 If two estimates differ, the answer is almost always in this list.
 
-## Insurance, Financing, and Sequencing
+## Does Insurance Cover Full Mouth Dental Implants?
 
-Most dental insurance was not designed around full-arch implant treatment, though some plans contribute toward extractions, a portion of the prosthesis, or a standard denture benefit. It is worth verifying your specific benefits rather than assuming.
+Usually only in part. Most dental insurance was not designed around full-arch implant treatment, though some plans contribute toward extractions, a portion of the prosthesis, or a standard denture benefit, and many plans have an annual maximum well below the cost of full-arch treatment. It is worth verifying your specific benefits rather than assuming. We work with most major PPO plans and can check your benefits before treatment.
 
 For the balance, options such as third-party financing (for example, Cherry) or phased treatment can make care more manageable. See our [insurance & financing page](/insurance-financing/) for how we approach this, and ask any office to show you the total investment across all phases — not just the first payment.
-
-## What Full-Mouth Treatment Costs at 3rd Set Smiles
-
-To make comparing easier, here are our typical prices for full-mouth treatment in Tempe. Each covers both the upper and lower arches and includes all extractions and IV sedation, two of the items most often billed separately elsewhere.
-
-{% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %}
 
 ## Questions Worth Asking Before You Decide on Price
 
