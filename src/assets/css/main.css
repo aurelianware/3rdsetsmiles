@@ -561,6 +561,8 @@ main { padding-top: calc(72px + var(--banner-h)); }
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
 .faq-answer.open { max-height: 500px; }
 .faq-answer p { color: var(--warm-gray); margin-top: 10px; }
+.faq-answer a { color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.faq-answer a:hover { color: var(--accent); }
 
 /* ── CTA banner ── */
 .cta-banner { background: linear-gradient(135deg, var(--navy), var(--navy-light)); text-align: center; color: white; }
