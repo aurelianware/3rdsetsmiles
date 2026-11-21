@@ -1,10 +1,12 @@
 ---
 layout: layouts/blog-post.njk
 title: "All-on-4 vs Implant-Supported Dentures: Which Option Fits Your Goals?"
-description: "A practical comparison of fixed All-on-4 teeth versus removable implant-supported dentures, including comfort, maintenance, cost drivers, and candidacy questions."
+# Search title matches "all on 4 vs dentures" (205 impressions, position ~38, GSC Oct 23–Nov 19 2026).
+metaTitle: "All-on-4 vs Dentures: Cost, Comfort & Which to Choose | Tempe"
+description: "All-on-4 vs dentures vs snap-in implant dentures: how they feel, how you clean them, and what each costs in Tempe, AZ for both arches."
 permalink: /blog/all-on-4-vs-implant-supported-dentures/
 date: 2026-08-10T09:30:00-07:00
-dateUpdated: 2026-08-10T09:30:00-07:00
+dateUpdated: 2026-11-21T09:30:00-07:00
 authorId: dr-matthew-phillips
 reviewerName: Dr. Matthew Phillips, DDS
 reviewStatus: Reviewed and approved for publication
@@ -25,9 +27,25 @@ relatedServiceLinks:
   - { label: "Dentures and partials", url: "/services/dentures/" }
 ---
 
-If you are choosing between fixed full-arch teeth and removable implant-supported dentures, the right answer depends on your goals, anatomy, health factors, and budget.
+If you are choosing between fixed full-arch teeth, removable implant-supported dentures, or a traditional denture, the right answer depends on your goals, anatomy, health factors, and budget.
 
-Both options use dental implants. The major difference is how the teeth are worn and maintained day to day.
+All-on-4 and implant-supported dentures both use dental implants; a traditional denture does not. The major differences are how the teeth stay in place, how they are cleaned day to day, and cost.
+
+## All-on-4 vs Dentures at a Glance
+
+<div class="roadmap-table-wrap">
+<table class="roadmap-table">
+  <thead><tr><th scope="col"></th><th scope="col">Traditional dentures</th><th scope="col">Snap-in implant dentures</th><th scope="col">All-on-4 fixed teeth</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Held in place by</th><td>Suction or adhesive</td><td>Implants (2 to 4 per arch)</td><td>Implants (usually 4 or more per arch)</td></tr>
+    <tr><th scope="row">Removed at home?</th><td>Yes, daily</td><td>Yes, daily</td><td>No, only by the dentist</td></tr>
+    <tr><th scope="row">Stability</th><td>Can move or slip</td><td>Much more stable</td><td>Closest to natural teeth</td></tr>
+    <tr><th scope="row">Our price, both arches</th><td>${{ pricing.fullMouth[0].price | priceFormat }} (immediate dentures)</td><td>${{ pricing.fullMouth[1].price | priceFormat }} to ${{ pricing.fullMouth[2].price | priceFormat }}</td><td>${{ pricing.fullMouth[3].price | priceFormat }}</td></tr>
+  </tbody>
+</table>
+</div>
+
+Our prices cover both upper and lower arches and include all extractions and IV sedation. The rest of this guide focuses on the two implant options.
 
 ## The Short Version
 
@@ -60,15 +78,19 @@ Fixed and removable options both require maintenance. The difference is where mo
 
 Long-term success is usually less about the surgery day and more about routine follow-through.
 
-## Cost Considerations Without Sales Language
+## All-on-4 vs Implant-Supported Dentures: Cost
 
-Quoted fees can vary based on:
+At 3rd Set Smiles, snap-in implant dentures for both arches are ${{ pricing.fullMouth[1].price | priceFormat }} (lower on 2 implants, regular upper) or ${{ pricing.fullMouth[2].price | priceFormat }} (upper and lower on 4 implants each). Fixed All-on-4 teeth, upper and lower, are ${{ pricing.fullMouth[3].price | priceFormat }}. Each includes all extractions and IV sedation.
+
+{% set priceLinks = true %}{% include "partials/full-mouth-pricing.njk" %}
+
+Your own quote can still vary based on:
 
 - number of implants needed
 - condition of remaining teeth and bone
 - prosthetic material and design
 - whether treatment is staged or completed in fewer phases
-- sedation and procedural complexity
+- surgical complexity
 
 The key is to compare written treatment plans line-by-line so you understand what is included.
 
