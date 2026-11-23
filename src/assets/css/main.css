@@ -186,6 +186,14 @@ p, li, label, span, div { line-height: 1.7; }
   .nav-logo-text { display: none; }
   .nav-logo { margin-right: 18px; }
 }
+/* Between the mobile breakpoint and ~1240px the ten primary links + Book +
+   phone don't fit at full spacing; tighten so nothing spills off-screen. */
+@media (min-width: 1001px) and (max-width: 1240px) {
+  .nav-links { gap: 13px; }
+  .nav-link { font-size: 0.74rem; letter-spacing: 0.04em; }
+  .nav-book, .nav-phone { padding-left: 12px; padding-right: 12px; font-size: 0.74rem; }
+  .nav-logo { margin-right: 10px; }
+}
 
 @media (max-width: 1000px) {
   .nav-links { display: none !important; }
@@ -688,6 +696,17 @@ main { padding-top: calc(72px + var(--banner-h)); }
 }
 .ba-cta h2 { color: var(--navy); margin-bottom: 10px; }
 .ba-cta p { color: var(--warm-gray); max-width: 560px; margin: 0 auto 22px; }
+/* Compact variant: homepage "Real results" strip and service pages. Four
+   cards sit 2×2 on desktop (4-up would shrink each photo too far to read). */
+.ba-gallery-compact { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+@media (min-width: 900px) { .ba-gallery-compact { grid-template-columns: repeat(2, 1fr); } }
+.ba-gallery-compact .ba-caption { padding: 16px 20px 20px; }
+.ba-gallery-compact .ba-caption h3 { font-size: 1.05rem; color: var(--navy); margin: 0 0 4px; }
+.ba-gallery-compact .ba-caption p { font-size: 0.92rem; }
+.prose .ba-gallery { margin: 18px 0 8px; }
+.prose .ba-shot img { margin: 0; border-radius: 0; }
+.ba-consent { font-size: 0.85rem; color: var(--warm-gray); text-align: center; margin: 18px auto 0; max-width: 640px; }
+.prose .ba-consent { text-align: left; margin-left: 0; }
 @media (max-width: 420px) {
   .ba-arrow { width: 38px; height: 38px; }
   .ba-caption { padding: 18px 18px 22px; }
