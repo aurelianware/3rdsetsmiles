@@ -16,7 +16,10 @@ function page(rel) {
 }
 const bodyWords = (html) => {
   const start = html.indexOf('<section class="section">');
-  const body = html.slice(start, html.indexOf("</section>", start));
+  const body = html.slice(start, html.indexOf("</section>", start))
+    // The before-and-after photo module is captions on patient photos, not
+    // page copy, so it doesn't count toward the 400-700 word copy budget.
+    .replace(/<div class="ba-module">[\s\S]*?<!-- \/ba-module -->/g, " ");
   return body.replace(/<!--[\s\S]*?-->/g, " ").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
 };
 

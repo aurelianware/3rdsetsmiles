@@ -61,4 +61,14 @@ faq:
 <h2>A cosmetic dentist in Tempe who also does the hard stuff</h2>
 <p>Dr. Matthew Phillips places and restores implants, builds dentures and handles extractions in the same office, so a smile makeover that needs more than cosmetic work doesn't mean being sent across town. Learn more <a href="/about/">about Dr. Phillips</a>.</p>
 
-<p>Explore examples in our <a href="/before-after-gallery/">before-and-after gallery</a>. Individual results vary, and your consultation will focus on options appropriate for you.</p>
+{% from "partials/ba-cases.njk" import baCases, baConsentNote %}
+{% set serviceCases = beforeAfter | publishedCases | casesInCategory(['cosmetic', 'restorative']) %}
+{% if serviceCases.length %}
+<div class="ba-module">
+<h2>Before and after: cosmetic results</h2>
+<p>Real smile makeovers from our Tempe office. Your consultation will focus on the options that fit you.</p>
+{{ baCases(serviceCases, { compact: true, fade: false }) }}
+{{ baConsentNote() }}
+<p><a href="/before-after-gallery/" data-action="view-gallery" data-position="service-results">See every case in our before-and-after gallery &rarr;</a></p>
+</div><!-- /ba-module -->
+{% endif %}

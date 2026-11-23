@@ -3,6 +3,7 @@ module.exports = {
     { label: "Home", url: "/" },
     { label: "About", url: "/about/" },
     { label: "Services", url: "/services/" },
+    { label: "Gallery", url: "/before-after-gallery/" },
     { label: "Blog", url: "/blog/" },
     { label: "New Patients", url: "/new-patients/" },
     { label: "Insurance & Financing", url: "/insurance-financing/" },
