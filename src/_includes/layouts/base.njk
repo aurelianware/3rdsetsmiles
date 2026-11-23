@@ -10,6 +10,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="{{ site.themeColor }}">
+  {# Marks JS as available before first paint; .fade-in only hides content under .js. #}
+  <script>document.documentElement.classList.add("js")</script>
 
   {# Per-page title / description / canonical.
      `localizeTitle` (set once for the whole services/ folder via its directory
