@@ -39,7 +39,8 @@
     FULL_ARCH_PAGE_VIEW: 'full_arch_page_view',
     IMPLANT_PHONE_CLICK: 'implant_phone_click',
     IMPLANT_FINANCING_CLICK: 'implant_financing_click',
-    IMPLANT_CANDIDATE_ARTICLE_CLICK: 'implant_candidate_article_click'
+    IMPLANT_CANDIDATE_ARTICLE_CLICK: 'implant_candidate_article_click',
+    GALLERY_CLICK: 'before_after_gallery_click'
   };
 
   // Map a data-action value to a canonical event. Any unmapped "call-*"
@@ -60,12 +61,13 @@
     'cosmetic-booking': EVENTS.COSMETIC_CONSULT_CLICK,
     'call-implant': EVENTS.IMPLANT_PHONE_CLICK,
     'implant-financing': EVENTS.IMPLANT_FINANCING_CLICK,
-    'implant-candidate': EVENTS.IMPLANT_CANDIDATE_ARTICLE_CLICK
+    'implant-candidate': EVENTS.IMPLANT_CANDIDATE_ARTICLE_CLICK,
+    'view-gallery': EVENTS.GALLERY_CLICK
   };
 
   var SAFE_SOURCES = new Set(['homepage', 'homepage-hero', 'homepage-advanced', 'emergency', 'implants', 'full-arch', 'all-on-4', 'implant-candidacy', 'implant-cost', 'cosmetic', 'new-patient-offer', 'wisdom-teeth-offer', 'back-to-school-offer', 'google-business', 'post-visit', 'testimonials']);
   var SAFE_INTENTS = new Set(['emergency', 'implant-consult', 'implant-consultation', 'cosmetic-consult', 'cosmetic-consultation', 'new-patient', 'new-patient-exam', 'wisdom-teeth-consult', 'patient-selected']);
-  var SAFE_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom']);
+  var SAFE_POSITIONS = new Set(['hero', 'education', 'financing', 'resources', 'bottom', 'homepage-results', 'service-results']);
   // Zocdoc booking metadata. booking_scope = which Zocdoc link (provider vs the
   // practice-level link kept for future multi-provider use). booking_source =
   // where on the site the click came from. Both are low-cardinality, non-PHI.

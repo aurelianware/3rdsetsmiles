@@ -23,6 +23,7 @@ faq:
 ---
 
 {% from "partials/booking-cta.njk" import bookingCta %}
+{% from "partials/ba-cases.njk" import baCases, baConsentNote %}
 {# ============================================================================
    Homepage is organized around patient intent and conversion, not a catalog
    of procedures. Order: hero → $49 offer → "what brings you in?" intent cards
@@ -135,6 +136,27 @@ faq:
     </div>
   </div>
 </section>
+
+<!-- Real results — before & after photos, placed high on the page as social proof.
+     Images are lazy-loaded (below the fold) and only `published: true` cases render. -->
+{% set homeCases = beforeAfter | publishedCases %}
+{% if homeCases.length %}
+<section class="section" style="background:white" aria-labelledby="results-heading" id="results">
+  <div class="container">
+    <div class="fade-in center" style="margin-bottom:40px">
+      <div class="section-label">Real Results</div>
+      <h2 id="results-heading" style="color:var(--navy)">Before &amp; after: smiles Dr. Phillips has restored</h2>
+      <p class="muted" style="max-width:640px;margin:14px auto 0">From a single front tooth to a full set of fixed implant teeth &mdash; real patients, treated here in Tempe.</p>
+    </div>
+    {{ baCases(homeCases, { limit: 4, compact: true }) }}
+    {{ baConsentNote() }}
+    <div class="btn-row" style="justify-content:center;margin-top:28px">
+      <a href="/before-after-gallery/" class="btn-primary" data-action="view-gallery" data-position="homepage-results">See the Full Smile Gallery &rarr;</a>
+      <a href="/book/?source=homepage" class="btn-outline btn-outline-dark" data-action="request-appointment">Talk About Your Smile</a>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <!-- Independent dentistry -->
 <section class="section" style="background:white" aria-labelledby="independent-heading">

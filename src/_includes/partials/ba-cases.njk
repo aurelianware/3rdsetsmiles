@@ -1,0 +1,43 @@
+{#
+  ba-cases.njk — one renderer for before-and-after cards, used by the gallery,
+  the homepage "Real results" section and service pages. Only cases with
+  `published: true` in src/_data/beforeAfter.js ever reach this macro (callers
+  pass `beforeAfter | publishedCases`), so consent stays a per-case opt-in.
+
+  opts:
+    heading     – "h2" (gallery) or "h3" (homepage / service pages)
+    limit       – max cards to render (default: all)
+    compact     – smaller cards for the homepage strip
+    fade        – add the .fade-in scroll reveal (default true)
+#}
+{% macro baCases(cases, opts = {}) %}
+{% set hTag = opts.heading or "h3" %}
+<div class="ba-gallery{% if opts.compact %} ba-gallery-compact{% endif %}">
+  {% for c in cases %}{% if not opts.limit or loop.index <= opts.limit %}
+  <article class="ba-card{% if opts.fade !== false %} fade-in{% endif %}">
+    <div class="ba-pair">
+      <figure class="ba-shot">
+        <img src="{{ c.before }}" alt="Before: {{ c.title }} — patient of Dr. Matthew Phillips" loading="lazy" decoding="async" width="800" height="800">
+        <figcaption class="ba-badge ba-badge-before">Before</figcaption>
+      </figure>
+      <div class="ba-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <figure class="ba-shot">
+        <img src="{{ c.after }}" alt="After: {{ c.title }} — patient of Dr. Matthew Phillips" loading="lazy" decoding="async" width="800" height="800">
+        <figcaption class="ba-badge ba-badge-after">After</figcaption>
+      </figure>
+    </div>
+    <div class="ba-caption">
+      <{{ hTag }}>{{ c.title }}</{{ hTag }}>
+      <p>{{ c.description }}</p>
+    </div>
+  </article>
+  {% endif %}{% endfor %}
+</div>
+{% endmacro %}
+
+{# Shared consent / results-vary line shown wherever patient photos appear. #}
+{% macro baConsentNote() %}
+<p class="ba-consent">Photos of actual patients of Dr. Phillips, published with each patient&rsquo;s documented authorization. Individual results vary.</p>
+{% endmacro %}

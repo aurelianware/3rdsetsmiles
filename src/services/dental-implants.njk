@@ -94,7 +94,17 @@ faq:
 <h2>Why patients choose Dr. Phillips for implants</h2>
 <p>Dr. Phillips has placed and restored implants throughout his military and civilian career, and previously served as Surgical Training Advisor at Renew Anchored Dentures, where he trained other clinicians in implant protocols. You'll get both the surgical placement and the final restoration done under one roof &mdash; no back-and-forth between offices.</p>
 
-<p class="muted">Want to see examples of restorative care? Visit our <a href="/before-after-gallery/">before-and-after gallery</a>. Individual results vary.</p>
+{% from "partials/ba-cases.njk" import baCases, baConsentNote %}
+{% set serviceCases = beforeAfter | publishedCases | casesInCategory(['implants', 'restorative']) | reverse %}
+{% if serviceCases.length %}
+<div class="ba-module">
+<h2>Before and after: implant and restorative results</h2>
+<p>Real patients of Dr. Phillips, from a replaced front tooth to a full arch of fixed implant teeth.</p>
+{{ baCases(serviceCases, { compact: true, fade: false }) }}
+{{ baConsentNote() }}
+<p><a href="/before-after-gallery/" data-action="view-gallery" data-position="service-results">See every case in our before-and-after gallery &rarr;</a></p>
+</div><!-- /ba-module -->
+{% endif %}
 
 <h2>Book an implant consultation in Tempe</h2>
 <p>Start with a consultation and 3D scan to learn whether implants suit you, what the plan involves, and what it costs. <a href="/book/?appointmentType=implant-consult&amp;source=implants">Request an implant consultation online</a> or call <a href="tel:{{ site.phone.telShort }}" data-action="call-service">{{ site.phone.display }}</a>. We're at {{ site.address.full }}.</p>

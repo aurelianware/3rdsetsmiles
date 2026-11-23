@@ -7,7 +7,22 @@ module.exports = function (eleventyConfig) {
   // Passthrough copy: files that should land in the output root verbatim.
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
-  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  // Patient photos in src/assets/before-after/ deploy ONLY when a published
+  // case in src/_data/beforeAfter.js references them. A photo waiting on
+  // authorization can sit in the repo without being reachable on the live site.
+  const publishedPhotos = new Set(
+    require("./src/_data/beforeAfter.js")
+      .filter((c) => c.published === true)
+      .flatMap((c) => [c.before, c.after])
+      .map((p) => path.basename(p))
+  );
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" }, {
+    filter: (file) => {
+      const rel = file.split(path.sep).join("/");
+      if (!rel.startsWith("before-after/")) return true;
+      return publishedPhotos.has(path.basename(rel));
+    },
+  });
 
   // Filters
   eleventyConfig.addFilter("absUrl", function (path, base) {
